@@ -23,6 +23,7 @@
     "babel-plugin-flow-runtime": "0.0.7",
     "babel-plugin-istanbul": "^3.1.2",
     "babel-plugin-transform-flow-comments": "^6.21.0",
+    "babel-plugin-transform-flow-strip-types": "^6.21.0",
     "babel-preset-env": "^1.1.8",
     "babel-register": "^6.18.0",
     "coveralls": "^2.11.15",
@@ -45,15 +46,28 @@
   "license": "BSD-3-Clause",
   "main": "./src/index.js",
   "name": "surgeon",
+  "nyc": {
+    "include": [
+      "src/**/*.js"
+    ],
+    "instrument": false,
+    "reporter": [
+      "text-lcov"
+    ],
+    "require": [
+      "babel-register"
+    ],
+    "sourceMap": false
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/gajus/surgeon"
   },
   "scripts": {
-    "build": "NODE_ENV=production babel ./src --out-dir ./dist --copy-files --source-maps",
+    "build": "babel ./src --out-dir ./dist --copy-files --source-maps",
     "lint": "eslint ./src ./test && flow",
     "precommit": "npm run lint && npm run test",
-    "test": "NODE_ENV=development ava --verbose"
+    "test": "ava --verbose"
   },
   "version": "1.0.0"
 }
