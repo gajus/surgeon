@@ -3,7 +3,6 @@
     "development": {
       "plugins": [
         "syntax-flow",
-        "flow-runtime",
         "transform-flow-comments",
         "istanbul"
       ]
