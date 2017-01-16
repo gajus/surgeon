@@ -1,0 +1,59 @@
+{
+  "author": {
+    "email": "gajus@gajus.com",
+    "name": "Gajus Kuizinas",
+    "url": "http://gajus.com"
+  },
+  "ava": {
+    "babel": "inherit",
+    "require": [
+      "babel-register"
+    ]
+  },
+  "dependencies": {
+    "cheerio": "^0.22.0",
+    "debug": "^2.6.0",
+    "es6-error": "^4.0.1",
+    "flow-runtime": "^0.1.0"
+  },
+  "description": "DOM extraction expression evaluator.",
+  "devDependencies": {
+    "ava": "^0.17.0",
+    "babel-cli": "^6.18.0",
+    "babel-plugin-flow-runtime": "0.0.7",
+    "babel-plugin-istanbul": "^3.1.2",
+    "babel-plugin-transform-flow-comments": "^6.21.0",
+    "babel-preset-env": "^1.1.8",
+    "babel-register": "^6.18.0",
+    "coveralls": "^2.11.15",
+    "eslint": "^3.13.1",
+    "eslint-config-canonical": "^7.1.0",
+    "flow-bin": "^0.37.4",
+    "husky": "^0.12.0",
+    "nyc": "^10.0.0",
+    "semantic-release": "^6.3.2"
+  },
+  "engines": {
+    "node": ">=5"
+  },
+  "keywords": [
+    "dom",
+    "scraper",
+    "parser",
+    "css"
+  ],
+  "license": "BSD-3-Clause",
+  "main": "./src/index.js",
+  "name": "surgeon",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gajus/surgeon"
+  },
+  "scripts": {
+    "build": "NODE_ENV=production babel ./src --out-dir ./dist --copy-files --source-maps",
+    "lint": "eslint ./src ./test && flow",
+    "precommit": "npm run lint && npm run test",
+    "test": "NODE_ENV=development ava --verbose"
+  },
+  "version": "1.0.0"
+}

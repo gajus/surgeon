@@ -1,0 +1,7 @@
+{
+  "extends": "canonical",
+  "root": true,
+  "rules": {
+    "id-length": 0
+  }
+}

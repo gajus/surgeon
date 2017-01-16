@@ -1,0 +1,25 @@
+{
+  "env": {
+    "development": {
+      "plugins": [
+        "syntax-flow",
+        "flow-runtime",
+        "transform-flow-comments",
+        "istanbul"
+      ]
+    },
+    "production": {
+      "plugins": [
+        "syntax-flow",
+        "transform-flow-comments"
+      ]
+    }
+  },
+  "presets": [
+    ["env", {
+      "targets": {
+        "node": 5
+      }
+    }]
+  ]
+}
