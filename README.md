@@ -202,7 +202,7 @@ A property selector is used to select a value of an `HTMLElement` property.
 
 ## Errors
 
-You can catch errors thrown by Surgeon and use `instanceof` operator to determine error type.
+You can catch errors thrown by Surgeon and use `instanceof` operator to determine the error type.
 
 |Name|Description|
 |---|---|
@@ -241,7 +241,7 @@ try {
 
 [x-ray](https://github.com/lapwinglabs/x-ray) is a web scraping library.
 
-The primary difference between Surgeon and x-ray is that Surgeon does not implement HTTP request layer. I consider this as a Surgeon advantage for the reasons that I have described in the following x-ray [issue](https://github.com/lapwinglabs/x-ray/issues/245).
+The primary difference between Surgeon and x-ray is that Surgeon does not implement HTTP request layer. I consider this an advantage for the reasons that I have described in the following x-ray [issue](https://github.com/lapwinglabs/x-ray/issues/245).
 
 ## Debugging
 
