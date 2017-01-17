@@ -27,6 +27,10 @@ export default (): EvaluatorType => {
   };
 
   const querySelectorAll = (node: string | Object, selector: string) => {
+    if (selector.startsWith(':root')) {
+      return cheerio(node);
+    }
+
     return cheerio(selector, node).toArray();
   };
 

@@ -120,6 +120,32 @@ result === [
 
 ```
 
+You can use the `:root` selector to select the current element, e.g.
+
+```js
+const document = `
+  <article class='foo'>A</article>
+  <article class='bar'>B</article>
+`;
+
+const result = x('article {0,}', {
+  className: x(':root @class'),
+  textContent: x(':root')
+})(document);
+
+result === [
+  {
+    className: 'foo',
+    textContent: 'A'
+  },
+  {
+    className: 'bar',
+    textContent: 'B'
+  }
+];
+
+```
+
 ### Validate the result
 
 Validation is performed using regular expression.

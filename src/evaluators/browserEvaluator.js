@@ -21,6 +21,10 @@ export default (): EvaluatorType => {
   };
 
   const querySelectorAll = (node: HTMLElement, selector: string) => {
+    if (selector.startsWith(':root')) {
+      return node;
+    }
+
     return [].slice.apply(node.querySelectorAll(selector));
   };
 

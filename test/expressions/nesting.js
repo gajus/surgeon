@@ -74,3 +74,31 @@ test('matches multiple descendant nodes', (t) => {
     }
   ]);
 });
+
+test(':root selector accesses attributes and properties of the current element', (t) => {
+  const x = surgeon();
+
+  const document = `
+  <article class='foo'>A</article>
+  <article class='bar'>B</article>
+  `;
+
+  const result = x('article {0,}', {
+    className: x(':root @class'),
+    tagName: x(':root @.tagName'),
+    textContent: x(':root')
+  })(document);
+
+  t.deepEqual(result, [
+    {
+      className: 'foo',
+      tagName: 'ARTICLE',
+      textContent: 'A'
+    },
+    {
+      className: 'bar',
+      tagName: 'ARTICLE',
+      textContent: 'B'
+    }
+  ]);
+});
