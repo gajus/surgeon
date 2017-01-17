@@ -14,8 +14,8 @@ DOM extraction expression evaluator.
 * [Cookbook](#cookbook)
   * [Extract single node](#extract-single-node)
   * [Extract multiple nodes](#extract-multiple-nodes)
-  * [Nested expression](#nested-expression)
-  * [Validation](#validation)
+  * [Nest the selectors](#nest-the-selectors)
+  * [Validate the result](#validate-the-result)
 * [Conventions](#conventions)
   * [Quantifier expression](#quantifier-expression)
   * [Accessor expression](#accessor-expression)
@@ -86,9 +86,9 @@ result === [
 
 ```
 
-### Nested expression
+### Nest the selectors
 
-Surgeon queries can be nested. Result of the parent query becomes the root element of the descending query.
+Surgeon selectors (queries) can be nested. Result of the parent query becomes the root element of the descending query.
 
 ```js
 const document = `
@@ -120,7 +120,7 @@ result === [
 
 ```
 
-### Validation
+### Validate the result
 
 Validation is performed using regular expression.
 
@@ -218,7 +218,7 @@ There are many errors that Surgeon can throw. Use `instanceof` operator to deter
 |---|---|
 |`NotFoundError`|Thrown when an attempt is made to retrieve a non-existent attribute or property.|
 |`UnexpectedResultCountError`|Thrown when a [quantifier expression](#quantifier-expression) is not satisfied.|
-|`InvalidDataError`|Thrown when a resulting data does not pass the [validation](#validation).|
+|`InvalidDataError`|Thrown when a resulting data does not pass the [validation](#validate-the-result).|
 
 Example:
 
