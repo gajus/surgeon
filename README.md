@@ -18,20 +18,25 @@ DOM extraction expression evaluator.
   * select a single node out of a matching list of nodes  ([Accessor expression](#accessor-expression))
   * access [attribute](#attribute-selector) and [property](#property-selector) values
 
-Intuitive API:
+Powerful, succinct API:
 
 ```js
 x('body', {
   title: x('title'),
   articles: x('article {0,}', {
-    body: x('.body'),
+    body: x('.body@.innerHTML'),
+    summary: x('.body p {0,}[0]'),
+    imageUrl: x('img@src'),
     title: x('.title')
   })
 })
 
 ```
 
-> `{0,}` is a [quantifier expression](#quantifier-expression).
+> * `{0,}` is a [quantifier expression](#quantifier-expression).
+> * `[0]` is an [accessor expression](#accessor-expression).
+> * `@.innerHTML` is a [property selector](#property-selector).
+> * `@src` is an [attribute selector](#attribute-selector).
 
 Have you got suggestions for improvement? [I am all ears](https://github.com/gajus/surgeon/issues).
 
