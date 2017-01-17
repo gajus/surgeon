@@ -4,9 +4,7 @@ import test from 'ava';
 import {
   NotFoundError
 } from '../../src';
-import {
-  getQuantifier
-} from '../../src/utilities';
+import getQuantifier from '../../src/utilities/getQuantifier';
 
 test('returns the quantifier', (t): void => {
   t.deepEqual(getQuantifier('{1,1}'), {

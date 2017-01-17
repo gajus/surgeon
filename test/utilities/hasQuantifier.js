@@ -1,9 +1,7 @@
 // @flow
 
 import test from 'ava';
-import {
-  hasQuantifier
-} from '../../src/utilities';
+import hasQuantifier from '../../src/utilities/hasQuantifier';
 
 test('returns true if quantifier is present', (t): void => {
   t.true(hasQuantifier('{1}') === true);
