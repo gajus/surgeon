@@ -6,7 +6,7 @@ import {
 } from '../../src';
 import getQuantifier from '../../src/utilities/getQuantifier';
 
-test('returns the quantifier', (t): void => {
+test('returns the quantifier expression', (t): void => {
   t.deepEqual(getQuantifier('{1,1}'), {
     accessor: null,
     expression: '{1,1}',
@@ -45,7 +45,7 @@ test('returns the quantifier', (t): void => {
   });
 });
 
-test('throws an error if a quantifier is not present', (t): void => {
+test('throws an error if the quantifier expression is not present', (t): void => {
   t.throws(() => {
     getQuantifier('');
   }, NotFoundError);
