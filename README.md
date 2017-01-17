@@ -31,6 +31,8 @@ x('body', {
 
 ```
 
+> `{0,}` is a [quantifier expression](#quantifier-expression).
+
 Have you got suggestions for improvement? [I am all ears](https://github.com/gajus/surgeon/issues).
 
 ---
