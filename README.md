@@ -10,9 +10,21 @@
 
 DOM extraction expression evaluator.
 
+* Supports [selector nesting](#nest-the-selectors)
+* Integrates [match validation](#validate-the-result)
+* Works in Node.js or in browser.
+* Uses domain-specific language (DSL) to:
+  * select a defined number of nodes ([Quantifier expression](#quantifier-expression))
+  * select a single node out of a matching list of nodes  ([Accessor expression](#accessor-expression))
+  * access [attribute](#attribute-selector) and [property](#property-selector) values
+
+Have you got suggestions for improvement? [I am all ears](https://github.com/gajus/surgeon/issues).
+
+---
+
 * [Configuration](#configuration)
 * [Cookbook](#cookbook)
-  * [Extract single node](#extract-single-node)
+  * [Extract a single node](#extract-a-single-node)
   * [Extract multiple nodes](#extract-multiple-nodes)
   * [Nest the selectors](#nest-the-selectors)
   * [Validate the result](#validate-the-result)
@@ -50,7 +62,7 @@ const x = surgeon();
 >
 > For simplicity, strict-equal operator (`===`) is being used to demonstrate deep equality.
 
-### Extract single node
+### Extract a single node
 
 The default behaviour of a query is to match a single node and extract value of the `textContent` property.
 
