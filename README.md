@@ -29,7 +29,7 @@ x('body', {
     imageUrl: x('img@src'),
     title: x('.title')
   })
-})
+});
 
 ```
 
