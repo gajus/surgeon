@@ -79,7 +79,7 @@ const x = surgeon();
 
 ### Extract a single node
 
-The default behaviour of a query is to match a single node and extract value of the `textContent` property.
+The default behaviour of a query is to match a single node and extract value of the [`textContent`](https://developer.mozilla.org/en/docs/Web/API/Node/textContent) property.
 
 ```js
 const document = `
