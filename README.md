@@ -18,6 +18,19 @@ DOM extraction expression evaluator.
   * select a single node out of a matching list of nodes  ([Accessor expression](#accessor-expression))
   * access [attribute](#attribute-selector) and [property](#property-selector) values
 
+Intuitive API:
+
+```js
+x('body', {
+  title: x('title'),
+  articles: x('article {0,}', {
+    body: x('.body'),
+    title: x('.title')
+  })
+})
+
+```
+
 Have you got suggestions for improvement? [I am all ears](https://github.com/gajus/surgeon/issues).
 
 ---
