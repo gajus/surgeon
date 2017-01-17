@@ -6,6 +6,7 @@ import getQuantifier from './getQuantifier';
 import hasAttributeSelector from './hasAttributeSelector';
 import hasPropertySelector from './hasPropertySelector';
 import hasQuantifier from './hasQuantifier';
+import isEnvironmentBrowser from './isEnvironmentBrowser';
 
 export {
   getAttributeSelector,
@@ -13,5 +14,6 @@ export {
   getQuantifier,
   hasAttributeSelector,
   hasPropertySelector,
-  hasQuantifier
+  hasQuantifier,
+  isEnvironmentBrowser
 };

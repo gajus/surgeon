@@ -55,7 +55,7 @@ Have you got suggestions for improvement? [I am all ears](https://github.com/gaj
 
 |Name|Description|Default value|
 |---|---|---|
-|`evaluator`|HTML parser and selector engine. Possible values: `cheerio`, `browser`. Use `cheerio` if you are running Surgeon in Node.js. Use `browser` if you are running Surgeon in a browser or headless browser (e.g. PhantomJS).|`cheerio`|
+|`evaluator`|HTML parser and selector engine. Possible values: `cheerio`, `browser`. Use `cheerio` if you are running Surgeon in Node.js. Use `browser` if you are running Surgeon in a browser or a headless browser (e.g. PhantomJS).|`browser` if `window` and `document` variables are present, `cheerio` otherwise.|
 
 ## Cookbook
 

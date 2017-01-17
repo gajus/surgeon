@@ -8,13 +8,24 @@ import {
   browserEvaluator,
   cheerioEvaluator
 } from '../evaluators';
+import {
+  isEnvironmentBrowser
+} from '../utilities';
 
 export default (userConfiguration: UserConfigurationType = {}): ConfigurationType => {
   let evaluator;
 
-  if (!userConfiguration.evaluator || userConfiguration.evaluator === 'cheerio') {
+  let evaluatorName = userConfiguration.evaluator;
+
+  if (!evaluatorName) {
+    const environmentIsBrowser = isEnvironmentBrowser();
+
+    evaluatorName = environmentIsBrowser ? 'browser' : 'cheerio';
+  }
+
+  if (evaluatorName === 'cheerio') {
     evaluator = cheerioEvaluator();
-  } else if (userConfiguration.evaluator === 'browser') {
+  } else if (evaluatorName === 'browser') {
     evaluator = browserEvaluator();
   } else {
     throw new Error('Unknown adapter.');
