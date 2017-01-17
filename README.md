@@ -21,11 +21,10 @@ DOM extraction expression evaluator.
   * [Accessor expression](#accessor-expression)
   * [Attribute selector](#attribute-selector)
   * [Property selector](#property-selector)
-* [Errors](#errors)
+* [Error handling](#error-handling)
+* [Debugging](#debugging)
 * [FAQ](#faq)
   * [Whats the difference from x-ray?](#whats-the-difference-from-x-ray)
-* [Debugging](#debugging)
-* [Inspiration](#inspiration)
 
 ## Configuration
 
@@ -40,6 +39,9 @@ Unless redefined, all examples assume the following initialisation:
 ```js
 import surgeon from 'surgeon';
 
+/**
+ * @param configuration {@see https://github.com/gajus/surgeon#configuration}
+ */
 const x = surgeon();
 
 ```
@@ -49,6 +51,8 @@ const x = surgeon();
 > For simplicity, strict-equal operator (`===`) is being used to demonstrate deep equality.
 
 ### Extract single node
+
+The default behaviour of a query is to match a single node and extract value of the `textContent` property.
 
 ```js
 const document = `
@@ -62,6 +66,8 @@ x('.title {1,1}[0]')(document) === 'foo';
 ```
 
 ### Extract multiple nodes
+
+To extract multiple nodes, you need to specify a [quantifier expression](#quantifier-expression).
 
 ```js
 const document = `
@@ -81,6 +87,8 @@ result === [
 ```
 
 ### Nested expression
+
+Surgeon queries can be nested. Result of the parent query becomes the root element of the descending query.
 
 ```js
 const document = `
@@ -125,11 +133,13 @@ x('.title', /foo/)(document) === 'foo';
 
 ```
 
+If the regular expression does not match the data, an `InvalidDataError` error is thrown (see [Handling errors](#handling-errors)).
+
 ## Conventions
 
 ### Quantifier expression
 
-A quantifier is used to assert that the query matches a set number of nodes.
+A *quantifier expression* is used to assert that the query matches a set number of nodes.
 
 The default quantifier expression value is `{1}`.
 
@@ -155,9 +165,9 @@ If this looks familiar, its because I have adopted the syntax from regular expre
 
 ### Accessor expression
 
-An accessor expression can be used to return a single item from an array of matches. An accessor expression must precede a [quantifier expression](#quantifier-expression).
+An *accessor expression* can be used to return a single item from an array of matches. An accessor expression must precede a [quantifier expression](#quantifier-expression).
 
-The default accessor expression value is `[1]`. The default applies only if a quantifier expression is not specified. If a quantifier expression is specified, then by default all matches are returned.
+The default accessor expression value is `[0]`. The default applies only if a quantifier expression is not specified. If a quantifier expression is specified, then by default all matches are returned.
 
 #### Syntax
 
@@ -172,7 +182,7 @@ The default accessor expression value is `[1]`. The default applies only if a qu
 
 ### Attribute selector
 
-An attribute selector is used to select a value of an `HTMLElement` attribute.
+An *attribute selector* is used to select a value of an `HTMLElement` attribute.
 
 #### Syntax
 
@@ -187,7 +197,7 @@ An attribute selector is used to select a value of an `HTMLElement` attribute.
 
 ### Property selector
 
-A property selector is used to select a value of an `HTMLElement` property.
+A *property selector* is used to select a value of an `HTMLElement` property.
 
 #### Syntax
 
@@ -200,9 +210,9 @@ A property selector is used to select a value of an `HTMLElement` property.
 
 ```
 
-## Errors
+## Error handling
 
-You can catch errors thrown by Surgeon and use `instanceof` operator to determine the error type.
+There are many errors that Surgeon can throw. Use `instanceof` operator to determine the error type.
 
 |Name|Description|
 |---|---|
@@ -233,7 +243,11 @@ try {
 
 ```
 
+## Debugging
 
+Surgeon is using [`debug`](https://www.npmjs.com/package/debug) to provide additional debugging information.
+
+To enable Surgeon debug output run program with a `DEBUG=surgeon:*` environment variable.
 
 ## FAQ
 
@@ -242,14 +256,3 @@ try {
 [x-ray](https://github.com/lapwinglabs/x-ray) is a web scraping library.
 
 The primary difference between Surgeon and x-ray is that Surgeon does not implement HTTP request layer. I consider this an advantage for the reasons that I have described in the following x-ray [issue](https://github.com/lapwinglabs/x-ray/issues/245).
-
-## Debugging
-
-Surgeon is using [`debug`](https://www.npmjs.com/package/debug) to provide additional debugging information.
-
-To enable Surgeon debug output run program with a `DEBUG=surgeon:*` environment variable.
-
-## Inspiration
-
-* [dom-eee](https://github.com/rla/dom-eee)
-* [x-ray](https://github.com/lapwinglabs/x-ray)
