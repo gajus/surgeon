@@ -14,7 +14,8 @@
     "cheerio": "^0.22.0",
     "debug": "^2.6.0",
     "es6-error": "^4.0.1",
-    "flow-runtime": "^0.1.0"
+    "flow-runtime": "^0.1.0",
+    "trim": "0.0.1"
   },
   "description": "DOM extraction expression evaluator.",
   "devDependencies": {

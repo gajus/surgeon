@@ -1,5 +1,6 @@
 // @flow
 
+import trim from 'trim';
 import type {
   AttributeSelectorType,
   PropertySelectorType,
@@ -22,37 +23,35 @@ type QueryType = {|
 |};
 
 export default (query: string): QueryType => {
-  let selector;
+  let selector = trim(query);
   let quantifier: QuantifierType;
   let attributeSelector: AttributeSelectorType;
   let propertySelector: PropertySelectorType;
 
-  if (hasQuantifier(query)) {
-    quantifier = getQuantifier(query);
+  if (hasQuantifier(selector)) {
+    quantifier = getQuantifier(selector);
 
     if (!quantifier.expression) {
       throw new Error('Unexpected result.');
     }
 
-    selector = query.slice(0, -1 * quantifier.expression.length);
+    selector = trim(selector.slice(0, -1 * quantifier.expression.length));
   } else {
     quantifier = {
       accessor: 0,
       max: 1,
       min: 1
     };
-
-    selector = query;
   }
 
   if (hasPropertySelector(selector)) {
     propertySelector = getPropertySelector(selector);
 
-    selector = query.slice(0, -1 * propertySelector.expression.length);
+    selector = trim(selector.slice(0, -1 * propertySelector.expression.length));
   } else if (hasAttributeSelector(selector)) {
     attributeSelector = getAttributeSelector(selector);
 
-    selector = query.slice(0, -1 * attributeSelector.expression.length);
+    selector = trim(selector.slice(0, -1 * attributeSelector.expression.length));
   }
 
   return {
