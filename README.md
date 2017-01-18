@@ -38,6 +38,8 @@ x('body', {
 > An idea is maturing for an alternative (declartive) API, 
 > https://github.com/gajus/surgeon/issues/4#issuecomment-273261048
 
+<!-- -->
+
 > * `{0,}` is a [quantifier expression](#quantifier-expression).
 > * `[0]` is an [accessor expression](#accessor-expression).
 > * `@.innerHTML` is a [property selector](#property-selector).
