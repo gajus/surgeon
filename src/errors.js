@@ -12,7 +12,7 @@ export class NotFoundError extends ExtendableError {}
 
 export class UnexpectedResultCountError extends ExtendableError {
   constructor (matchCount: number, quantifier: QuantifierType) {
-    debug('Matched %d. Expected to match %s.', matchCount, quantifier.expression);
+    debug('Matched %d. Expected to match %s.', matchCount, quantifier.expression || '{1}[0]');
 
     super('Matched unexpected number of nodes.');
   }

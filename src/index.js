@@ -1,5 +1,7 @@
 // @flow
 
+import cheerio from 'cheerio';
+import createDebug from 'debug';
 import parseQuery from './parseQuery';
 import readValue from './readValue';
 import type {
@@ -14,73 +16,108 @@ import {
   createConfiguration
 } from './factories';
 
+const SelectorParser = require('css-selector-parser').CssSelectorParser;
+
+const selectorParser = new SelectorParser();
+
+console.log('A', selectorParser.parse('.test:has(".foo")').rule );
+
 export {
   InvalidDataError,
   NotFoundError,
   UnexpectedResultCountError
 };
 
-type ChildSelectorsType = {
-  [key: string]: Function
-};
+const debug = createDebug('surgeon');
 
 export default (userConfiguration?: UserConfigurationType) => {
   const {
     evaluator
   } = createConfiguration(userConfiguration);
 
-  const x = (query: string, ...args: any) => {
-    let childSelectors: ChildSelectorsType;
-    let validationRule: RegExp;
+  const iterateChildNodes = (parentNode: mixed, schemas: Object) => {
+    const properties = {};
+    const propertyNames = Object.keys(schemas);
 
-    if (args[0] instanceof RegExp) {
-      validationRule = args[0];
-    } else {
-      childSelectors = args[0];
+    for (const propertyName of propertyNames) {
+      // eslint-disable-next-line no-use-before-define
+      properties[propertyName] = x(parentNode, schemas[propertyName]);
     }
+
+    return properties;
+  };
+
+  const filter = (elements: Array<Object>, condition: Object) => {
+    return elements.filter((element) => {
+      if (typeof condition.has === 'string') {
+        try {
+          // eslint-disable-next-line no-use-before-define
+          x(element, {
+            selector: condition.has
+          });
+
+          return true;
+        } catch (error) {
+          if (error instanceof UnexpectedResultCountError) {
+            return false;
+          }
+
+          throw error;
+        }
+      }
+
+      throw new Error('Invalid filter expression.');
+    });
+  };
+
+  const x = (element: mixed, userSelectorSchema: string | Object) => {
+    let selectorSchema: Object;
+
+    if (typeof userSelectorSchema === 'string') {
+      selectorSchema = {
+        selector: userSelectorSchema
+      };
+    } else {
+      selectorSchema = userSelectorSchema;
+    }
+
+    debug('selector "%s"', selectorSchema.selector);
 
     const {
       selector,
       quantifier,
       attributeSelector,
       propertySelector
-    } = parseQuery(query);
+    } = parseQuery(selectorSchema.selector);
 
-    return (input: mixed) => {
-      const rootElement = input;
+    let matches;
 
-      const matches = evaluator.querySelectorAll(rootElement, selector);
+    matches = evaluator.querySelectorAll(element, selector);
 
-      const matchCount = matches.length;
+    if (selectorSchema.filter) {
+      matches = filter(matches, selectorSchema.filter);
+    }
 
-      if (childSelectors) {
-        return matches
-          .map((element) => {
-            const children = {};
+    if (matches.length < quantifier.min || matches.length > quantifier.max) {
+      throw new UnexpectedResultCountError(matches.length, quantifier);
+    }
 
-            const childPropertyNames = Object.keys(childSelectors);
-
-            for (const childPropertyName of childPropertyNames) {
-              const value = childSelectors[childPropertyName];
-
-              children[childPropertyName] = value(element);
-            }
-
-            return children;
-          });
+    if (typeof quantifier.accessor === 'number') {
+      if (selectorSchema.properties) {
+        return iterateChildNodes(matches[quantifier.accessor], selectorSchema.properties);
       }
 
-      if (matchCount < quantifier.min || matchCount > quantifier.max) {
-        throw new UnexpectedResultCountError(matchCount, quantifier);
-      } else if (typeof quantifier.accessor === 'number') {
-        return readValue(evaluator, matches[quantifier.accessor], attributeSelector, propertySelector, validationRule);
-      } else {
-        return matches
-          .map((element) => {
-            return readValue(evaluator, element, attributeSelector, propertySelector, validationRule);
-          });
-      }
-    };
+      return readValue(evaluator, matches[quantifier.accessor], attributeSelector, propertySelector);
+    }
+
+    return matches
+      .map((childNode) => {
+        if (selectorSchema.properties) {
+          return iterateChildNodes(childNode, selectorSchema.properties);
+        }
+
+        return readValue(evaluator, childNode, attributeSelector, propertySelector);
+      });
   };
 
   return x;
