@@ -45,7 +45,7 @@
     "css"
   ],
   "license": "BSD-3-Clause",
-  "main": "./src/index.js",
+  "main": "./dist/index.js",
   "name": "surgeon",
   "nyc": {
     "include": [
