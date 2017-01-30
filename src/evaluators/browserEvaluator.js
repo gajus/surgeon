@@ -3,34 +3,33 @@
 import type {
   EvaluatorType
 } from '../types';
+import {
+  NotFoundError
+} from '../errors';
 
 export default (): EvaluatorType => {
-  const getAttribute = (node: HTMLElement, name: string): string | null => {
+  const getAttributeValue = (node: HTMLElement, name: string): string => {
     const attributeValue = node.getAttribute(name);
 
     if (typeof attributeValue === 'string') {
       return attributeValue;
     }
 
-    return null;
+    throw new NotFoundError();
   };
 
-  const getProperty = (node: HTMLElement, name: string): mixed => {
+  const getPropertyValue = (node: HTMLElement, name: string): mixed => {
     // $FlowFixMe
     return node[name];
   };
 
-  const querySelectorAll = (node: HTMLElement, selector: string) => {
-    if (selector.startsWith(':root')) {
-      return node;
-    }
-
+  const querySelectorAll = (node: HTMLElement, selector: string): Array<HTMLElement> => {
     return [].slice.apply(node.querySelectorAll(selector));
   };
 
   return {
-    getAttribute,
-    getProperty,
+    getAttributeValue,
+    getPropertyValue,
     querySelectorAll
   };
 };

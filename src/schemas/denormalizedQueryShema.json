@@ -1,0 +1,126 @@
+{
+  "oneOf": [
+    {
+      "type": "string"
+    },
+    {
+      "$ref": "#/definitions/DenormalizedAdoptQueryType"
+    },
+    {
+      "$ref": "#/definitions/DenormalizedExtractQueryType"
+    }
+  ],
+  "definitions": {
+    "DenormalizedAdoptQueryType": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "adopt": {
+          "patternProperties": {
+            ".+": {
+              "oneOf": [
+                {
+                  "$ref": "#/definitions/DenormalizedAdoptQueryType"
+                },
+                {
+                  "$ref": "#/definitions/DenormalizedExtractQueryType"
+                }
+              ]
+            }
+          },
+          "type": "object"
+        },
+        "select": {
+          "$ref": "#/definitions/DenormalizedSelectActionQueryType"
+        }
+      },
+      "required": [
+        "adopt",
+        "select"
+      ]
+    },
+    "DenormalizedExtractActionQueryType": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "attribute",
+            "property"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "name"
+      ],
+      "type": "object"
+    },
+    "DenormalizedExtractQueryType": {
+      "additionalProperties": false,
+      "properties": {
+        "extract": {
+          "$ref": "#/definitions/DenormalizedExtractActionQueryType"
+        },
+        "select": {
+          "$ref": "#/definitions/DenormalizedSelectActionQueryType"
+        },
+        "test": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "instanceof": "RegExp"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        }
+      },
+      "required": [
+        "select"
+      ],
+      "type": "object"
+    },
+    "DenormalizedSelectActionQuantifierType": {
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "max": {
+          "type": "number"
+        },
+        "min": {
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "DenormalizedSelectActionQueryType": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "quantifier": {
+              "$ref": "#/definitions/DenormalizedSelectActionQuantifierType"
+            },
+            "selector": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "selector"
+          ],
+          "type": "object"
+        }
+      ]
+    }
+  }
+}

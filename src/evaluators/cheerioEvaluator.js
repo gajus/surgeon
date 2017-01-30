@@ -4,39 +4,44 @@ import cheerio from 'cheerio';
 import type {
   EvaluatorType
 } from '../types';
+import {
+  NotFoundError
+} from '../errors';
 
 export default (): EvaluatorType => {
-  const getAttribute = (node: Object, name: string): string | null => {
-    const attributeValue = cheerio(node).attr(name);
+  // eslint-disable-next-line flowtype/no-weak-types
+  const getAttributeValue = (node: Object, name: string): string => {
+    const attributeValue = node.attr(name);
 
     if (typeof attributeValue === 'string') {
       return attributeValue;
     }
 
-    return null;
+    throw new NotFoundError();
   };
 
-  const getProperty = (node: Object, name: string): mixed => {
-    const test = cheerio(node);
-
+  // eslint-disable-next-line flowtype/no-weak-types
+  const getPropertyValue = (node: Object, name: string): mixed => {
     if (name === 'textContent') {
-      return test.text();
+      return node.text();
     }
 
-    return test.prop(name);
+    return node.prop(name);
   };
 
-  const querySelectorAll = (node: string | Object, selector: string) => {
-    if (selector.startsWith(':root')) {
-      return cheerio(node);
-    }
-
-    return cheerio(selector, node).toArray();
+  // eslint-disable-next-line flowtype/no-weak-types
+  const querySelectorAll = (node: Object, selector: string): Array<Object> => {
+    return node
+      .find(selector)
+      .toArray()
+      .map((element) => {
+        return cheerio(element);
+      });
   };
 
   return {
-    getAttribute,
-    getProperty,
+    getAttributeValue,
+    getPropertyValue,
     querySelectorAll
   };
 };

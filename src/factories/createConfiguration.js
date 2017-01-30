@@ -2,6 +2,7 @@
 
 import type {
   ConfigurationType,
+  EvaluatorType,
   UserConfigurationType
 } from '../types';
 import {
@@ -11,27 +12,46 @@ import {
 import {
   isEnvironmentBrowser
 } from '../utilities';
+import {
+  regexTestSubroutine
+} from '../subroutines/test';
 
-export default (userConfiguration: UserConfigurationType = {}): ConfigurationType => {
-  let evaluator;
+const configureEvaluator = (): EvaluatorType => {
+  const environmentIsBrowser = isEnvironmentBrowser();
 
-  let evaluatorName = userConfiguration.evaluator;
-
-  if (!evaluatorName) {
-    const environmentIsBrowser = isEnvironmentBrowser();
-
-    evaluatorName = environmentIsBrowser ? 'browser' : 'cheerio';
-  }
+  const evaluatorName = environmentIsBrowser ? 'browser' : 'cheerio';
 
   if (evaluatorName === 'cheerio') {
-    evaluator = cheerioEvaluator();
-  } else if (evaluatorName === 'browser') {
-    evaluator = browserEvaluator();
-  } else {
-    throw new Error('Unknown adapter.');
+    return cheerioEvaluator();
   }
 
+  if (evaluatorName === 'browser') {
+    return browserEvaluator();
+  }
+
+  throw new Error('Unknown adapter.');
+};
+
+const configureSubroutines = (userSubroutines = {}): $PropertyType<ConfigurationType, 'subroutines'> => {
+  const testSubroutines = Object.assign(
+    {},
+    {
+      regex: regexTestSubroutine
+    },
+    userSubroutines.test || {}
+  );
+
   return {
-    evaluator
+    test: testSubroutines
+  };
+};
+
+export default (userConfiguration: UserConfigurationType = {}): ConfigurationType => {
+  const evaluator = userConfiguration.evaluator || configureEvaluator();
+  const subroutines = configureSubroutines(userConfiguration.subroutines);
+
+  return {
+    evaluator,
+    subroutines
   };
 };

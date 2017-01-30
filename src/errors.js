@@ -1,21 +1,19 @@
 // @flow
 
 import ExtendableError from 'es6-error';
-import createDebug from 'debug';
 import type {
-  QuantifierType
+  SelectActionQueryQuantifierType
 } from './types';
 
-const debug = createDebug('surgeon:errors');
+export class SurgeonError extends ExtendableError {}
 
-export class NotFoundError extends ExtendableError {}
+export class NotFoundError extends SurgeonError {}
 
-export class UnexpectedResultCountError extends ExtendableError {
-  constructor (matchCount: number, quantifier: QuantifierType) {
-    debug('Matched %d. Expected to match %s.', matchCount, quantifier.expression || '{1}[0]');
-
+export class UnexpectedResultCountError extends SurgeonError {
+  // eslint-disable-next-line no-unused-vars
+  constructor (matchCount: number, quantifier: SelectActionQueryQuantifierType) {
     super('Matched unexpected number of nodes.');
   }
 }
 
-export class InvalidDataError extends ExtendableError {}
+export class InvalidDataError extends SurgeonError {}
