@@ -1,21 +1,26 @@
 // @flow
 
 import ExtendableError from 'es6-error';
-import createDebug from 'debug';
+import {
+  InvalidValueSentinel
+} from './sentinels';
 import type {
-  QuantifierType
+  SelectSubroutineQuantifierType
 } from './types';
 
-const debug = createDebug('surgeon:errors');
+export class SurgeonError extends ExtendableError {}
 
-export class NotFoundError extends ExtendableError {}
+export class ReadSubroutineNotFoundError extends SurgeonError {}
 
-export class UnexpectedResultCountError extends ExtendableError {
-  constructor (matchCount: number, quantifier: QuantifierType) {
-    debug('Matched %d. Expected to match %s.', matchCount, quantifier.expression);
-
+export class SelectSubroutineUnexpectedResultCountError extends SurgeonError {
+  // eslint-disable-next-line no-unused-vars
+  constructor (matchCount: number, quantifier: SelectSubroutineQuantifierType) {
     super('Matched unexpected number of nodes.');
   }
 }
 
-export class InvalidDataError extends ExtendableError {}
+export class InvalidDataError extends SurgeonError {
+  constructor (value: mixed, error: InvalidValueSentinel) {
+    super(error.message);
+  }
+}

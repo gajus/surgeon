@@ -1,32 +1,57 @@
 // @flow
 
-export type AttributeSelectorType = {|
-  +attributeName: string,
-  +expression: string
+export type EvaluatorType = {|
+
+  // eslint-disable-next-line flowtype/no-weak-types
+  +parseDocument: (subject: string) => Object,
+
+  // eslint-disable-next-line flowtype/no-weak-types
+  +getAttributeValue: (element: Object, name: string) => string,
+
+  // eslint-disable-next-line flowtype/no-weak-types
+  +getPropertyValue: (element: Object, name: string) => mixed,
+
+  // eslint-disable-next-line flowtype/no-weak-types
+  +querySelectorAll: (element: Object, selector: string) => Array<Object>
 |};
 
-export type PropertySelectorType = {|
-  +propertyName: string,
-  +expression: string
+export type CommandType = {|
+
+  // eslint-disable-next-line flowtype/no-weak-types
+  +parameters: Array<any>,
+  +subroutine: string
 |};
 
-export type QuantifierType = {|
-  +accessor: number | null,
-  +expression?: string,
+type QueryChildrenType = {
+
+  // eslint-disable-next-line no-use-before-define
+  [key: string]: DenormalizedQueryType
+};
+
+export type DenormalizedQueryType =
+  string |
+  Array<string | QueryChildrenType>;
+
+export type QueryType = Array<CommandType>;
+
+export type SubroutineType = (evaluator: EvaluatorType, subject: mixed, parameters: Array<string>) => mixed;
+
+export type SelectSubroutineQuantifierType = {|
   +max: number,
-  +min: number
+  +min: number,
+  +multiple: boolean
 |};
 
 export type UserConfigurationType = {
-  +evaluator?: 'cheerio' | 'browser'
+  +evaluator?: EvaluatorType,
+  +subroutines?: {
+    [key: string]: SubroutineType
+  }
 };
 
-export type EvaluatorType = {|
-  +getAttribute: Function,
-  +getProperty: Function,
-  +querySelectorAll: Function
-|};
-
 export type ConfigurationType = {|
-  +evaluator: EvaluatorType
+  +evaluator: EvaluatorType,
+  +subroutines: {
+    [key: string]: SubroutineType
+  }
 |};

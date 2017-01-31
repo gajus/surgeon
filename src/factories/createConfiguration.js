@@ -1,9 +1,5 @@
 // @flow
 
-import type {
-  ConfigurationType,
-  UserConfigurationType
-} from '../types';
 import {
   browserEvaluator,
   cheerioEvaluator
@@ -11,27 +7,37 @@ import {
 import {
   isEnvironmentBrowser
 } from '../utilities';
+import {
+  SurgeonError
+} from '../errors';
+import type {
+  ConfigurationType,
+  EvaluatorType,
+  UserConfigurationType
+} from '../types';
 
-export default (userConfiguration: UserConfigurationType = {}): ConfigurationType => {
-  let evaluator;
+const configureEvaluator = (): EvaluatorType => {
+  const environmentIsBrowser = isEnvironmentBrowser();
 
-  let evaluatorName = userConfiguration.evaluator;
-
-  if (!evaluatorName) {
-    const environmentIsBrowser = isEnvironmentBrowser();
-
-    evaluatorName = environmentIsBrowser ? 'browser' : 'cheerio';
-  }
+  const evaluatorName = environmentIsBrowser ? 'browser' : 'cheerio';
 
   if (evaluatorName === 'cheerio') {
-    evaluator = cheerioEvaluator();
-  } else if (evaluatorName === 'browser') {
-    evaluator = browserEvaluator();
-  } else {
-    throw new Error('Unknown adapter.');
+    return cheerioEvaluator();
   }
 
+  if (evaluatorName === 'browser') {
+    return browserEvaluator();
+  }
+
+  throw new SurgeonError('Unknown adapter.');
+};
+
+export default (userConfiguration: UserConfigurationType = {}): ConfigurationType => {
+  const evaluator = userConfiguration.evaluator || configureEvaluator();
+  const subroutines = userConfiguration.subroutines || {};
+
   return {
-    evaluator
+    evaluator,
+    subroutines
   };
 };

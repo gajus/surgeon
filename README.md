@@ -1,3 +1,5 @@
+
+
 # Surgeon
 
 [![Travis build status](http://img.shields.io/travis/gajus/surgeon/master.svg?style=flat-square)](https://travis-ci.org/gajus/surgeon)
@@ -6,70 +8,291 @@
 [![Canonical Code Style](https://img.shields.io/badge/code%20style-canonical-blue.svg?style=flat-square)](https://github.com/gajus/canonical)
 [![Twitter Follow](https://img.shields.io/twitter/follow/kuizinas.svg?style=social&label=Follow)](https://twitter.com/kuizinas)
 
-<img src='https://rawgit.com/gajus/surgeon/master/.README/chop.svg' height='200' />
-
-DOM extraction expression evaluator.
+Declarative DOM extraction expression evaluator.
 
 * Supports [selector nesting](#nest-the-selectors).
 * Integrates [match validation](#validate-the-result).
 * Works in Node.js or in browser.
 * Uses domain-specific language (DSL) to:
   * select a defined number of nodes ([Quantifier expression](#quantifier-expression))
-  * select a single node out of a matching list of nodes  ([Accessor expression](#accessor-expression))
   * access [attribute](#attribute-selector) and [property](#property-selector) values
+  * use [user-defined functions](#user-defined-functions) to format, filter and validate data
 
-Powerful, succinct API:
+Powerful, succinct, declarative API.
 
-```js
-x('body', {
-  title: x('title'),
-  articles: x('article {0,}', {
-    body: x('.body@.innerHTML'),
-    summary: x('.body p {0,}[0]'),
-    imageUrl: x('img@src'),
-    title: x('.title')
-  })
-});
+```yaml
+articles:
+- select article
+- body:
+  - select .body
+  - extract property innerHTML
+  imageUrl:
+  - select img
+  - extract attribute src
+  summary:
+  - select .body p:first-child
+  - extract property innerHTML
+  - format text
+  title:
+  - select .title
+  - extract property textContent
+pageName:
+- select .body
+- extract property innerHTML
 
 ```
-
-> Note:
->
-> An idea is maturing for an alternative (declartive) API, 
-> https://github.com/gajus/surgeon/issues/4#issuecomment-273261048
-
-<!-- -->
-
-> * `{0,}` is a [quantifier expression](#quantifier-expression).
-> * `[0]` is an [accessor expression](#accessor-expression).
-> * `@.innerHTML` is a [property selector](#property-selector).
-> * `@src` is an [attribute selector](#attribute-selector).
 
 Have you got suggestions for improvement? [I am all ears](https://github.com/gajus/surgeon/issues).
 
 ---
 
 * [Configuration](#configuration)
+* [Evaluators](#evaluators)
+  * [`browser` evaluator](#browser-evaluator)
+  * [`cheerio` evaluator](#cheerio-evaluator)
+* [Subroutines](#subroutines)
+  * [Built-in subroutines](#built-in-subroutines)
+    * [`select` subroutine](#select-subroutine)
+      * [Quantifier expression](#quantifier-expression)
+    * [`read` subroutine](#read-subroutine)
+    * [`test` subroutine](#test-subroutine)
+  * [User-defined subroutines](#user-defined-subroutines)
 * [Cookbook](#cookbook)
   * [Extract a single node](#extract-a-single-node)
   * [Extract multiple nodes](#extract-multiple-nodes)
-  * [Nest the selectors](#nest-the-selectors)
-  * [Validate the result](#validate-the-result)
-* [Conventions](#conventions)
-  * [Quantifier expression](#quantifier-expression)
-  * [Accessor expression](#accessor-expression)
-  * [Attribute selector](#attribute-selector)
-  * [Property selector](#property-selector)
+  * [Name results](#name-results)
+  * [Validate the results using RegExp](#validate-the-results-using-regexp)
+  * [Validate the results using a user-defined test function](#validate-the-results-using-a-user-defined-test-function)
 * [Error handling](#error-handling)
 * [Debugging](#debugging)
-* [FAQ](#faq)
-  * [Whats the difference from x-ray?](#whats-the-difference-from-x-ray)
 
 ## Configuration
 
-|Name|Description|Default value|
+|Name|Type|Description|Default value|
+|---|---|---|---|
+|`evaluator`|[`EvaluatorType`](./src/types.js)|HTML parser and selector engine. See [evaluators](#evaluators).|[`browser` evaluator](#browser-evaluator) if `window` and `document` variables are present, [`cheerio`](#cheerio-evaluator) otherwise.|
+|`subroutines`|[`$PropertyType<UserConfigurationType, 'subroutines'>`](./src/types.js)|User defined subroutines. See [subroutines](#subroutines).|N/A|
+
+## Evaluators
+
+Evaluators are used to parse input (i.e. convert a string into an object) and to select nodes in the resulting document.
+
+The default evaluator is configured based on the user environment:
+  * if `window` and `document` variables are present, then [`browser` evaluator](#browser-evaluator)
+  * otherwise [`cheerio`](#cheerio-evaluator)
+
+> Have a use case for another evaluator? [Raise an issue](https://github.com/gajus/surgeon/issues).
+>
+> For an example implementation of an evaluator, refer to:
+>
+> * [`./src/evaluators/browserEvaluator.js`](./src/evaluators/browserEvaluator.js)
+> * [`./src/evaluators/cheerioEvaluator.js`](./src/evaluators/cheerioEvaluator.js)
+
+### `browser` evaluator
+
+Uses native browser methods to parse the document and to evaluate CSS selector queries.
+
+Use `browser` evaluator if you are running Surgeon in a browser or a headless browser (e.g. PhantomJS).
+
+```js
+import {
+  browserEvaluator
+} from './evaluators';
+
+surgeon({
+  evaluator: browserEvaluator()
+});
+
+```
+
+### `cheerio` evaluator
+
+Uses [cheerio](https://github.com/cheeriojs/cheerio) to parse the document and to evaluate CSS selector queries.
+
+Use `cheerio` evaluator if you are running Surgeon in Node.js.
+
+```js
+import {
+  cheerioEvaluator
+} from './evaluators';
+
+surgeon({
+  evaluator: cheerioEvaluator()
+});
+
+```
+
+## Subroutines
+
+A subroutine is a function used to advance the DOM extraction expression evaluator, e.g.
+
+```js
+x('foo | bar baz', 'qux');
+
+```
+
+In the above example, Surgeon expression uses two subroutines: `foo` and `bar`.
+
+`foo` subroutine is invoked without additional values. `bar` subroutine is executed with 1 value ("baz").
+
+Subroutines are executed in the order in which they are defined – the result of the last subroutine is passed on to the next one. The first subroutine receives the document input (in this case: "qux" string).
+
+Multiple subroutines can be written as an array. The following example is equivalent to the earlier example.
+
+```js
+x([
+  'foo',
+  'bar baz'
+], 'qux');
+
+```
+
+There are two types of subroutines:
+
+* [Built-in subroutines](#built-in-subroutines)
+* [User-defined subroutines](#user-defined-subroutines)
+
+> Note:
+>
+> These functions are called subroutines to emphasise the cross-platform nature of the declarative API.
+
+### Built-in subroutines
+
+The following subroutines are available out of the box.
+
+#### `select` subroutine
+
+`select` subroutine is used to select the elements in the document using an [evaluator](#evaluators).
+
+|Parameter name|Description|Default|
 |---|---|---|
-|`evaluator`|HTML parser and selector engine. Possible values: `cheerio`, `browser`. Use `cheerio` if you are running Surgeon in Node.js. Use `browser` if you are running Surgeon in a browser or a headless browser (e.g. PhantomJS).|`browser` if `window` and `document` variables are present, `cheerio` otherwise.|
+|CSS selector|CSS selector used to select an element.|N/A|
+|Quantifier expression|A [quantifier expression](#quantifier-expression) is used to control the shape of the results (direct result or array of results) and the expected result length.|See [quantifier expression](#quantifier-expression).|
+
+
+##### Quantifier expression
+
+A *quantifier expression* is used to assert that the query matches a set number of nodes. A quantifier expression is a modifier of the [`select` subroutine](#select-subroutine).
+
+A *quantifier expression* is defined using the following syntax.
+
+|Name|Syntax|
+|---|---|
+|Fixed quantifier|`{n}` where `n` is an integer `>= 1`|
+|Greedy quantifier|`{n,m}` where `n >= 0` and `m >= n`|
+|Greedy quantifier|`{n,}` where `n >= 0`|
+|Greedy quantifier|`{,m}` where `m >= 1`|
+
+> If this looks familiar, its because I have adopted the syntax from regular expression language. However, unlike in regular expression, a quantifier in the context of Surgeon selector will produce an error (`SelectSubroutineUnexpectedResultCountError`) if selector result length is out of the quantifier range.
+
+Examples:
+
+```js
+// Selects 0 or more nodes.
+// Result is an array.
+x('select .foo {0,}');
+
+// Selects 1 or more nodes.
+// Throws an error if 0 matches found.
+// Result is an array.
+x('select .foo {1,}');
+
+// Selects between 0 and 5 nodes.
+// Throws an error if more than 5 matches found.
+// Result is an array.
+x('select .foo {0,5}');
+
+// Selects 1 node.
+// Result is the matching element (or `null`).
+x('select .foo {0,1}');
+
+```
+
+#### `read` subroutine
+
+`read` is used to extract value from the matching element using an [evaluator](#evaluators).
+
+|Parameter name|Description|Default|
+|---|---|---|
+|Target type|Possible values: "attribute" or "property"|N/A|
+|Target name|Depending on the target type, name of an attribute or a property.|N/A|
+
+Examples:
+
+```js
+// Returns .foo element "href" attribute value.
+// Throws error if attribute does not exist.
+x('select .foo | read attribute href');
+
+// Returns an array of "href" attribute values of the matching elements.
+// Throws error if attribute does not exist on either of the matching elements.
+x('select .foo {0,} | read attribute href');
+
+// Returns .foo element "textContent" property value.
+// Throws error if property does not exist.
+x('select .foo | read property textContent');
+
+```
+
+#### `test` subroutine
+
+`test` is used to validate the current value using a regular expression.
+
+|Parameter name|Description|Default|
+|---|---|---|
+|Regular expression|Regular expression used to test the value.|N/A|
+
+Examples:
+
+```js
+// Validates that .foo element textContent property value matches /bar/ regular expression.
+// Throws `InvalidDataError` if the value does not pass the test.
+x('select .foo | read property textContent | test /bar/');
+```
+
+See [error handling](#error-handling) for more information and usage examples of the `test` subroutine.
+
+### User-defined subroutines
+
+Custom subroutines can be defined using [`subroutines` configuration](#configuration).
+
+A subroutine is a function. A subroutine function is invoked with the following parameters:
+
+|Parameter name|
+|---|
+|An instance of [Evaluator].|
+|Current value, i.e. value used to query Surgeon or value returned from the previous (or ancestor) subroutine.|
+|An array of values used when referencing the subroutine in an expression.|
+
+Example:
+
+```js
+const x = surgeon({
+  subroutines: {
+    mySubourtine: (evaluator, currentValue, [firstParameterValue, secondParameterValue]) => {
+      console.log(currentValue, firstParameterValue, secondParameterValue);
+
+      return parseInt(currentValue, 10) + 1;
+    }
+  }
+});
+
+x('mySubourtine foo bar | mySubourtine baz qux', 0);
+
+```
+
+The above example prints:
+
+```
+0 "foo" "bar"
+1 "baz" "qux"
+
+```
+
+For more examples of defining subroutines, refer to:
+
+* [Validate the results using a user-defined test function](#validate-the-results-using-a-user-defined-test-function).
+* [Source code](./src/subroutines) of the the built-in subroutines.
 
 ## Cookbook
 
@@ -85,52 +308,48 @@ const x = surgeon();
 
 ```
 
-> Note:
->
-> For simplicity, strict-equal operator (`===`) is being used to demonstrate deep equality.
-
 ### Extract a single node
 
-The default behaviour of a query is to match a single node and extract value of the [`textContent`](https://developer.mozilla.org/en/docs/Web/API/Node/textContent) property, i.e. `{1}[0]@.textContent`.
+Use [`select` subroutine](#select-subroutine) and [`read` subroutine](#read-subroutine) to extract a single value.
 
 ```js
-const document = `
+const subject = `
   <div class="title">foo</div>
 `;
 
-x('.title')(document) === 'foo';
-x('.title {1}[0]')(document) === 'foo';
-x('.title {0,1}[0]')(document) === 'foo';
-x('.title {1,1}[0]')(document) === 'foo';
+x('select .title | read property textContent', subject);
+
+// 'foo'
+
 ```
 
 ### Extract multiple nodes
 
-To extract multiple nodes, you need to specify a [quantifier expression](#quantifier-expression).
+Specify [`select` subroutine](#select-subroutine) `quantifier` to match multiple results.
 
 ```js
-const document = `
-  <div class="title">foo</div>
-  <div class="title">bar</div>
-  <div class="title">baz</div>
+const subject = `
+  <div class="foo">bar</div>
+  <div class="foo">baz</div>
+  <div class="foo">qux</div>
 `;
 
-const result = x('.title {0,}')(document);
+x('select .title {0,} | read property textContent', subject);
 
-result === [
-  'foo',
-  'bar',
-  'baz'
-];
+// [
+//   'bar',
+//   'baz',
+//   'qux'
+// ]
 
 ```
 
-### Nest the selectors
+### Name results
 
-Surgeon selectors (queries) can be nested. Result of the parent query becomes the root element of the descending query.
+Use an [`QueryChildrenType`](./src/types.js) object to give names to descending results.
 
 ```js
-const document = `
+const subject = `
   <article>
     <div class='title'>foo title</div>
     <div class='body'>foo body</div>
@@ -141,149 +360,84 @@ const document = `
   </article>
 `;
 
-const result = x('article {0,}', {
-  body: x('.body'),
-  title: x('.title')
-})(document);
-
-result === [
+x([
+  'select article',
   {
-    body: 'foo body',
-    title: 'foo title'
-  },
-  {
-    body: 'bar body',
-    title: 'bar title'
+    body: 'select .body | read property textContent'
+    title: 'select .title | read property textContent'
   }
-];
+]);
+
+// [
+//   {
+//     body: 'foo body',
+//     title: 'foo title'
+//   },
+//   {
+//     body: 'bar body',
+//     title: 'bar title'
+//   }
+// ]
 
 ```
 
-You can use the `:root` selector to select the current element, e.g.
+### Validate the results using RegExp
+
+Use [`test` subroutine](#test-subroutine) to validate the results.
 
 ```js
-const document = `
-  <article class='foo'>A</article>
-  <article class='bar'>B</article>
+const subject = `
+  <div class="foo">bar</div>
+  <div class="foo">baz</div>
+  <div class="foo">qux</div>
 `;
 
-const result = x('article {0,}', {
-  className: x(':root @class'),
-  textContent: x(':root')
-})(document);
-
-result === [
-  {
-    className: 'foo',
-    textContent: 'A'
-  },
-  {
-    className: 'bar',
-    textContent: 'B'
-  }
-];
+x('select .foo {0,} | test /^[a-z]{3}$/');
 
 ```
 
-### Validate the result
+See [error handling](#error-handling) for information how to handle `test` subroutine errors.
 
-Validation is performed using regular expression.
+### Validate the results using a user-defined test function
+
+Define a [custom subroutine](#user-defiend-subroutines) to validate results using arbitrary logic.
+
+Use `InvalidValueSentinel` to leverage standardised Surgeon error handler (see [error handling](#error-handling)). Otherwise, simply throw an error.
 
 ```js
-const document = `
-  <div class="title">foo</div>
-`;
+import surgeon, {
+  InvalidValueSentinel
+} from 'surgeon';
 
-x('.title', /foo/)(document) === 'foo';
+const x = surgeon({
+  subroutines: {
+    isRed: (evaluator, value) => {
+      if (value === 'red') {
+        return value;
+      };
 
-```
-
-If the regular expression does not match the data, an `InvalidDataError` error is thrown (see [Handling errors](#handling-errors)).
-
-## Conventions
-
-### Quantifier expression
-
-A *quantifier expression* is used to assert that the query matches a set number of nodes.
-
-The default quantifier expression value is `{1}`.
-
-#### Syntax
-
-|Name|Syntax|
-|---|---|
-|Fixed quantifier|`{n}` where `n` is an integer `>= 1`|
-|Greedy quantifier|`{n,m}` where `n >= 0` and `m >= n`|
-|Greedy quantifier|`{n,}` where `n >= 0`|
-|Greedy quantifier|`{,m}` where `m >= 1`|
-
-If this looks familiar, its because I have adopted the syntax from regular expression language. However, unlike in regular expression, a quantifier in the context of Surgeon selector will produce an error (`UnexpectedResultCountError`) if selector result count is out of the quantifier range.
-
-#### Example
-
-```css
-.title {1}
-.title {0,1}
-.title {0,}
-
-```
-
-### Accessor expression
-
-An *accessor expression* can be used to return a single item from an array of matches. An accessor expression must precede a [quantifier expression](#quantifier-expression).
-
-The default accessor expression value is `[0]`. The default applies only if a quantifier expression is not specified. If a quantifier expression is specified, then by default all matches are returned.
-
-#### Syntax
-
-`[n]` where `n` is a zero-based index.
-
-#### Example
-
-```css
-.title {1}[0]
-
-```
-
-### Attribute selector
-
-An *attribute selector* is used to select a value of an `HTMLElement` attribute.
-
-#### Syntax
-
-`@n` where `n` is the attribute name.
-
-#### Example
-
-```css
-.title@data-id
-
-```
-
-### Property selector
-
-A *property selector* is used to select a value of an `HTMLElement` property.
-
-#### Syntax
-
-`@.n` where `n` is the property name.
-
-#### Example
-
-```css
-.title@.textContent
+      return new InvalidValueSentinel('Unexpected color.');
+    }
+  }
+});
 
 ```
 
 ## Error handling
 
-There are many errors that Surgeon can throw. Use `instanceof` operator to determine the error type.
+Surgeon throws the following errors to indicate a predictable error state. All Surgeon errors can be imported. Use `instanceof` operator to determine the error type.
+
+> Note:
+>
+> Surgeon errors are non-recoverable, i.e. a selector cannot proceed if it encounters an error.
+> This design ensures that your selectors are capturing the expected data.
 
 |Name|Description|
 |---|---|
-|`NotFoundError`|Thrown when an attempt is made to retrieve a non-existent attribute or property.|
-|`UnexpectedResultCountError`|Thrown when a [quantifier expression](#quantifier-expression) is not satisfied.|
-|`InvalidDataError`|Thrown when a resulting data does not pass the [validation](#validate-the-result).|
+|`ReadSubroutineNotFoundError`|Thrown when an attempt is made to retrieve a non-existent attribute or property.|
+|`SelectSubroutineUnexpectedResultCountError`|Thrown when a [`select` subroutine](#select-subroutine) result length does not match the quantifier expression.|
+|`InvalidDataError`|Thrown when a subroutine returns an instance of `InvalidValueSentinel`.|
+|`SurgeonError`|A generic error. All other Surgeon errors extend from `SurgeonError`.|
 
 Example:
 
@@ -292,12 +446,12 @@ import {
   InvalidDataError
 } from 'surgeon';
 
-const document = `
-  <div class="title">foo</div>
+const subject = `
+  <div class="foo">bar</div>
 `;
 
 try {
-  x('.title', /bar/)(document);
+  x('select .foo | test /bar/', subject);
 } catch (error) {
   if (error instanceof InvalidDataError) {
     // Handle data validation error.
@@ -308,16 +462,10 @@ try {
 
 ```
 
+Return `InvalidValueSentinel` from a subroutine to force Surgeon throw `InvalidDataError` error.
+
 ## Debugging
 
-Surgeon is using [`debug`](https://www.npmjs.com/package/debug) to provide additional debugging information.
+Surgeon is using [`debug`](https://www.npmjs.com/package/debug) to log debugging information.
 
-To enable Surgeon debug output run program with a `DEBUG=surgeon:*` environment variable.
-
-## FAQ
-
-### Whats the difference from x-ray?
-
-[x-ray](https://github.com/lapwinglabs/x-ray) is a web scraping library.
-
-The primary difference between Surgeon and x-ray is that Surgeon does not implement HTTP request layer. I consider this an advantage for the reasons that I have described in the following x-ray [issue](https://github.com/lapwinglabs/x-ray/issues/245).
+Export `DEBUG=surgeon:*` environment variable to enable Surgeon debug log.

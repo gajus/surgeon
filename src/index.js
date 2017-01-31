@@ -1,87 +1,103 @@
 // @flow
 
-import parseQuery from './parseQuery';
-import readValue from './readValue';
-import type {
-  UserConfigurationType
-} from './types';
+import {
+  createConfiguration,
+  createQuery
+} from './factories';
 import {
   InvalidDataError,
-  NotFoundError,
-  UnexpectedResultCountError
+  ReadSubroutineNotFoundError,
+  SelectSubroutineUnexpectedResultCountError,
+  SurgeonError
 } from './errors';
 import {
-  createConfiguration
-} from './factories';
+  browserEvaluator,
+  cheerioEvaluator
+} from './evaluators';
+import {
+  InvalidValueSentinel
+} from './sentinels';
+import subroutines from './subroutines';
+import type {
+  DenormalizedQueryType,
+  UserConfigurationType
+} from './types';
 
 export {
+  browserEvaluator,
+  cheerioEvaluator,
   InvalidDataError,
-  NotFoundError,
-  UnexpectedResultCountError
+  InvalidValueSentinel,
+  ReadSubroutineNotFoundError,
+  SelectSubroutineUnexpectedResultCountError,
+  SurgeonError
 };
 
-type ChildSelectorsType = {
-  [key: string]: Function
+const queryDocument = (userSubroutines, evaluator, instructions, rootNode) => {
+  let result = rootNode;
+
+  let index = 0;
+
+  for (const instruction of instructions) {
+    if (instruction.subroutine === 'adopt') {
+      const children = {};
+
+      if (instruction.parameters.length !== 1) {
+        throw new SurgeonError('Unexpected parameter length.');
+      }
+
+      if (typeof instruction.parameters[0] !== 'object') {
+        throw new SurgeonError('test');
+      }
+
+      const childrenNames = Object.keys(instruction.parameters[0]);
+
+      for (const childName of childrenNames) {
+        children[childName] = queryDocument(userSubroutines, evaluator, instruction.parameters[0][childName], result);
+      }
+
+      return children;
+    }
+
+    const lastResult = result;
+
+    result = subroutines[instruction.subroutine](evaluator, result, instruction.parameters);
+
+    if (result instanceof InvalidValueSentinel) {
+      throw new InvalidDataError(lastResult, result);
+    }
+
+    index++;
+
+    if (Array.isArray(result)) {
+      const remainingInstructions = instructions.slice(index);
+
+      return result.map((newRootNode) => {
+        return queryDocument(userSubroutines, evaluator, remainingInstructions, newRootNode);
+      });
+    }
+  }
+
+  return result;
 };
 
 export default (userConfiguration?: UserConfigurationType) => {
-  const {
-    evaluator
-  } = createConfiguration(userConfiguration);
+  const configuration = createConfiguration(userConfiguration);
 
-  const x = (query: string, ...args: any) => {
-    let childSelectors: ChildSelectorsType;
-    let validationRule: RegExp;
-
-    if (args[0] instanceof RegExp) {
-      validationRule = args[0];
-    } else {
-      childSelectors = args[0];
-    }
-
-    const {
-      selector,
-      quantifier,
-      attributeSelector,
-      propertySelector
-    } = parseQuery(query);
-
-    return (input: mixed) => {
-      const rootElement = input;
-
-      const matches = evaluator.querySelectorAll(rootElement, selector);
-
-      const matchCount = matches.length;
-
-      if (childSelectors) {
-        return matches
-          .map((element) => {
-            const children = {};
-
-            const childPropertyNames = Object.keys(childSelectors);
-
-            for (const childPropertyName of childPropertyNames) {
-              const value = childSelectors[childPropertyName];
-
-              children[childPropertyName] = value(element);
-            }
-
-            return children;
-          });
-      }
-
-      if (matchCount < quantifier.min || matchCount > quantifier.max) {
-        throw new UnexpectedResultCountError(matchCount, quantifier);
-      } else if (typeof quantifier.accessor === 'number') {
-        return readValue(evaluator, matches[quantifier.accessor], attributeSelector, propertySelector, validationRule);
-      } else {
-        return matches
-          .map((element) => {
-            return readValue(evaluator, element, attributeSelector, propertySelector, validationRule);
-          });
-      }
-    };
+  const userSubroutines = {
+    ...configuration.subroutines,
+    ...subroutines
   };
 
-  return x;
+  // eslint-disable-next-line flowtype/no-weak-types
+  return (instructions: DenormalizedQueryType, subject: string | Object) => {
+    const query = createQuery(instructions);
+
+    return queryDocument(
+      userSubroutines,
+      configuration.evaluator,
+      query,
+      typeof subject === 'string' ? configuration.evaluator.parseDocument(subject) : subject
+    );
+  };
 };
