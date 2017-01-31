@@ -84,11 +84,11 @@ Have you got suggestions for improvement? [I am all ears](https://github.com/gaj
 
 ## Evaluators
 
-Evaluators are used to parse input (i.e. convert a string into an object) and to select nodes in the resulting document.
+[Subroutines](#subroutines) use an evaluator to parse input (i.e. convert a string into an object) and to select nodes in the resulting document.
 
 The default evaluator is configured based on the user environment:
-  * if `window` and `document` variables are present, then [`browser` evaluator](#browser-evaluator)
-  * otherwise [`cheerio`](#cheerio-evaluator)
+  * [`browser` evaluator](#browser-evaluator) is used if `window` and `document` variables are defined; otherwise
+  * [`cheerio`](#cheerio-evaluator)
 
 > Have a use case for another evaluator? [Raise an issue](https://github.com/gajus/surgeon/issues).
 >
