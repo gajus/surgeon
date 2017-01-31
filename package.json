@@ -75,7 +75,7 @@
     "url": "https://github.com/gajus/surgeon"
   },
   "scripts": {
-    "build": "babel ./src --out-dir ./dist --copy-files --source-maps",
+    "build": "npm run compile-grammar && babel ./src --out-dir ./dist --copy-files --source-maps",
     "compile-grammar": "nearleyc ./src/grammars/commandGrammar.ne --out ./src/grammars/commandGrammar.js",
     "lint": "eslint ./src ./test && flow",
     "precommit": "npm run lint && npm run test",
