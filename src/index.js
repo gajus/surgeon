@@ -61,7 +61,11 @@ const queryDocument = (userSubroutines, evaluator, instructions, rootNode) => {
 
     const lastResult = result;
 
-    result = subroutines[instruction.subroutine](evaluator, result, instruction.parameters);
+    if (!userSubroutines[instruction.subroutine]) {
+      throw new SurgeonError('Subroutine does not exist.');
+    }
+
+    result = userSubroutines[instruction.subroutine](evaluator, result, instruction.parameters);
 
     if (result instanceof InvalidValueSentinel) {
       throw new InvalidDataError(lastResult, result);
