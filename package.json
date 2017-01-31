@@ -18,7 +18,8 @@
     "flow-runtime": "^0.2.1",
     "nearley": "^2.7.11",
     "regex-parser": "^2.2.5",
-    "scalpel": "^2.1.0"
+    "scalpel": "^2.1.0",
+    "sprintf-js": "^1.0.3"
   },
   "description": "DOM extraction expression evaluator.",
   "devDependencies": {
