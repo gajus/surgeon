@@ -14,11 +14,8 @@ import type {
 
 const debug = createDebug('surgeon:subroutine:select');
 
-const selectSubroutine: SubroutineType = (evaluator, subject, [cssSelector, quantifierExpression]) => {
-  // $FlowFixMe
-  const matches = evaluator.querySelectorAll(subject, cssSelector);
-
-  let quantifier: SelectSubroutineQuantifierType;
+const createQuantifier = (quantifierExpression?: string): SelectSubroutineQuantifierType => {
+  let quantifier;
 
   if (quantifierExpression) {
     const quantifierTokens = parseQuantifierExpression(quantifierExpression);
@@ -43,6 +40,15 @@ const selectSubroutine: SubroutineType = (evaluator, subject, [cssSelector, quan
       multiple: false
     };
   }
+
+  return quantifier;
+};
+
+const selectSubroutine: SubroutineType = (evaluator, subject, [cssSelector, quantifierExpression]) => {
+  // $FlowFixMe
+  const matches = evaluator.querySelectorAll(subject, cssSelector);
+
+  const quantifier = createQuantifier(quantifierExpression);
 
   debug('selector "%s" matched %d node(s)', cssSelector, matches.length);
 
