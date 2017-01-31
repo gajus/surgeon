@@ -42,6 +42,19 @@ pageName:
 
 ```
 
+> Not succinct enough for you? Use the pipe operator (`|`) to concatenate the commands!
+>
+> ```yaml
+> articles:
+> - select article
+> - body: select .body | extract property innerHTML
+>   imageUrl: select img | extract attribute src
+>   summary: select .body p:first-child | extract property innerHTML | format text
+>   title: select .title | extract property textContent
+> pageName: select .body | extract property innerHTML
+>
+> ```
+
 Have you got suggestions for improvement? [I am all ears](https://github.com/gajus/surgeon/issues).
 
 ---
