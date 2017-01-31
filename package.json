@@ -59,6 +59,7 @@
       "src/**/*.js"
     ],
     "exclude": [
+      "src/evaluators/browserEvaluator.js",
       "src/grammars/*.js"
     ],
     "instrument": false,
