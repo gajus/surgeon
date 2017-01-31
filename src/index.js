@@ -22,6 +22,7 @@ import {
   selectSubroutine,
   testSubroutine
 } from './subroutines';
+import subroutineAliasPreset from './subroutineAliasPreset';
 import type {
   DenormalizedQueryType,
   UserConfigurationType
@@ -36,6 +37,7 @@ export {
   ReadSubroutineNotFoundError,
   selectSubroutine,
   SelectSubroutineUnexpectedResultCountError,
+  subroutineAliasPreset,
   SurgeonError,
   testSubroutine
 };

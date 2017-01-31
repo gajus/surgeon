@@ -62,6 +62,7 @@ Have you got suggestions for improvement? [I am all ears](https://github.com/gaj
     * [`read` subroutine](#read-subroutine)
     * [`test` subroutine](#test-subroutine)
   * [User-defined subroutines](#user-defined-subroutines)
+  * [Built-in subroutine aliases](#built-in-subroutine-aliases)
 * [Expression reference](#expression-reference)
   * [The pipe operator (`|`)](#the-pipe-operator-)
 * [Cookbook](#cookbook)
@@ -301,6 +302,41 @@ For more examples of defining subroutines, refer to:
 
 * [Validate the results using a user-defined test function](#validate-the-results-using-a-user-defined-test-function).
 * [Source code](./src/subroutines) of the the built-in subroutines.
+
+## Built-in subroutine aliases
+
+Surgeon exports an alias preset is used to reduce verbosity of the queries.
+
+|Name|Description|
+|---|---|
+|`ra ...`|Reads Element attribute value. Equivalent to `read attribute ...`|
+|`rp ...`|Reads Element property value. Equivalent to `read property ...`|
+|`s ...`|Selects a single element. Equivalent to `select "..." {1}`.|
+|`sm ...`|Selects multiple elements. Equivalent to `select "..." {0,}`|
+|`t {name}`|Tests value. Equivalent to `test ...`|
+
+> Note regarding `s ...` alias. The CSS selector value is quoted. Therefore, you can write a CSS selector that includes spaces without putting the value in the quotes, e.g. `s .foo .bar` is equivalent to `select ".foo .bar" {1}`.
+>
+> Other alias values are not quoted. Therefore, if value includes a space it must be quoted, e.g. `t "/foo bar/"`.
+
+Usage:
+
+```js
+import surgeon, {
+  subroutineAliasPreset
+} from 'surgeon';
+
+const x = surgeon({
+  subroutines: {
+    ...subroutineAliasPreset
+  }
+});
+
+x('s .foo .bar | t "/foo bar/"');
+
+```
+
+In addition to the built-in aliases, user can [declare subroutine aliases](#declare-subroutine-aliases).
 
 ## Expression reference
 
@@ -555,6 +591,8 @@ articles:
   - s .body
   - rp innerHTML
 ```
+
+The aliases used in this example are available in the aliases preset (read [built-in subroutine aliases](#built-in-subroutine-aliases)).
 
 ## Error handling
 
