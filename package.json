@@ -21,7 +21,7 @@
     "scalpel": "^2.1.0",
     "sprintf-js": "^1.0.3"
   },
-  "description": "DOM extraction expression evaluator.",
+  "description": "Declarative DOM extraction expression evaluator.",
   "devDependencies": {
     "ava": "^0.17.0",
     "babel-cli": "^6.22.2",

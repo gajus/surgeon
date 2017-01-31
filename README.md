@@ -10,7 +10,7 @@
 
 Declarative DOM extraction expression evaluator.
 
-Powerful, succinct, declarative API.
+Powerful, succinct, composable, extendable, declarative API.
 
 ```yaml
 articles:
