@@ -17,7 +17,11 @@ import {
 import {
   InvalidValueSentinel
 } from './sentinels';
-import subroutines from './subroutines';
+import {
+  readSubroutine,
+  selectSubroutine,
+  testSubroutine
+} from './subroutines';
 import type {
   DenormalizedQueryType,
   UserConfigurationType
@@ -28,9 +32,18 @@ export {
   cheerioEvaluator,
   InvalidDataError,
   InvalidValueSentinel,
+  readSubroutine,
   ReadSubroutineNotFoundError,
+  selectSubroutine,
   SelectSubroutineUnexpectedResultCountError,
-  SurgeonError
+  SurgeonError,
+  testSubroutine
+};
+
+const builtInSubroutines = {
+  read: readSubroutine,
+  select: selectSubroutine,
+  test: testSubroutine
 };
 
 const queryDocument = (userSubroutines, evaluator, instructions, rootNode) => {
@@ -90,7 +103,7 @@ export default (userConfiguration?: UserConfigurationType) => {
 
   const userSubroutines = {
     ...configuration.subroutines,
-    ...subroutines
+    ...builtInSubroutines
   };
 
   // eslint-disable-next-line flowtype/no-weak-types

@@ -2,8 +2,10 @@
 
 import readSubroutine from './readSubroutine';
 import selectSubroutine from './selectSubroutine';
+import testSubroutine from './testSubroutine';
 
-export default {
-  read: readSubroutine,
-  select: selectSubroutine
+export {
+  readSubroutine,
+  selectSubroutine,
+  testSubroutine
 };
