@@ -63,7 +63,11 @@ const selectSubroutine: SubroutineType = (evaluator, subject, [cssSelector, quan
     throw new SelectSubroutineUnexpectedResultCountError(matches.length, quantifier);
   }
 
-  return quantifier.multiple === true ? matches : matches[0];
+  if (quantifier.multiple === true) {
+    return matches;
+  } else {
+    return matches[0] || null;
+  }
 };
 
 export default selectSubroutine;
