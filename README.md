@@ -14,36 +14,36 @@ Powerful, succinct, composable, extendable, declarative API.
 
 ```yaml
 articles:
-- select article
+- select article {0,}
 - body:
   - select .body
-  - extract property innerHTML
+  - read property innerHTML
   imageUrl:
   - select img
-  - extract attribute src
+  - read attribute src
   summary:
-  - select .body p:first-child
-  - extract property innerHTML
+  - select ".body p:first-child"
+  - read property innerHTML
   - format text
   title:
   - select .title
-  - extract property textContent
+  - read property textContent
 pageName:
 - select .body
-- extract property innerHTML
+- read property innerHTML
 
 ```
 
-> Not succinct enough for you? Use the pipe operator (`|`) to concatenate the commands!
+> Not succinct enough for you? Use [aliases](#declare-subroutine-aliases) and the [pipe operator (`|`)](#the-pipe-operator-) to shorten and concatenate the commands:
 >
-> ```yaml
+> ```
 > articles:
-> - select article
-> - body: select .body | extract property innerHTML
->   imageUrl: select img | extract attribute src
->   summary: select .body p:first-child | extract property innerHTML | format text
->   title: select .title | extract property textContent
-> pageName: select .body | extract property innerHTML
+> - sm article
+> - body: s .body | rp innerHTML
+>   imageUrl: s img | ra src
+>   summary: s ".body p:first-child" | rp innerHTML | f text
+>   title: s .title | rp textContent
+> pageName: s .body | rp innerHTML
 >
 > ```
 
