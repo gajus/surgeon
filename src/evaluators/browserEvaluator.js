@@ -4,7 +4,7 @@ import type {
   EvaluatorType
 } from '../types';
 import {
-  NotFoundError
+  ReadSubroutineNotFoundError
 } from '../errors';
 
 export default (): EvaluatorType => {
@@ -15,12 +15,20 @@ export default (): EvaluatorType => {
       return attributeValue;
     }
 
-    throw new NotFoundError();
+    throw new ReadSubroutineNotFoundError();
   };
 
   const getPropertyValue = (node: HTMLElement, name: string): mixed => {
     // $FlowFixMe
     return node[name];
+  };
+
+  const parseDocument = (subject: string): HTMLElement => {
+    const aux = document.createElement('div');
+
+    aux.innerHTML = subject;
+
+    return aux;
   };
 
   const querySelectorAll = (node: HTMLElement, selector: string): Array<HTMLElement> => {
@@ -30,6 +38,7 @@ export default (): EvaluatorType => {
   return {
     getAttributeValue,
     getPropertyValue,
+    parseDocument,
     querySelectorAll
   };
 };

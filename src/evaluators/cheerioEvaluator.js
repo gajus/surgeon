@@ -5,7 +5,7 @@ import type {
   EvaluatorType
 } from '../types';
 import {
-  NotFoundError
+  ReadSubroutineNotFoundError
 } from '../errors';
 
 export default (): EvaluatorType => {
@@ -17,7 +17,7 @@ export default (): EvaluatorType => {
       return attributeValue;
     }
 
-    throw new NotFoundError();
+    throw new ReadSubroutineNotFoundError();
   };
 
   // eslint-disable-next-line flowtype/no-weak-types
@@ -27,6 +27,11 @@ export default (): EvaluatorType => {
     }
 
     return node.prop(name);
+  };
+
+  // eslint-disable-next-line flowtype/no-weak-types
+  const parseDocument = (subject: string): Object => {
+    return cheerio.load(subject).root();
   };
 
   // eslint-disable-next-line flowtype/no-weak-types
@@ -42,6 +47,7 @@ export default (): EvaluatorType => {
   return {
     getAttributeValue,
     getPropertyValue,
+    parseDocument,
     querySelectorAll
   };
 };

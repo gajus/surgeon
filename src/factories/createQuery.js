@@ -1,105 +1,50 @@
 // @flow
 
 import {
-  createAdoptAction,
-  createSelectAction,
-  createTestAction
-} from '../factories';
+  parseCommand
+} from '../parsers';
 import type {
-  CreateQueryFactoryConfigurationType,
   DenormalizedQueryType,
   QueryType
 } from '../types';
-import tokenizeSelector from '../tokenizeSelector';
 
-export type CreateQueryType = (denormalizedQuery: DenormalizedQueryType, configuration?: CreateQueryFactoryConfigurationType) => QueryType;
-
-const isExctractQuery = (denormalizedQuery: DenormalizedQueryType): boolean => {
-  return !denormalizedQuery.hasOwnProperty('adopt');
-};
-
-const createQuery: CreateQueryType = (denormalizedQuery, configuration) => {
+const createQuery = (denormalizedQuery: DenormalizedQueryType): QueryType => {
   if (typeof denormalizedQuery === 'string') {
     // eslint-disable-next-line no-param-reassign
-    denormalizedQuery = {
-      select: denormalizedQuery
-    };
+    denormalizedQuery = [
+      denormalizedQuery
+    ];
   }
 
-  if (!configuration) {
-    // eslint-disable-next-line no-param-reassign
-    configuration = {
-      subroutines: {
-        test: {}
+  const commands = [];
+
+  for (const maybeCommand of denormalizedQuery) {
+    if (typeof maybeCommand === 'string') {
+      // @todo Rename to parseExpression.
+      const expressionCommands = parseCommand(maybeCommand);
+
+      for (const command of expressionCommands) {
+        commands.push(command);
       }
-    };
-  }
+    } else {
+      const children = {};
 
-  if (typeof denormalizedQuery.select === 'string') {
-    const {
-      cssSelector,
-      extract,
-      test,
-      quantifier
-    } = tokenizeSelector(denormalizedQuery.select);
+      const childrenNames = Object.keys(maybeCommand);
 
-    // $FlowFixMe
-    denormalizedQuery.select = {
-      quantifier,
-      selector: cssSelector
-    };
+      for (const childName of childrenNames) {
+        children[childName] = createQuery(maybeCommand[childName]);
+      }
 
-    if (extract) {
-      // $FlowFixMe
-      denormalizedQuery.extract = extract;
-    }
-
-    if (test) {
-      // $FlowFixMe
-      denormalizedQuery.test = test;
+      commands.push({
+        parameters: [
+          children
+        ],
+        subroutine: 'adopt'
+      });
     }
   }
 
-  const select = createSelectAction(denormalizedQuery.select);
-
-  if (isExctractQuery(denormalizedQuery)) {
-    let extract = denormalizedQuery.extract || null;
-
-    if (!extract) {
-      extract = {
-        name: 'textContent',
-        type: 'property'
-      };
-    }
-
-    const test = denormalizedQuery.test || null;
-
-    if (test) {
-      const testSubroutine = createTestAction(test, configuration.subroutines.test || {});
-
-      return {
-        extract,
-        select,
-        test: testSubroutine
-      };
-    }
-
-    return {
-      extract,
-      select
-    };
-  }
-
-  if (!denormalizedQuery.adopt) {
-    throw new Error('Invalid query.');
-  }
-
-  const adopt = createAdoptAction(denormalizedQuery.adopt, createQuery, configuration);
-
-  return {
-    adopt,
-    select
-  };
+  return commands;
 };
 
 export default createQuery;

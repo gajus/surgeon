@@ -2,7 +2,7 @@
 
 import test from 'ava';
 import surgeon, {
-  UnexpectedResultCountError
+  SelectSubroutineUnexpectedResultCountError
 } from '../../../src';
 import type {
   DenormalizedQueryType
@@ -16,15 +16,10 @@ test('extracts multiple values', (t): void => {
     <div class="foo">bar1</div>
   `;
 
-  const query: DenormalizedQueryType = {
-    select: {
-      quantifier: {
-        max: Infinity,
-        min: 0
-      },
-      selector: '.foo'
-    }
-  };
+  const query: DenormalizedQueryType = [
+    'select .foo {0,}',
+    'read property textContent'
+  ];
 
   t.deepEqual(x(query, subject), [
     'bar0',
@@ -40,19 +35,13 @@ test('throws error if too few nodes are matched', (t): void => {
     <div class="foo">bar1</div>
   `;
 
-  const query: DenormalizedQueryType = {
-    select: {
-      quantifier: {
-        max: Infinity,
-        min: 3
-      },
-      selector: '.foo'
-    }
-  };
+  const query: DenormalizedQueryType = [
+    'select .foo {3,}'
+  ];
 
   t.throws(() => {
     x(query, subject);
-  }, UnexpectedResultCountError);
+  }, SelectSubroutineUnexpectedResultCountError);
 });
 
 test('throws error if too many nodes are matched', (t): void => {
@@ -61,19 +50,14 @@ test('throws error if too many nodes are matched', (t): void => {
   const subject = `
     <div class="foo">bar0</div>
     <div class="foo">bar1</div>
+    <div class="foo">bar2</div>
   `;
 
-  const query: DenormalizedQueryType = {
-    select: {
-      quantifier: {
-        max: 1,
-        min: 0
-      },
-      selector: '.foo'
-    }
-  };
+  const query: DenormalizedQueryType = [
+    'select .foo {0,2}'
+  ];
 
   t.throws(() => {
     x(query, subject);
-  }, UnexpectedResultCountError);
+  }, SelectSubroutineUnexpectedResultCountError);
 });

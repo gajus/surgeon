@@ -12,15 +12,13 @@
   },
   "dependencies": {
     "ajv": "^5.0.1-beta.2",
-    "ajv-keywords": "^2.0.0-beta.2",
     "cheerio": "^0.22.0",
-    "css-selector-parser": "^1.3.0",
     "debug": "^2.6.0",
     "es6-error": "^4.0.1",
     "flow-runtime": "^0.2.1",
+    "nearley": "^2.7.11",
     "regex-parser": "^2.2.5",
-    "scalpel": "^2.1.0",
-    "trim": "0.0.1"
+    "scalpel": "^2.1.0"
   },
   "description": "DOM extraction expression evaluator.",
   "devDependencies": {
@@ -46,10 +44,11 @@
     "node": ">=5"
   },
   "keywords": [
+    "css",
+    "declarative",
     "dom",
-    "scraper",
     "parser",
-    "css"
+    "selector"
   ],
   "license": "BSD-3-Clause",
   "main": "./src/index.js",
@@ -73,9 +72,10 @@
   },
   "scripts": {
     "build": "babel ./src --out-dir ./dist --copy-files --source-maps",
+    "compile-grammar": "nearleyc ./src/grammars/commandGrammar.ne --out ./src/grammars/commandGrammar.js",
     "lint": "eslint ./src ./test && flow",
     "precommit": "npm run lint && npm run test",
     "test": "ava --verbose"
   },
-  "version": "1.0.1"
+  "version": "3.0.0"
 }

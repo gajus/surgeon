@@ -1,17 +1,15 @@
 // @flow
 
 import Ajv from 'ajv';
-import addAjvKeywords from 'ajv-keywords';
 import denormalizedQueryShema from '../schemas/denormalizedQueryShema.json';
+import {
+  SurgeonError
+} from '../errors';
 import type {
   DenormalizedQueryType
 } from '../types';
 
-const ajv = new Ajv({
-  v5: true
-});
-
-addAjvKeywords(ajv);
+const ajv = new Ajv();
 
 const validate = ajv.compile(denormalizedQueryShema);
 
@@ -25,6 +23,6 @@ export default (denormalizedQuery: DenormalizedQueryType, log: boolean = true): 
       console.error('Validation errors', validate.errors);
     }
 
-    throw new Error('Invalid query.');
+    throw new SurgeonError('Invalid query.');
   }
 };

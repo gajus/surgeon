@@ -15,18 +15,12 @@ test('extracts a single value', (t): void => {
     </div>
   `;
 
-  const query: DenormalizedQueryType = {
-    adopt: {
-      name: {
-        extract: {
-          name: 'textContent',
-          type: 'property'
-        },
-        select: '.bar'
-      }
-    },
-    select: '.foo'
-  };
+  const query: DenormalizedQueryType = [
+    'select .foo {1}',
+    {
+      name: 'select .bar {1} | read property textContent'
+    }
+  ];
 
   t.deepEqual(x(query, subject), {
     name: 'baz'
@@ -41,30 +35,19 @@ test('extracts multiple values', (t): void => {
     <div class="foo">bar1</div>
   `;
 
-  const query: DenormalizedQueryType = {
-    adopt: {
-      name: {
-        extract: {
-          name: 'class',
-          type: 'attribute'
-        },
-        select: '::self'
-      }
-    },
-    select: {
-      quantifier: {
-        max: Infinity
-      },
-      selector: '.foo'
+  const query: DenormalizedQueryType = [
+    'select .foo {0,}',
+    {
+      name: 'read property textContent'
     }
-  };
+  ];
 
   const expectedResult = [
     {
-      name: 'foo'
+      name: 'bar0'
     },
     {
-      name: 'foo'
+      name: 'bar1'
     }
   ];
 

@@ -1,10 +1,5 @@
 // @flow
 
-import type {
-  ConfigurationType,
-  EvaluatorType,
-  UserConfigurationType
-} from '../types';
 import {
   browserEvaluator,
   cheerioEvaluator
@@ -13,8 +8,13 @@ import {
   isEnvironmentBrowser
 } from '../utilities';
 import {
-  regexTestSubroutine
-} from '../subroutines/test';
+  SurgeonError
+} from '../errors';
+import type {
+  ConfigurationType,
+  EvaluatorType,
+  UserConfigurationType
+} from '../types';
 
 const configureEvaluator = (): EvaluatorType => {
   const environmentIsBrowser = isEnvironmentBrowser();
@@ -29,26 +29,12 @@ const configureEvaluator = (): EvaluatorType => {
     return browserEvaluator();
   }
 
-  throw new Error('Unknown adapter.');
-};
-
-const configureSubroutines = (userSubroutines = {}): $PropertyType<ConfigurationType, 'subroutines'> => {
-  const testSubroutines = Object.assign(
-    {},
-    {
-      regex: regexTestSubroutine
-    },
-    userSubroutines.test || {}
-  );
-
-  return {
-    test: testSubroutines
-  };
+  throw new SurgeonError('Unknown adapter.');
 };
 
 export default (userConfiguration: UserConfigurationType = {}): ConfigurationType => {
   const evaluator = userConfiguration.evaluator || configureEvaluator();
-  const subroutines = configureSubroutines(userConfiguration.subroutines);
+  const subroutines = userConfiguration.subroutines || {};
 
   return {
     evaluator,
