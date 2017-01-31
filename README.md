@@ -10,14 +10,6 @@
 
 Declarative DOM extraction expression evaluator.
 
-* Supports [selector nesting](#nest-the-selectors).
-* Integrates [match validation](#validate-the-result).
-* Works in Node.js or in browser.
-* Uses domain-specific language (DSL) to:
-  * select a defined number of nodes ([Quantifier expression](#quantifier-expression))
-  * access [attribute](#attribute-selector) and [property](#property-selector) values
-  * use [user-defined functions](#user-defined-functions) to format, filter and validate data
-
 Powerful, succinct, declarative API.
 
 ```yaml
