@@ -5,7 +5,8 @@ import {
   parseQuantifierExpression
 } from '../parsers';
 import {
-  SelectSubroutineUnexpectedResultCountError
+  SelectSubroutineUnexpectedResultCountError,
+  SurgeonError
 } from '../errors';
 import type {
   SelectSubroutineQuantifierType,
@@ -45,6 +46,10 @@ const createQuantifier = (quantifierExpression?: string): SelectSubroutineQuanti
 };
 
 const selectSubroutine: SubroutineType = (evaluator, subject, [cssSelector, quantifierExpression]) => {
+  if (!evaluator.isElement(subject)) {
+    throw new SurgeonError('Unexpected value. Value must be an element.');
+  }
+
   // $FlowFixMe
   const matches = evaluator.querySelectorAll(subject, cssSelector);
 
