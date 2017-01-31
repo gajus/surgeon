@@ -23,6 +23,13 @@ export default (): EvaluatorType => {
     return node[name];
   };
 
+  /**
+   * @see https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeType
+   */
+  const isElement = (maybeElement) => {
+    return typeof maybeElement === 'object' && maybeElement !== null && maybeElement.nodeType === 1;
+  };
+
   const parseDocument = (subject: string): HTMLElement => {
     const aux = document.createElement('div');
 
@@ -38,6 +45,7 @@ export default (): EvaluatorType => {
   return {
     getAttributeValue,
     getPropertyValue,
+    isElement,
     parseDocument,
     querySelectorAll
   };

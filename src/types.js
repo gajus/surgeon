@@ -3,13 +3,15 @@
 export type EvaluatorType = {|
 
   // eslint-disable-next-line flowtype/no-weak-types
-  +parseDocument: (subject: string) => Object,
-
-  // eslint-disable-next-line flowtype/no-weak-types
   +getAttributeValue: (element: Object, name: string) => string,
 
   // eslint-disable-next-line flowtype/no-weak-types
   +getPropertyValue: (element: Object, name: string) => mixed,
+
+  +isElement: (maybeElement: mixed) => boolean,
+
+  // eslint-disable-next-line flowtype/no-weak-types
+  +parseDocument: (subject: string) => Object,
 
   // eslint-disable-next-line flowtype/no-weak-types
   +querySelectorAll: (element: Object, selector: string) => Array<Object>

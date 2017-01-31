@@ -29,6 +29,13 @@ export default (): EvaluatorType => {
     return node.prop(name);
   };
 
+  /**
+   * @see https://github.com/cheeriojs/cheerio/issues/765
+   */
+  const isElement = (maybeElement) => {
+    return typeof maybeElement === 'object' && maybeElement !== null && typeof maybeElement.cheerio !== 'undefined';
+  };
+
   // eslint-disable-next-line flowtype/no-weak-types
   const parseDocument = (subject: string): Object => {
     return cheerio.load(subject).root();
@@ -47,6 +54,7 @@ export default (): EvaluatorType => {
   return {
     getAttributeValue,
     getPropertyValue,
+    isElement,
     parseDocument,
     querySelectorAll
   };
