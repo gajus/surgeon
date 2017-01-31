@@ -62,6 +62,8 @@ Have you got suggestions for improvement? [I am all ears](https://github.com/gaj
     * [`read` subroutine](#read-subroutine)
     * [`test` subroutine](#test-subroutine)
   * [User-defined subroutines](#user-defined-subroutines)
+* [Expression reference](#expression-reference)
+  * [The pipe operator (`|`)](#the-pipe-operator-)
 * [Cookbook](#cookbook)
   * [Extract a single node](#extract-a-single-node)
   * [Extract multiple nodes](#extract-multiple-nodes)
@@ -298,6 +300,75 @@ For more examples of defining subroutines, refer to:
 
 * [Validate the results using a user-defined test function](#validate-the-results-using-a-user-defined-test-function).
 * [Source code](./src/subroutines) of the the built-in subroutines.
+
+## Expression reference
+
+Surgeon subroutines are referenced using expressions.
+
+An expression is defined using the following pseudo-grammar:
+
+```
+subroutines ->
+    subroutines _ "|" _ subroutine
+  | subroutine
+
+subroutine ->
+    subroutineName " " parameters
+  | subroutineName
+
+subroutineName ->
+  [a-zA-Z0-9\-_]:+
+
+parameters ->
+    parameters " " parameter
+  | parameter
+
+```
+
+Example:
+
+```js
+x('foo bar baz', 'qux');
+
+```
+
+In this example, Surgeon query executor (`x`) is invoked with `foo bar baz` expression and `qux` starting value. The expression tells the query executor to run `foo` subroutine with parameter values "bar" and "baz". The expression executor runs `foo` subroutine with parameter values "bar" and "baz" and subject value "qux".
+
+Multiple subroutines can be combined using an array:
+
+```js
+x([
+  'foo bar baz',
+  'corge grault garply'
+], 'qux');
+
+```
+
+In this example, Surgeon query executor (`x`) is invoked with two expressions (`foo bar baz` and `corge grault garply`). The first subroutine is executed with the subject value "qux". The second subroutine is invoked with a value that is the result of the first proceeding subroutine.
+
+The result of the query is the result of the last subroutine.
+
+Read [user-defined subroutines](https://github.com/gajus/surgeon#user-defined-subroutines) documentation for broader explanation of the role of the parameter values and the subject value.
+
+### The pipe operator (`|`)
+
+Multiple subroutines can be combined using the pipe operator.
+
+The following examples are equivalent:
+
+```js
+x([
+  'foo bar baz',
+  'qux quux quuz'
+]);
+
+x([
+  'foo bar baz | foo bar baz'
+]);
+
+x('foo bar baz | foo bar baz');
+
+```
 
 ## Cookbook
 
