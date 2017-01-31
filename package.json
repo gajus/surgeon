@@ -58,6 +58,9 @@
     "include": [
       "src/**/*.js"
     ],
+    "exclude": [
+      "src/grammars/*.js"
+    ],
     "instrument": false,
     "reporter": [
       "text-lcov"
