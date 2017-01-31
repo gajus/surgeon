@@ -41,7 +41,7 @@ pageName:
 > - sm article
 > - body: s .body | rp innerHTML
 >   imageUrl: s img | ra src
->   summary: s ".body p:first-child" | rp innerHTML | f text
+>   summary: s .body p:first-child | rp innerHTML | f text
 >   title: s .title | rp textContent
 > pageName: s .body | rp innerHTML
 >
