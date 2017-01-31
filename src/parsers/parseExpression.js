@@ -3,7 +3,7 @@
 import {
   Parser
 } from 'nearley';
-import commandGrammar from '../grammars/commandGrammar';
+import expressionGrammar from '../grammars/expressionGrammar';
 import {
   SurgeonError
 } from '../errors';
@@ -11,10 +11,10 @@ import type {
   CommandType
 } from '../types';
 
-export default (command: string): Array<CommandType> => {
-  const parser = new Parser(commandGrammar.ParserRules, commandGrammar.ParserStart);
+export default (expression: string): Array<CommandType> => {
+  const parser = new Parser(expressionGrammar.ParserRules, expressionGrammar.ParserStart);
 
-  const results = parser.feed(command).results;
+  const results = parser.feed(expression).results;
 
   if (results.length === 0) {
     throw new SurgeonError('Found no parsings.');

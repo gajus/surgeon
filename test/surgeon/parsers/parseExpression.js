@@ -1,10 +1,10 @@
 // @flow
 
 import test from 'ava';
-import parseCommand from '../../../src/parsers/parseCommand';
+import parseExpression from '../../../src/parsers/parseExpression';
 
 test('parses a single command', (t): void => {
-  t.deepEqual(parseCommand('foo'), [
+  t.deepEqual(parseExpression('foo'), [
     {
       parameters: [],
       subroutine: 'foo'
@@ -13,7 +13,7 @@ test('parses a single command', (t): void => {
 });
 
 test('parses a single command with parameters', (t): void => {
-  t.deepEqual(parseCommand('foo bar baz'), [
+  t.deepEqual(parseExpression('foo bar baz'), [
     {
       parameters: [
         'bar',
@@ -25,7 +25,7 @@ test('parses a single command with parameters', (t): void => {
 });
 
 test('parses multiple commands (separated using the pipe operator)', (t): void => {
-  t.deepEqual(parseCommand('foo | bar'), [
+  t.deepEqual(parseExpression('foo | bar'), [
     {
       parameters: [],
       subroutine: 'foo'
@@ -38,7 +38,7 @@ test('parses multiple commands (separated using the pipe operator)', (t): void =
 });
 
 test('parses multiple commands with parameters (separated using the pipe operator)', (t): void => {
-  t.deepEqual(parseCommand('foo a0 b0 c0 | bar a1 b1 c1'), [
+  t.deepEqual(parseExpression('foo a0 b0 c0 | bar a1 b1 c1'), [
     {
       parameters: [
         'a0',
@@ -59,7 +59,7 @@ test('parses multiple commands with parameters (separated using the pipe operato
 });
 
 test('parses a single command with escaped parameters', (t): void => {
-  t.deepEqual(parseCommand('foo a \'b\' "c"'), [
+  t.deepEqual(parseExpression('foo a \'b\' "c"'), [
     {
       parameters: [
         'a',

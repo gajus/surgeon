@@ -1,9 +1,9 @@
 // @flow
 
-import parseCommand from './parseCommand';
+import parseExpression from './parseExpression';
 import parseQuantifierExpression from './parseQuantifierExpression';
 
 export {
-  parseCommand,
+  parseExpression,
   parseQuantifierExpression
 };

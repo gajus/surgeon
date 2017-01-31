@@ -1,7 +1,7 @@
 coverage
 dist
 node_modules
-src/grammars/commandGrammar.js
+src/grammars/expressionGrammar.js
 *.log
 .*
 !.babelrc

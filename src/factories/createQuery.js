@@ -1,7 +1,7 @@
 // @flow
 
 import {
-  parseCommand
+  parseExpression
 } from '../parsers';
 import type {
   DenormalizedQueryType,
@@ -21,7 +21,7 @@ const createQuery = (denormalizedQuery: DenormalizedQueryType): QueryType => {
   for (const maybeCommand of denormalizedQuery) {
     if (typeof maybeCommand === 'string') {
       // @todo Rename to parseExpression.
-      const expressionCommands = parseCommand(maybeCommand);
+      const expressionCommands = parseExpression(maybeCommand);
 
       for (const command of expressionCommands) {
         commands.push(command);

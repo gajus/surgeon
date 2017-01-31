@@ -77,7 +77,7 @@
   },
   "scripts": {
     "build": "npm run compile-grammar && babel ./src --out-dir ./dist --copy-files --source-maps",
-    "compile-grammar": "nearleyc ./src/grammars/commandGrammar.ne --out ./src/grammars/commandGrammar.js",
+    "compile-grammar": "nearleyc ./src/grammars/expressionGrammar.ne --out ./src/grammars/expressionGrammar.js",
     "lint": "eslint ./src ./test && flow",
     "precommit": "npm run lint && npm run test",
     "test": "ava --verbose"
