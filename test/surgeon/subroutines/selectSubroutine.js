@@ -6,10 +6,12 @@ test('returns array when expecting multiple results', (t): void => {
   const isElement = sinon.stub().returns(true);
   const querySelectorAll = sinon.stub().returns(['foo', 'bar']);
 
-  const results = selectSubroutine({
+  const evaluator = {
     isElement,
     querySelectorAll
-  }, null, ['.foo', '{0,}']);
+  };
+
+  const results = selectSubroutine(null, ['.foo', '{0,}'], {evaluator});
 
   t.deepEqual(results, ['foo', 'bar']);
 });
@@ -18,10 +20,12 @@ test('returns a single result when expecting at most 1 result', (t): void => {
   const isElement = sinon.stub().returns(true);
   const querySelectorAll = sinon.stub().returns(['foo']);
 
-  const result = selectSubroutine({
+  const evaluator = {
     isElement,
     querySelectorAll
-  }, null, ['.foo', '{0,1}']);
+  };
+
+  const result = selectSubroutine(null, ['.foo', '{0,1}'], {evaluator});
 
   t.true(result === 'foo');
 });
@@ -30,10 +34,12 @@ test('returns an empty array when expecting multiple results', (t): void => {
   const isElement = sinon.stub().returns(true);
   const querySelectorAll = sinon.stub().returns([]);
 
-  const results = selectSubroutine({
+  const evaluator = {
     isElement,
     querySelectorAll
-  }, null, ['.foo', '{0,}']);
+  };
+
+  const results = selectSubroutine(null, ['.foo', '{0,}'], {evaluator});
 
   t.deepEqual(results, []);
 });
@@ -42,10 +48,12 @@ test('returns null when expecting at most 1 result', (t): void => {
   const isElement = sinon.stub().returns(true);
   const querySelectorAll = sinon.stub().returns([]);
 
-  const result = selectSubroutine({
+  const evaluator = {
     isElement,
     querySelectorAll
-  }, null, ['.foo', '{0,1}']);
+  };
+
+  const result = selectSubroutine(null, ['.foo', '{0,1}'], {evaluator});
 
   t.true(result === null);
 });

@@ -1,8 +1,8 @@
 // @flow
 
+import pianola from 'pianola';
 import {
-  createConfiguration,
-  createQuery
+  createConfiguration
 } from './factories';
 import {
   InvalidDataError,
@@ -48,75 +48,32 @@ const builtInSubroutines = {
   test: testSubroutine
 };
 
-const queryDocument = (userSubroutines, evaluator, instructions, rootNode) => {
-  let result = rootNode;
-
-  let index = 0;
-
-  for (const instruction of instructions) {
-    if (instruction.subroutine === 'adopt') {
-      const children = {};
-
-      if (instruction.parameters.length !== 1) {
-        throw new SurgeonError('Unexpected parameter length.');
-      }
-
-      if (typeof instruction.parameters[0] !== 'object') {
-        throw new SurgeonError('test');
-      }
-
-      const childrenNames = Object.keys(instruction.parameters[0]);
-
-      for (const childName of childrenNames) {
-        children[childName] = queryDocument(userSubroutines, evaluator, instruction.parameters[0][childName], result);
-      }
-
-      return children;
-    }
-
-    const lastResult = result;
-
-    if (!userSubroutines[instruction.subroutine]) {
-      throw new SurgeonError('Subroutine does not exist.');
-    }
-
-    result = userSubroutines[instruction.subroutine](evaluator, result, instruction.parameters);
-
-    if (result instanceof InvalidValueSentinel) {
-      throw new InvalidDataError(lastResult, result);
-    }
-
-    index++;
-
-    if (Array.isArray(result)) {
-      const remainingInstructions = instructions.slice(index);
-
-      return result.map((newRootNode) => {
-        return queryDocument(userSubroutines, evaluator, remainingInstructions, newRootNode);
-      });
-    }
-  }
-
-  return result;
-};
-
 export default (userConfiguration?: UserConfigurationType) => {
   const configuration = createConfiguration(userConfiguration);
 
-  const userSubroutines = {
+  const subroutines = {
     ...configuration.subroutines,
     ...builtInSubroutines
   };
 
+  const handleResult = (resultValue, inputValue) => {
+    if (resultValue instanceof InvalidValueSentinel) {
+      throw new InvalidDataError(inputValue, resultValue);
+    }
+  };
+
+  const x = pianola({
+    bindle: {
+      evaluator: configuration.evaluator
+    },
+    handleResult,
+    subroutines
+  });
+
   // eslint-disable-next-line flowtype/no-weak-types
   return (instructions: DenormalizedQueryType, subject: string | Object) => {
-    const query = createQuery(instructions);
+    const startValue = typeof subject === 'string' ? configuration.evaluator.parseDocument(subject) : subject;
 
-    return queryDocument(
-      userSubroutines,
-      configuration.evaluator,
-      query,
-      typeof subject === 'string' ? configuration.evaluator.parseDocument(subject) : subject
-    );
+    return x(instructions, startValue);
   };
 };

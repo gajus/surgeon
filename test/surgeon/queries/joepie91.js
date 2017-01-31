@@ -14,16 +14,16 @@ test('extracts a single value (expression string)', (t): void => {
 
   const x = surgeon({
     subroutines: {
-      captureSelector: (evaluator, selector) => {
+      captureSelector: (selector) => {
         lastSelector = selector;
 
         return selector;
       },
-      index: (evaluator, element) => {
+      index: (element) => {
         // $FlowFixMe
         return element.index() + 1;
       },
-      rootSelect: (evaluator, selector) => {
+      rootSelect: (selector) => {
         // $FlowFixMe
         const matches = lastSelector.find(selector);
 
@@ -33,7 +33,7 @@ test('extracts a single value (expression string)', (t): void => {
 
         return matches;
       },
-      sprintf: (evaluator, value, [format]) => {
+      sprintf: (value, [format]) => {
         return sprintf(format, value);
       }
     }
@@ -74,6 +74,7 @@ test('extracts a single value (expression string)', (t): void => {
       ]
     }
   ];
+
   const result = x(query, subject);
 
   const expectedResult = {

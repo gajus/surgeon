@@ -11,7 +11,7 @@ import type {
   SubroutineType
 } from '../types';
 
-const testSubroutine: SubroutineType = (evaluator, subject, [userRule]) => {
+const testSubroutine: SubroutineType = (subject, [userRule]) => {
   const rule: RegExp = parseRegex(userRule);
 
   if (typeof subject !== 'string') {

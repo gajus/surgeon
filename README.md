@@ -278,7 +278,7 @@ Example:
 ```js
 const x = surgeon({
   subroutines: {
-    mySubourtine: (evaluator, currentValue, [firstParameterValue, secondParameterValue]) => {
+    mySubourtine: (currentValue, [firstParameterValue, secondParameterValue]) => {
       console.log(currentValue, firstParameterValue, secondParameterValue);
 
       return parseInt(currentValue, 10) + 1;
@@ -381,11 +381,11 @@ x([
 
 ```
 
-In this example, Surgeon query executor (`x`) is invoked with two expressions (`foo bar baz` and `corge grault garply`). The first subroutine is executed with the subject value "qux". The second subroutine is invoked with a value that is the result of the first proceeding subroutine.
+In this example, Surgeon query executor (`x`) is invoked with two expressions (`foo bar baz` and `corge grault garply`). The first subroutine is executed with the subject value "qux". The second subroutine is executed with a value that is the result of the parent subroutine.
 
 The result of the query is the result of the last subroutine.
 
-Read [user-defined subroutines](https://github.com/gajus/surgeon#user-defined-subroutines) documentation for broader explanation of the role of the parameter values and the subject value.
+Read [user-defined subroutines](#user-defined-subroutines) documentation for broader explanation of the role of the parameter values and the subject value.
 
 ### The pipe operator (`|`)
 
@@ -459,7 +459,7 @@ x('select .title {0,} | read property textContent', subject);
 
 ### Name results
 
-Use an [`QueryChildrenType`](./src/types.js) object to give names to descending results.
+Use a [`QueryChildrenType`](./src/types.js) object to name the results of the descending expressions.
 
 ```js
 const subject = `
@@ -524,7 +524,7 @@ import surgeon, {
 
 const x = surgeon({
   subroutines: {
-    isRed: (evaluator, value) => {
+    isRed: (value) => {
       if (value === 'red') {
         return value;
       };
@@ -553,19 +553,19 @@ import surgeon, {
 
 const x = surgeon({
   subroutines: {
-    ra: (evaluator, subject, values) => {
-      return readSubroutine(evaluator, subject, ['attribute'].concat(values));
+    ra: (subject, values, bindle) => {
+      return readSubroutine(subject, ['attribute'].concat(values), bindle);
     },
-    rp: (evaluator, subject, values) => {
-      return readSubroutine(evaluator, subject, ['property'].concat(values));
+    rp: (subject, values, bindle) => {
+      return readSubroutine(subject, ['property'].concat(values), bindle);
     },
-    s: (evaluator, subject, values) => {
-      return selectSubroutine(evaluator, subject, [values.join(' '), '{1}']);
+    s: (subject, values, bindle) => {
+      return selectSubroutine(subject, [values.join(' '), '{1}'], bindle);
     },
-    sm: (evaluator, subject, values) => {
-      return selectSubroutine(evaluator, subject, [values.join(' '), '{0,}']);
+    sm: (subject, values, bindle) => {
+      return selectSubroutine(subject, [values.join(' '), '{0,}'], bindle);
     },
-    t: testSubroutine,
+    t: testSubroutine
   }
 });
 

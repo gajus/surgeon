@@ -45,12 +45,11 @@ const createQuantifier = (quantifierExpression?: string): SelectSubroutineQuanti
   return quantifier;
 };
 
-const selectSubroutine: SubroutineType = (evaluator, subject, [cssSelector, quantifierExpression]) => {
+const selectSubroutine: SubroutineType = (subject, [cssSelector, quantifierExpression], {evaluator}) => {
   if (!evaluator.isElement(subject)) {
     throw new SurgeonError('Unexpected value. Value must be an element.');
   }
 
-  // $FlowFixMe
   const matches = evaluator.querySelectorAll(subject, cssSelector);
 
   const quantifier = createQuantifier(quantifierExpression);

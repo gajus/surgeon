@@ -17,26 +17,8 @@ export type EvaluatorType = {|
   +querySelectorAll: (element: Object, selector: string) => Array<Object>
 |};
 
-export type CommandType = {|
-
-  // eslint-disable-next-line flowtype/no-weak-types
-  +parameters: Array<any>,
-  +subroutine: string
-|};
-
-type QueryChildrenType = {
-
-  // eslint-disable-next-line no-use-before-define
-  [key: string]: DenormalizedQueryType
-};
-
-export type DenormalizedQueryType =
-  string |
-  Array<string | QueryChildrenType>;
-
-export type QueryType = Array<CommandType>;
-
-export type SubroutineType = (evaluator: EvaluatorType, subject: mixed, parameters: Array<string>) => mixed;
+// eslint-disable-next-line flowtype/no-weak-types
+export type SubroutineType = (subject: mixed, parameters: Array<string>, bindle: Object) => mixed;
 
 export type SelectSubroutineQuantifierType = {|
   +max: number,
@@ -57,3 +39,13 @@ export type ConfigurationType = {|
     [key: string]: SubroutineType
   }
 |};
+
+type QueryChildrenType = {
+
+  // eslint-disable-next-line no-use-before-define
+  [key: string]: DenormalizedQueryType
+};
+
+export type DenormalizedQueryType =
+  string |
+  Array<string | QueryChildrenType>;

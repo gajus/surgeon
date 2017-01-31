@@ -11,15 +11,12 @@
     ]
   },
   "dependencies": {
-    "ajv": "^5.0.1-beta.2",
     "cheerio": "^0.22.0",
     "debug": "^2.6.0",
     "es6-error": "^4.0.1",
     "flow-runtime": "^0.2.1",
-    "nearley": "^2.7.11",
-    "regex-parser": "^2.2.5",
-    "scalpel": "^2.1.0",
-    "sprintf-js": "^1.0.3"
+    "pianola": "^1.0.1",
+    "regex-parser": "^2.2.5"
   },
   "description": "Declarative DOM extraction expression evaluator.",
   "devDependencies": {
@@ -39,7 +36,8 @@
     "husky": "^0.13.1",
     "nyc": "^10.1.2",
     "semantic-release": "^6.3.6",
-    "sinon": "^2.0.0-pre.5"
+    "sinon": "^2.0.0-pre.5",
+    "sprintf-js": "^1.0.3"
   },
   "engines": {
     "node": ">=5"
@@ -55,12 +53,11 @@
   "main": "./dist/index.js",
   "name": "surgeon",
   "nyc": {
+    "exclude": [
+      "src/evaluators/browserEvaluator.js"
+    ],
     "include": [
       "src/**/*.js"
-    ],
-    "exclude": [
-      "src/evaluators/browserEvaluator.js",
-      "src/grammars/*.js"
     ],
     "instrument": false,
     "reporter": [
@@ -76,8 +73,7 @@
     "url": "https://github.com/gajus/surgeon"
   },
   "scripts": {
-    "build": "npm run compile-grammar && babel ./src --out-dir ./dist --copy-files --source-maps",
-    "compile-grammar": "nearleyc ./src/grammars/expressionGrammar.ne --out ./src/grammars/expressionGrammar.js",
+    "build": "babel ./src --out-dir ./dist --copy-files --source-maps",
     "lint": "eslint ./src ./test && flow",
     "precommit": "npm run lint && npm run test",
     "test": "ava --verbose"
