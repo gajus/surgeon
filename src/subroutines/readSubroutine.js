@@ -7,7 +7,11 @@ import type {
   SubroutineType
 } from '../types';
 
-const readSubroutine: SubroutineType = (evaluator, subject, [target, name]) => {
+const readSubroutine: SubroutineType = (evaluator, subject, [target: string, name: string]) => {
+  if (!evaluator.isElement(subject)) {
+    throw new SurgeonError('Unexpected value. Value must be an element.');
+  }
+
   if (target === 'attribute') {
     // $FlowFixMe
     return evaluator.getAttributeValue(subject, name);
