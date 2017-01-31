@@ -70,6 +70,7 @@ Have you got suggestions for improvement? [I am all ears](https://github.com/gaj
   * [Name results](#name-results)
   * [Validate the results using RegExp](#validate-the-results-using-regexp)
   * [Validate the results using a user-defined test function](#validate-the-results-using-a-user-defined-test-function)
+  * [Declare subroutine aliases](#declare-subroutine-aliases)
 * [Error handling](#error-handling)
 * [Debugging](#debugging)
 
@@ -497,6 +498,62 @@ const x = surgeon({
   }
 });
 
+```
+
+### Declare subroutine aliases
+
+As you become familiar with the query execution mechanism, typing long expressions (such as `select`, `read attribute` and `read property`) becomes a mundane task.
+
+Remember that subroutines are regular functions: you can partially apply and use the partially applied functions to create new subroutines.
+
+Example:
+
+```js
+import surgeon, {
+  readSubroutine,
+  selectSubroutine,
+  testSubroutine
+} from 'surgeon';
+
+const x = surgeon({
+  subroutines: {
+    ra: (evaluator, subject, values) => {
+      return readSubroutine(evaluator, subject, ['attribute'].concat(values));
+    },
+    rp: (evaluator, subject, values) => {
+      return readSubroutine(evaluator, subject, ['property'].concat(values));
+    },
+    s: (evaluator, subject, values) => {
+      return selectSubroutine(evaluator, subject, [values.join(' '), '{1}']);
+    },
+    sm: (evaluator, subject, values) => {
+      return selectSubroutine(evaluator, subject, [values.join(' '), '{0,}']);
+    },
+    t: testSubroutine,
+  }
+});
+
+```
+
+Now, instead of writing:
+
+```yaml
+articles:
+- select article
+- body:
+  - select .body
+  - read property innerHTML
+
+```
+
+You can write:
+
+```yaml
+articles:
+- sm article
+- body:
+  - s .body
+  - rp innerHTML
 ```
 
 ## Error handling
