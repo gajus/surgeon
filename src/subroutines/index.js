@@ -1,11 +1,5 @@
 // @flow
 
-import readSubroutine from './readSubroutine';
-import selectSubroutine from './selectSubroutine';
-import testSubroutine from './testSubroutine';
-
-export {
-  readSubroutine,
-  selectSubroutine,
-  testSubroutine
-};
+export {default as readSubroutine} from './readSubroutine';
+export {default as selectSubroutine} from './selectSubroutine';
+export {default as testSubroutine} from './testSubroutine';

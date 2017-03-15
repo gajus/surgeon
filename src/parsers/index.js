@@ -1,7 +1,3 @@
 // @flow
 
-import parseQuantifierExpression from './parseQuantifierExpression';
-
-export {
-  parseQuantifierExpression
-};
+export {default as parseQuantifierExpression} from './parseQuantifierExpression';

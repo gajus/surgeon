@@ -1,7 +1,3 @@
 // @flow
 
-import isEnvironmentBrowser from './isEnvironmentBrowser';
-
-export {
-  isEnvironmentBrowser
-};
+export {default as isEnvironmentBrowser} from './isEnvironmentBrowser';

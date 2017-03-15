@@ -1,9 +1,4 @@
 // @flow
 
-import browserEvaluator from './browserEvaluator';
-import cheerioEvaluator from './cheerioEvaluator';
-
-export {
-  browserEvaluator,
-  cheerioEvaluator
-};
+export {default as browserEvaluator} from './browserEvaluator';
+export {default as cheerioEvaluator} from './cheerioEvaluator';

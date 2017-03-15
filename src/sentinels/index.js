@@ -1,5 +1,3 @@
 // @flow
 
-export {
-  default as InvalidValueSentinel
-} from './InvalidValueSentinel';
+export {default as InvalidValueSentinel} from './InvalidValueSentinel';

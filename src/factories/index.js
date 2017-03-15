@@ -1,7 +1,3 @@
 // @flow
 
-import createConfiguration from './createConfiguration';
-
-export {
-  createConfiguration
-};
+export {default as createConfiguration} from './createConfiguration';
