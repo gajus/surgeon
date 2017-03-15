@@ -26,6 +26,11 @@ export default (): EvaluatorType => {
       return node.text();
     }
 
+    // @see https://github.com/cheeriojs/cheerio/issues/944
+    if (name === 'outerHTML') {
+      return node.clone().wrap('<div>').parent().html();
+    }
+
     return node.prop(name);
   };
 
