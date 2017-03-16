@@ -80,3 +80,16 @@ test('throws error if more than one node is matched', (t): void => {
     x(query, subject);
   }, SelectSubroutineUnexpectedResultCountError);
 });
+
+// @todo Test with both evaluators.
+test('reads childNodes', (t): void => {
+  const x = surgeon();
+
+  const subject = `
+    <div class="foo">bar</div>
+  `;
+
+  const query: DenormalizedQueryType = 'select .foo | read property childNodes';
+
+  t.true(x(query, subject)[0].nodeValue === 'bar');
+});
