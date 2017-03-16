@@ -8,8 +8,17 @@ export default {
   ra: (subject, values, bindle) => {
     return readSubroutine(subject, ['attribute'].concat(values), bindle);
   },
+  rih: (subject, values, bindle) => {
+    return readSubroutine(subject, ['property', 'innerHTML'], bindle);
+  },
+  roh: (subject, values, bindle) => {
+    return readSubroutine(subject, ['property', 'outerHTML'], bindle);
+  },
   rp: (subject, values, bindle) => {
     return readSubroutine(subject, ['property'].concat(values), bindle);
+  },
+  rtc: (subject, values, bindle) => {
+    return readSubroutine(subject, ['property', 'textContent'], bindle);
   },
   s: (subject, values, bindle) => {
     return selectSubroutine(subject, [values.join(' '), '{1}'], bindle);

@@ -310,7 +310,10 @@ Surgeon exports an alias preset is used to reduce verbosity of the queries.
 |Name|Description|
 |---|---|
 |`ra ...`|Reads Element attribute value. Equivalent to `read attribute ...`|
+|`rih ...`|Reads `innerHTML` property of an element. Equivalent to `read property ... innerHTML`|
+|`roh ...`|Reads `outerHTML` property of an element. Equivalent to `read property ... outerHTML`|
 |`rp ...`|Reads Element property value. Equivalent to `read property ...`|
+|`rtc ...`|Reads `textContent` property of an element. Equivalent to `read property ... textContent`|
 |`s ...`|Selects a single element. Equivalent to `select "..." {1}`.|
 |`sm ...`|Selects multiple elements. Equivalent to `select "..." {0,}`|
 |`t {name}`|Tests value. Equivalent to `test ...`|
