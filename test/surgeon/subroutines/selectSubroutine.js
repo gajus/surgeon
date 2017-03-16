@@ -1,3 +1,5 @@
+// @flow
+
 import test from 'ava';
 import sinon from 'sinon';
 import selectSubroutine from '../../../src/subroutines/selectSubroutine';
