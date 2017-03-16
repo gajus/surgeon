@@ -11,7 +11,7 @@ script:
   - npm run lint
   - nyc --silent npm run test
   - nyc report --reporter=text-lcov | coveralls
-  - nyc check-coverage --lines 80
+  - nyc check-coverage --lines 70
 after_success:
   - export NODE_ENV=production
   - rm -fr ./dist
