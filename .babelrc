@@ -2,21 +2,20 @@
   "env": {
     "development": {
       "plugins": [
-        "transform-object-rest-spread",
-        "flow-runtime",
-        "transform-flow-strip-types"
+        "transform-flow-strip-types",
+        "transform-object-rest-spread"
       ]
     },
     "production": {
       "plugins": [
-        "transform-object-rest-spread",
-        "transform-flow-comments"
+        "transform-flow-comments",
+        "transform-object-rest-spread"
       ]
     },
     "test": {
       "plugins": [
-        "transform-object-rest-spread",
         "transform-flow-strip-types",
+        "transform-object-rest-spread",
         "istanbul"
       ]
     }
