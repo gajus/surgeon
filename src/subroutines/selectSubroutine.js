@@ -1,6 +1,8 @@
 // @flow
 
-import createDebug from 'debug';
+import {
+  createDebug
+} from '../utilities';
 import {
   parseQuantifierExpression
 } from '../parsers';
@@ -13,7 +15,7 @@ import type {
   SubroutineType
 } from '../types';
 
-const debug = createDebug('surgeon:subroutine:select');
+const debug = createDebug('subroutine:select');
 
 const createQuantifier = (quantifierExpression?: string): SelectSubroutineQuantifierType => {
   let quantifier;
