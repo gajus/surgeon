@@ -19,13 +19,19 @@ const readSubroutine: SubroutineType = (subject, [target, name], {evaluator}) =>
     throw new SurgeonError('Unexpected value. Value must be an element.');
   }
 
+  let value;
+
   if (target === 'attribute') {
-    return evaluator.getAttributeValue(subject, name);
+    value = evaluator.getAttributeValue(subject, name);
   } else if (target === 'property') {
-    return evaluator.getPropertyValue(subject, name);
+    value = evaluator.getPropertyValue(subject, name);
   } else {
     throw new SurgeonError('Unexpected read target.');
   }
+
+  debug('read value', value);
+
+  return value;
 };
 
 export default readSubroutine;
