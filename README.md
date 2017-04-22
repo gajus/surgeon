@@ -10,6 +10,10 @@
 
 Declarative DOM extraction expression evaluator.
 
+## Install
+`npm install surgeon`
+
+## About
 Powerful, succinct, composable, extendable, declarative API.
 
 ```yaml
