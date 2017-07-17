@@ -1,6 +1,9 @@
 // @flow
 
 import {
+  FinalResultSentinel
+} from 'pianola';
+import {
   createDebug
 } from '../utilities';
 import {
@@ -67,7 +70,7 @@ const selectSubroutine: SubroutineType = (subject, [cssSelector, quantifierExpre
   if (quantifier.multiple === true) {
     return matches;
   } else {
-    return matches[0] || null;
+    return matches[0] || new FinalResultSentinel(null);
   }
 };
 

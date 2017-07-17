@@ -20,6 +20,18 @@ test('extracts a single value (expression string)', (t): void => {
   t.true(x(query, subject) === 'bar');
 });
 
+test('short-circuits an expression if optional selector does not match anything', (t): void => {
+  const x = surgeon();
+
+  const subject = `
+    <div class="foo">bar</div>
+  `;
+
+  const query: DenormalizedQueryType = 'select .bar {0,1} | read property textContent';
+
+  t.true(x(query, subject) === null);
+});
+
 test('extracts a single value (array of expressions)', (t): void => {
   const x = surgeon();
 

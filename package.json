@@ -14,8 +14,8 @@
     "cheerio": "^0.22.0",
     "debug": "^2.6.3",
     "es6-error": "^4.0.2",
-    "pianola": "^1.1.0",
     "regex-parser": "^2.2.5"
+    "pianola": "^1.2.0",
   },
   "description": "Declarative DOM extraction expression evaluator.",
   "devDependencies": {
