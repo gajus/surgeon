@@ -11,31 +11,31 @@
     ]
   },
   "dependencies": {
-    "cheerio": "^0.22.0",
-    "debug": "^2.6.3",
+    "cheerio": "^1.0.0-rc.2",
+    "debug": "^2.6.8",
     "es6-error": "^4.0.2",
-    "regex-parser": "^2.2.5"
     "pianola": "^1.2.0",
+    "regex-parser": "^2.2.7"
   },
   "description": "Declarative DOM extraction expression evaluator.",
   "devDependencies": {
-    "ava": "^0.18.2",
-    "babel-cli": "^6.24.0",
-    "babel-plugin-istanbul": "^4.0.0",
+    "ava": "^0.21.0",
+    "babel-cli": "^6.24.1",
+    "babel-plugin-istanbul": "^4.1.4",
     "babel-plugin-transform-flow-comments": "^6.22.0",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
-    "babel-preset-env": "^1.2.2",
-    "babel-register": "^6.24.0",
-    "coveralls": "^2.12.0",
-    "eslint": "^3.17.1",
-    "eslint-config-canonical": "^7.1.0",
-    "flow-bin": "^0.41.0",
-    "husky": "^0.13.2",
-    "nyc": "^10.1.2",
+    "babel-preset-env": "^1.6.0",
+    "babel-register": "^6.24.1",
+    "coveralls": "^2.13.1",
+    "eslint": "^4.2.0",
+    "eslint-config-canonical": "^9.3.1",
+    "flow-bin": "^0.50.0",
+    "husky": "^0.14.3",
+    "nyc": "^11.0.3",
     "semantic-release": "^6.3.6",
-    "sinon": "^2.0.0",
-    "sprintf-js": "^1.0.3"
+    "sinon": "^2.3.8",
+    "sprintf-js": "^1.1.1"
   },
   "engines": {
     "node": ">=5"
