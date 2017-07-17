@@ -51,6 +51,8 @@ const createQuantifier = (quantifierExpression?: string): SelectSubroutineQuanti
 };
 
 const selectSubroutine: SubroutineType = (subject, [cssSelector, quantifierExpression], {evaluator}) => {
+  debug('selecting "%s"', cssSelector);
+
   if (!evaluator.isElement(subject)) {
     throw new SurgeonError('Unexpected value. Value must be an element.');
   }
