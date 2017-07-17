@@ -2,6 +2,9 @@
 
 import test from 'ava';
 import sinon from 'sinon';
+import {
+  FinalResultSentinel
+} from 'pianola';
 import selectSubroutine from '../../../src/subroutines/selectSubroutine';
 
 test('returns array when expecting multiple results', (t): void => {
@@ -46,7 +49,7 @@ test('returns an empty array when expecting multiple results', (t): void => {
   t.deepEqual(results, []);
 });
 
-test('returns null when expecting at most 1 result', (t): void => {
+test('returns FinalResultSentinel(null) when expecting at most 1 result', (t): void => {
   const isElement = sinon.stub().returns(true);
   const querySelectorAll = sinon.stub().returns([]);
 
@@ -57,5 +60,8 @@ test('returns null when expecting at most 1 result', (t): void => {
 
   const result = selectSubroutine(null, ['.foo', '{0,1}'], {evaluator});
 
-  t.true(result === null);
+  t.true(result instanceof FinalResultSentinel);
+
+  // $FlowFixMe
+  t.true(result.value === null);
 });
