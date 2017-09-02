@@ -27,6 +27,55 @@ test('extracts multiple values', (t): void => {
   ]);
 });
 
+test('extracts multiple nodes nextUntil', (t): void => {
+  const x = surgeon();
+
+  const subject = `
+    <div class="foo">foo0</div>
+    <div class="bar">bar0</div>
+    <div class="bar">bar1</div>
+    <div class="bar">bar2</div>
+    <div class="foo">foo1</div>
+    <div class="bar">bar3</div>
+  `;
+
+  const query: DenormalizedQueryType = [
+    'select .foo {0,}[0]',
+    'nextUntil .foo',
+    'read property textContent'
+  ];
+
+  t.deepEqual(x(query, subject), [
+    'bar0',
+    'bar1',
+    'bar2'
+  ]);
+});
+
+test('extracts multiple nodes nextUntil (with filter)', (t): void => {
+  const x = surgeon();
+
+  const subject = `
+    <div class="foo">foo0</div>
+    <div class="bar">bar0</div>
+    <div class="bar">bar1</div>
+    <div class="bar">bar2</div>
+    <div class="foo">foo1</div>
+    <div class="bar">bar3</div>
+  `;
+
+  const query: DenormalizedQueryType = [
+    'select .foo {0,}[0]',
+    'nextUntil ".foo" ":not(:nth-child(4))"',
+    'read property textContent'
+  ];
+
+  t.deepEqual(x(query, subject), [
+    'bar0',
+    'bar1'
+  ]);
+});
+
 test('throws error if too few nodes are matched', (t): void => {
   const x = surgeon();
 

@@ -57,6 +57,7 @@ Have you got suggestions for improvement? [I am all ears](https://github.com/gaj
   * [`cheerio` evaluator](#cheerio-evaluator)
 * [Subroutines](#subroutines)
   * [Built-in subroutines](#built-in-subroutines)
+    * [`nextUntil` subroutine](#nextuntil-subroutine)
     * [`select` subroutine](#select-subroutine)
       * [Quantifier expression](#quantifier-expression)
     * [`read` subroutine](#read-subroutine)
@@ -168,6 +169,15 @@ There are two types of subroutines:
 ### Built-in subroutines
 
 The following subroutines are available out of the box.
+
+#### `nextUntil` subroutine
+
+`nextUntil` subroutine is used to select all following siblings of each element up to but not including the element matched by the selector.
+
+|Parameter name|Description|Default|
+|---|---|---|
+|selector expression|A string containing a selector expression to indicate where to stop matching following sibling elements.|N/A|
+|filter expression|A string containing a selector expression to match elements against.|
 
 #### `select` subroutine
 

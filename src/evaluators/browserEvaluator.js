@@ -42,10 +42,15 @@ export default (): EvaluatorType => {
     return [].slice.apply(node.querySelectorAll(selector));
   };
 
+  const nextUntil = (node: HTMLElement, selector: string, filter?: string) => {
+    throw new Error('Not implemented.');
+  };
+
   return {
     getAttributeValue,
     getPropertyValue,
     isElement,
+    nextUntil,
     parseDocument,
     querySelectorAll
   };

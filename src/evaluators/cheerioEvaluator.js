@@ -59,10 +59,20 @@ export default (): EvaluatorType => {
       });
   };
 
+  const nextUntil = (node: Object, selector: string, filter?: string): Array<Object> => {
+    return node
+      .nextUntil(selector, filter)
+      .toArray()
+      .map((element) => {
+        return cheerio(element);
+      });
+  };
+
   return {
     getAttributeValue,
     getPropertyValue,
     isElement,
+    nextUntil,
     parseDocument,
     querySelectorAll
   };
