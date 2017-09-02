@@ -9,6 +9,8 @@ export type EvaluatorType = {|
   +getPropertyValue: (element: Object, name: string) => mixed,
 
   +isElement: (maybeElement: mixed) => boolean,
+
+  // eslint-disable-next-line flowtype/no-weak-types
   +nextUntil: (element: Object, selector: string, filter?: string) => Array<Object>,
 
   // eslint-disable-next-line flowtype/no-weak-types

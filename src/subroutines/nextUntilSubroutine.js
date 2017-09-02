@@ -1,26 +1,18 @@
 // @flow
 
 import {
-  FinalResultSentinel
-} from 'pianola';
-import {
   createDebug
 } from '../utilities';
 import {
-  parseQuantifierExpression
-} from '../parsers';
-import {
-  SelectSubroutineUnexpectedResultCountError,
   SurgeonError
 } from '../errors';
 import type {
-  SelectSubroutineQuantifierType,
   SubroutineType
 } from '../types';
 
 const debug = createDebug('subroutine:nextUntil');
 
-const selectSubroutine: SubroutineType = (subject, [selectorExpression, filterExpression], {evaluator}) => {
+const nextUntilSubroutine: SubroutineType = (subject, [selectorExpression, filterExpression], {evaluator}) => {
   debug('selecting following siblings matching "%s" until "%s"', filterExpression, selectorExpression);
 
   if (!evaluator.isElement(subject)) {
@@ -34,4 +26,4 @@ const selectSubroutine: SubroutineType = (subject, [selectorExpression, filterEx
   return matches;
 };
 
-export default selectSubroutine;
+export default nextUntilSubroutine;

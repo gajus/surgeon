@@ -1,5 +1,5 @@
 import {
-  nextUntil,
+  nextUntilSubroutine,
   readSubroutine,
   selectSubroutine,
   testSubroutine
@@ -7,7 +7,7 @@ import {
 
 export default {
   nu: (subject, values, bindle) => {
-    return nextUntil(subject, values, bindle);
+    return nextUntilSubroutine(subject, values, bindle);
   },
   ra: (subject, values, bindle) => {
     return readSubroutine(subject, ['attribute'].concat(values), bindle);

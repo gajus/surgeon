@@ -42,6 +42,7 @@ export default (): EvaluatorType => {
     return [].slice.apply(node.querySelectorAll(selector));
   };
 
+  // eslint-disable-next-line no-unused-vars
   const nextUntil = (node: HTMLElement, selector: string, filter?: string) => {
     throw new Error('Not implemented.');
   };

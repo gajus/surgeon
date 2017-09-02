@@ -2,9 +2,6 @@
 
 import test from 'ava';
 import sinon from 'sinon';
-import {
-  FinalResultSentinel
-} from 'pianola';
 import nextUntilSubroutine from '../../../src/subroutines/nextUntilSubroutine';
 
 test('returns array when expecting multiple results', (t): void => {
