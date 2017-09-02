@@ -21,9 +21,9 @@ export type EvaluatorType = {|
 export type SubroutineType = (subject: mixed, parameters: Array<string>, bindle: Object) => mixed;
 
 export type SelectSubroutineQuantifierType = {|
+  +index: number | null,
   +max: number,
-  +min: number,
-  +multiple: boolean
+  +min: number
 |};
 
 export type UserConfigurationType = {

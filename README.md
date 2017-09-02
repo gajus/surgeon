@@ -192,6 +192,8 @@ A *quantifier expression* is defined using the following syntax.
 |Greedy quantifier|`{n,}` where `n >= 0`|
 |Greedy quantifier|`{,m}` where `m >= 1`|
 
+A *quantifier expression* can be appended a node selector `[i]`, e.g. `{0,}[1]`. This allows to return the first node from the result set.
+
 > If this looks familiar, its because I have adopted the syntax from regular expression language. However, unlike in regular expression, a quantifier in the context of Surgeon selector will produce an error (`SelectSubroutineUnexpectedResultCountError`) if selector result length is out of the quantifier range.
 
 Examples:
@@ -212,8 +214,8 @@ x('select .foo {1,}');
 x('select .foo {0,5}');
 
 // Selects 1 node.
-// Result is the matching element (or `null`).
-x('select .foo {0,1}');
+// Result is the first match in the result set (or `null`).
+x('select .foo {0,}[0]');
 
 ```
 

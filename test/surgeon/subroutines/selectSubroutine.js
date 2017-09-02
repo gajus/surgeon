@@ -30,7 +30,7 @@ test('returns a single result when expecting at most 1 result', (t): void => {
     querySelectorAll
   };
 
-  const result = selectSubroutine(null, ['.foo', '{0,1}'], {evaluator});
+  const result = selectSubroutine(null, ['.foo', '{0,1}[0]'], {evaluator});
 
   t.true(result === 'foo');
 });
@@ -58,7 +58,7 @@ test('returns FinalResultSentinel(null) when expecting at most 1 result', (t): v
     querySelectorAll
   };
 
-  const result = selectSubroutine(null, ['.foo', '{0,1}'], {evaluator});
+  const result = selectSubroutine(null, ['.foo', '{0,1}[0]'], {evaluator});
 
   t.true(result instanceof FinalResultSentinel);
 

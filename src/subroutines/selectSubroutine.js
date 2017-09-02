@@ -28,22 +28,22 @@ const createQuantifier = (quantifierExpression?: string): SelectSubroutineQuanti
 
     if (quantifierTokens.max === 1) {
       quantifier = {
+        index: 0,
         max: 1,
-        min: 0,
-        multiple: false
+        min: 0
       };
     } else {
       quantifier = {
+        index: quantifierTokens.index,
         max: typeof quantifierTokens.max === 'undefined' ? Infinity : quantifierTokens.max,
-        min: typeof quantifierTokens.min === 'undefined' ? 0 : quantifierTokens.min,
-        multiple: true
+        min: typeof quantifierTokens.min === 'undefined' ? 0 : quantifierTokens.min
       };
     }
   } else {
     quantifier = {
+      index: 0,
       max: 1,
-      min: 1,
-      multiple: false
+      min: 1
     };
   }
 
@@ -69,10 +69,10 @@ const selectSubroutine: SubroutineType = (subject, [cssSelector, quantifierExpre
     throw new SelectSubroutineUnexpectedResultCountError(matches.length, quantifier);
   }
 
-  if (quantifier.multiple === true) {
+  if (quantifier.index === null) {
     return matches;
   } else {
-    return matches[0] || new FinalResultSentinel(null);
+    return matches[quantifier.index] || new FinalResultSentinel(null);
   }
 };
 
