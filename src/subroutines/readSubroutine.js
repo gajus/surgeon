@@ -13,8 +13,6 @@ import type {
 const debug = createDebug('subroutine:read');
 
 const readSubroutine: SubroutineType = (subject, [target, name], {evaluator}) => {
-  debug('reading property "%s"', name);
-
   if (!evaluator.isElement(subject)) {
     throw new SurgeonError('Unexpected value. Value must be an element.');
   }
@@ -22,8 +20,12 @@ const readSubroutine: SubroutineType = (subject, [target, name], {evaluator}) =>
   let value;
 
   if (target === 'attribute') {
+    debug('reading attribute "%s"', name);
+
     value = evaluator.getAttributeValue(subject, name);
   } else if (target === 'property') {
+    debug('reading property "%s"', name);
+
     value = evaluator.getPropertyValue(subject, name);
   } else {
     throw new SurgeonError('Unexpected read target.');
