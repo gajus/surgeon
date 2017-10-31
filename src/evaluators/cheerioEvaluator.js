@@ -31,6 +31,11 @@ export default (): EvaluatorType => {
       return node.clone().wrap('<div>').parent().html();
     }
 
+    // @see https://github.com/cheeriojs/cheerio/issues/1099
+    if (name === 'innerHTML') {
+      return node.html();
+    }
+
     // @see https://github.com/cheeriojs/cheerio/issues/993
     if (name === 'childNodes') {
       return node[0].childNodes;
