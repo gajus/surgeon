@@ -105,3 +105,16 @@ test('reads childNodes', (t): void => {
 
   t.true(x(query, subject)[0].nodeValue === 'bar');
 });
+
+test('extracts a single value (expression string [foo*="bar"])', (t): void => {
+  const x = surgeon();
+
+  const subject = `
+    <div foo="barbaz">bar</div>
+  `;
+
+  // eslint-disable-next-line quotes
+  const query: DenormalizedQueryType = `select '[foo*="bar"]' | read property textContent`;
+
+  t.true(x(query, subject) === 'bar');
+});
