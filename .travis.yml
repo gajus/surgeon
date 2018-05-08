@@ -13,10 +13,8 @@ script:
   - nyc report --reporter=text-lcov | coveralls
   - nyc check-coverage --lines 70
 after_success:
-  - export NODE_ENV=production
-  - rm -fr ./dist
   - npm run build
-  - semantic-release pre && npm publish && semantic-release post
+  - semantic-release
 notifications:
   email: false
 sudo: false
