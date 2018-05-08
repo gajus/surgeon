@@ -8,7 +8,7 @@ import {
 } from '../errors';
 
 export default (): EvaluatorType => {
-  const getAttributeValue = (node: HTMLElement, name: string): string => {
+  const getAttributeValue = (node, name) => {
     const attributeValue = node.getAttribute(name);
 
     if (typeof attributeValue === 'string') {
@@ -18,7 +18,7 @@ export default (): EvaluatorType => {
     throw new ReadSubroutineNotFoundError();
   };
 
-  const getPropertyValue = (node: HTMLElement, name: string): mixed => {
+  const getPropertyValue = (node, name) => {
     // $FlowFixMe
     return node[name];
   };
@@ -30,7 +30,7 @@ export default (): EvaluatorType => {
     return typeof maybeElement === 'object' && maybeElement !== null && maybeElement.nodeType === 1;
   };
 
-  const parseDocument = (subject: string): HTMLElement => {
+  const parseDocument = (subject) => {
     const aux = document.createElement('div');
 
     aux.innerHTML = subject;
@@ -38,12 +38,12 @@ export default (): EvaluatorType => {
     return aux;
   };
 
-  const querySelectorAll = (node: HTMLElement, selector: string): Array<HTMLElement> => {
+  const querySelectorAll = (node, selector) => {
     return [].slice.apply(node.querySelectorAll(selector));
   };
 
   // eslint-disable-next-line no-unused-vars
-  const nextUntil = (node: HTMLElement, selector: string, filter?: string) => {
+  const nextUntil = (node, selector, filter) => {
     throw new Error('Not implemented.');
   };
 

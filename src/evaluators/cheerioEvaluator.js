@@ -1,7 +1,5 @@
 // @flow
 
-/* eslint-disable flowtype/no-weak-types */
-
 import cheerio from 'cheerio';
 import type {
   EvaluatorType
@@ -11,7 +9,7 @@ import {
 } from '../errors';
 
 export default (): EvaluatorType => {
-  const getAttributeValue = (node: Object, name: string): string => {
+  const getAttributeValue = (node, name) => {
     const attributeValue = node.attr(name);
 
     if (typeof attributeValue === 'string') {
@@ -21,7 +19,7 @@ export default (): EvaluatorType => {
     throw new ReadSubroutineNotFoundError();
   };
 
-  const getPropertyValue = (node: Object, name: string): mixed => {
+  const getPropertyValue = (node, name) => {
     if (name === 'textContent') {
       return node.text();
     }
@@ -51,11 +49,11 @@ export default (): EvaluatorType => {
     return typeof maybeElement === 'object' && maybeElement !== null && typeof maybeElement.cheerio !== 'undefined';
   };
 
-  const parseDocument = (subject: string): Object => {
+  const parseDocument = (subject) => {
     return cheerio.load(subject).root();
   };
 
-  const querySelectorAll = (node: Object, selector: string): Array<Object> => {
+  const querySelectorAll = (node, selector) => {
     return node
       .find(selector)
       .toArray()
@@ -64,7 +62,7 @@ export default (): EvaluatorType => {
       });
   };
 
-  const nextUntil = (node: Object, selector: string, filter?: string): Array<Object> => {
+  const nextUntil = (node, selector, filter) => {
     return node
       .nextUntil(selector, filter)
       .toArray()
