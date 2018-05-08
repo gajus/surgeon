@@ -22,7 +22,6 @@
     "ava": "^0.23.0",
     "babel-cli": "^6.26.0",
     "babel-plugin-istanbul": "^4.1.5",
-    "babel-plugin-transform-flow-comments": "^6.22.0",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
@@ -31,6 +30,7 @@
     "eslint": "^4.10.0",
     "eslint-config-canonical": "^9.3.1",
     "flow-bin": "^0.57.3",
+    "flow-copy-source": "^1.3.0",
     "husky": "^0.14.3",
     "nyc": "^11.2.1",
     "semantic-release": "^8.2.0",
@@ -71,7 +71,7 @@
     "url": "https://github.com/gajus/surgeon"
   },
   "scripts": {
-    "build": "babel ./src --out-dir ./dist --copy-files --source-maps",
+    "build": "rm -fr ./dist && NODE_ENV=production babel ./src --out-dir ./dist --copy-files --source-maps && flow-copy-source src dist",
     "lint": "eslint ./src ./test && flow",
     "precommit": "npm run lint && npm run test",
     "test": "ava --verbose"
