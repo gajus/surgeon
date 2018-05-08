@@ -44,7 +44,12 @@ export default (): EvaluatorType => {
 
   // eslint-disable-next-line no-unused-vars
   const nextUntil = (node, selector, filter) => {
-    throw new Error('Not implemented.');
+    throw new Error('Unimplemented.');
+  };
+
+  // eslint-disable-next-line no-unused-vars
+  const remove = (node) => {
+    throw new Error('Unimplemented.');
   };
 
   return {
@@ -53,6 +58,7 @@ export default (): EvaluatorType => {
     isElement,
     nextUntil,
     parseDocument,
-    querySelectorAll
+    querySelectorAll,
+    remove
   };
 };

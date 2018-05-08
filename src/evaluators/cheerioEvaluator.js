@@ -71,12 +71,17 @@ export default (): EvaluatorType => {
       });
   };
 
+  const remove = (node) => {
+    node.remove();
+  };
+
   return {
     getAttributeValue,
     getPropertyValue,
     isElement,
     nextUntil,
     parseDocument,
-    querySelectorAll
+    querySelectorAll,
+    remove
   };
 };

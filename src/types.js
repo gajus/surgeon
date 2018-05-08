@@ -12,7 +12,8 @@ export type EvaluatorType = {|
   +isElement: (maybeElement: mixed) => boolean,
   +nextUntil: (element: ElementType, selector: string, filter?: string) => $ReadOnlyArray<ElementType>,
   +parseDocument: (subject: string) => ElementType,
-  +querySelectorAll: (element: ElementType, selector: string) => $ReadOnlyArray<ElementType>
+  +querySelectorAll: (element: ElementType, selector: string) => $ReadOnlyArray<ElementType>,
+  +remove: (element: ElementType) => void
 |};
 
 export type SubroutineType = (subject: mixed, parameters: $ReadOnlyArray<string>, bindle: BindleType) => mixed;

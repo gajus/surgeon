@@ -60,6 +60,7 @@ Have you got suggestions for improvement? [I am all ears](https://github.com/gaj
     * [`nextUntil` subroutine](#nextuntil-subroutine)
     * [`select` subroutine](#select-subroutine)
       * [Quantifier expression](#quantifier-expression)
+    * [`remove` subroutine](#remove-subroutine)
     * [`read` subroutine](#read-subroutine)
     * [`test` subroutine](#test-subroutine)
   * [User-defined subroutines](#user-defined-subroutines)
@@ -226,6 +227,27 @@ x('select .foo {0,5}');
 // Selects 1 node.
 // Result is the first match in the result set (or `null`).
 x('select .foo {0,}[0]');
+
+```
+
+#### `remove` subroutine
+
+`remove` subroutine is used to remove elements from the document using an [evaluator](#evaluators).
+
+`remove` subroutine accepts the same parameters as the `select` subroutine.
+
+The result of `remove` subroutine is the input of the subroutine, i.e. previous `select` subroutine result.
+
+|Parameter name|Description|Default|
+|---|---|---|
+|CSS selector|CSS selector used to select an element.|N/A|
+|Quantifier expression|A [quantifier expression](#quantifier-expression) is used to control the expected result length.|See [quantifier expression](#quantifier-expression).|
+
+Examples:
+
+```js
+// Returns 'bar'.
+x('select .foo | remove span | read property textContent', `<div class='foo'>bar<span>baz</span></div>`);
 
 ```
 

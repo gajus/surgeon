@@ -20,6 +20,7 @@ import {
 import {
   nextUntilSubroutine,
   readSubroutine,
+  removeSubroutine,
   selectSubroutine,
   testSubroutine
 } from './subroutines';
@@ -46,6 +47,7 @@ export {
 const builtInSubroutines = {
   nextUntil: nextUntilSubroutine,
   read: readSubroutine,
+  remove: removeSubroutine,
   select: selectSubroutine,
   test: testSubroutine
 };
