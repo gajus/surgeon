@@ -1,27 +1,21 @@
 // @flow
 
-export type EvaluatorType = {|
-
-  // eslint-disable-next-line flowtype/no-weak-types
-  +getAttributeValue: (element: Object, name: string) => string,
-
-  // eslint-disable-next-line flowtype/no-weak-types
-  +getPropertyValue: (element: Object, name: string) => mixed,
-
-  +isElement: (maybeElement: mixed) => boolean,
-
-  // eslint-disable-next-line flowtype/no-weak-types
-  +nextUntil: (element: Object, selector: string, filter?: string) => Array<Object>,
-
-  // eslint-disable-next-line flowtype/no-weak-types
-  +parseDocument: (subject: string) => Object,
-
-  // eslint-disable-next-line flowtype/no-weak-types
-  +querySelectorAll: (element: Object, selector: string) => Array<Object>
-|};
+// eslint-disable-next-line flowtype/no-weak-types
+type ElementType = Object;
 
 // eslint-disable-next-line flowtype/no-weak-types
-export type SubroutineType = (subject: mixed, parameters: Array<string>, bindle: Object) => mixed;
+type BindleType = Object;
+
+export type EvaluatorType = {|
+  +getAttributeValue: (element: ElementType, name: string) => string,
+  +getPropertyValue: (element: ElementType, name: string) => mixed,
+  +isElement: (maybeElement: mixed) => boolean,
+  +nextUntil: (element: ElementType, selector: string, filter?: string) => $ReadOnlyArray<ElementType>,
+  +parseDocument: (subject: string) => ElementType,
+  +querySelectorAll: (element: ElementType, selector: string) => $ReadOnlyArray<ElementType>
+|};
+
+export type SubroutineType = (subject: mixed, parameters: $ReadOnlyArray<string>, bindle: BindleType) => mixed;
 
 export type SelectSubroutineQuantifierType = {|
   +index: number | null,
@@ -51,4 +45,4 @@ type QueryChildrenType = {
 
 export type DenormalizedQueryType =
   string |
-  Array<string | QueryChildrenType>;
+  $ReadOnlyArray<string | QueryChildrenType>;
