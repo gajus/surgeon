@@ -50,7 +50,11 @@ export default (): EvaluatorType => {
   };
 
   const parseDocument = (subject) => {
-    return cheerio.load(subject).root();
+    return cheerio
+      .load(subject, {
+        xmlMode: true
+      })
+      .root();
   };
 
   const querySelectorAll = (node, selector) => {
