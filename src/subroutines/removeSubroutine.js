@@ -13,8 +13,11 @@ import selectSubroutine from './selectSubroutine';
 
 const debug = createDebug('subroutine:remove');
 
-const removeSubroutine: SubroutineType = (subject, [cssSelector, quantifierExpression], {evaluator}) => {
+const removeSubroutine: SubroutineType = (inputSubject, [cssSelector, quantifierExpression], {evaluator}) => {
   debug('selecting "%s" for removal', cssSelector);
+
+  // Ensure that we do not mutate the parent node.
+  const subject = inputSubject.clone();
 
   const matches = selectSubroutine(subject, [cssSelector, quantifierExpression], {evaluator});
 

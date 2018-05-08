@@ -5,6 +5,7 @@ import {
   trim
 } from 'lodash';
 import surgeon, {
+  subroutineAliasPreset,
   SelectSubroutineUnexpectedResultCountError
 } from '../../../src';
 import type {
@@ -24,6 +25,40 @@ test('removes a single element', (t): void => {
   const query: DenormalizedQueryType = 'select .foo | remove .bar | read property innerHTML';
 
   t.true(trim(x(query, subject)) === '<div class="baz"></div>');
+});
+
+test('does not mutate the parent node', (t) => {
+  const x = surgeon({
+    subroutines: {
+      ...subroutineAliasPreset
+    }
+  });
+
+  const subject = `
+    <a>
+      <time>TIME<attributes>ATTRIBUTES</attributes></time>
+    </a>
+  `;
+
+  // The order of properties is important.
+  // `s time | rdtc` removes the descending nodes, including <attributes>.
+  const query: DenormalizedQueryType = [
+    's a',
+    /* eslint-disable sort-keys */
+    {
+      time: 's time | rdtc',
+      attributes: 's attributes | rdtc'
+    }
+
+    /* eslint-enable */
+  ];
+
+  const result = x(query, subject);
+
+  t.deepEqual(result, {
+    attributes: 'ATTRIBUTES',
+    time: 'TIME'
+  });
 });
 
 test('removes nothing if no nodes are matched {0,1}', (t) => {
