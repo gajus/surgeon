@@ -189,7 +189,6 @@ The following subroutines are available out of the box.
 |CSS selector|CSS selector used to select an element.|N/A|
 |Quantifier expression|A [quantifier expression](#quantifier-expression) is used to control the shape of the results (direct result or array of results) and the expected result length.|See [quantifier expression](#quantifier-expression).|
 
-
 ##### Quantifier expression
 
 A *quantifier expression* is used to assert that the query matches a set number of nodes. A quantifier expression is a modifier of the [`select` subroutine](#select-subroutine).
@@ -344,6 +343,7 @@ Surgeon exports an alias preset is used to reduce verbosity of the queries.
 |Name|Description|
 |---|---|
 |`ra ...`|Reads Element attribute value. Equivalent to `read attribute ...`|
+|`rdtc ...`|Removes any descending elements and reads the resulting `textContent` property of an element. Equivalent to `remove * {0,} | read property ... textContent`|
 |`rih ...`|Reads `innerHTML` property of an element. Equivalent to `read property ... innerHTML`|
 |`roh ...`|Reads `outerHTML` property of an element. Equivalent to `read property ... outerHTML`|
 |`rp ...`|Reads Element property value. Equivalent to `read property ...`|

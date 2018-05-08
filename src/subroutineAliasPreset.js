@@ -1,6 +1,7 @@
 import {
   nextUntilSubroutine,
   readSubroutine,
+  removeSubroutine,
   selectSubroutine,
   testSubroutine
 } from './subroutines';
@@ -11,6 +12,9 @@ export default {
   },
   ra: (subject, values, bindle) => {
     return readSubroutine(subject, ['attribute'].concat(values), bindle);
+  },
+  rdtc: (subject, values, bindle) => {
+    return readSubroutine(removeSubroutine(subject, ['*', '{0,}'], bindle), ['property', 'textContent'], bindle);
   },
   rih: (subject, values, bindle) => {
     return readSubroutine(subject, ['property', 'innerHTML'], bindle);
