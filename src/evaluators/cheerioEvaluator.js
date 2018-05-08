@@ -79,7 +79,12 @@ export default (): EvaluatorType => {
     node.remove();
   };
 
+  const clone = (node) => {
+    return node.clone();
+  };
+
   return {
+    clone,
     getAttributeValue,
     getPropertyValue,
     isElement,

@@ -52,7 +52,13 @@ export default (): EvaluatorType => {
     throw new Error('Unimplemented.');
   };
 
+  // eslint-disable-next-line no-unused-vars
+  const clone = (node) => {
+    throw new Error('Unimplemented.');
+  };
+
   return {
+    clone,
     getAttributeValue,
     getPropertyValue,
     isElement,

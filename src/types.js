@@ -7,6 +7,7 @@ type ElementType = Object;
 type BindleType = Object;
 
 export type EvaluatorType = {|
+  +clone: (element: ElementType) => ElementType,
   +getAttributeValue: (element: ElementType, name: string) => string,
   +getPropertyValue: (element: ElementType, name: string) => mixed,
   +isElement: (maybeElement: mixed) => boolean,

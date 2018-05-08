@@ -9,17 +9,24 @@ import {
 import type {
   SubroutineType
 } from '../types';
+import {
+  SurgeonError
+} from '../errors';
 import selectSubroutine from './selectSubroutine';
 
 const debug = createDebug('subroutine:remove');
 
-const removeSubroutine: SubroutineType = (inputSubject, [cssSelector, quantifierExpression], {evaluator}) => {
+const removeSubroutine: SubroutineType = (subject, [cssSelector, quantifierExpression], {evaluator}) => {
   debug('selecting "%s" for removal', cssSelector);
 
-  // Ensure that we do not mutate the parent node.
-  const subject = inputSubject.clone();
+  if (!evaluator.isElement(subject)) {
+    throw new SurgeonError('Unexpected value. Value must be an element.');
+  }
 
-  const matches = selectSubroutine(subject, [cssSelector, quantifierExpression], {evaluator});
+  // Ensure that we do not mutate the parent node.
+  const cloneSubject = evaluator.clone(subject);
+
+  const matches = selectSubroutine(cloneSubject, [cssSelector, quantifierExpression], {evaluator});
 
   if (Array.isArray(matches)) {
     for (const match of matches) {
@@ -29,7 +36,7 @@ const removeSubroutine: SubroutineType = (inputSubject, [cssSelector, quantifier
     evaluator.remove(matches);
   }
 
-  return subject;
+  return cloneSubject;
 };
 
 export default removeSubroutine;
