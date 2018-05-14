@@ -91,7 +91,7 @@ test('throws error if too few nodes are matched', (t): void => {
     'select .foo {3,}'
   ];
 
-  t.throws(() => {
+  t.throws((): void => {
     x(query, subject);
   }, SelectSubroutineUnexpectedResultCountError);
 });
@@ -109,7 +109,7 @@ test('throws error if too many nodes are matched', (t): void => {
     'select .foo {0,2}'
   ];
 
-  t.throws(() => {
+  t.throws((): void => {
     x(query, subject);
   }, SelectSubroutineUnexpectedResultCountError);
 });

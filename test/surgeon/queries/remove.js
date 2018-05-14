@@ -104,7 +104,7 @@ test('throws error if no nodes are matched', (t): void => {
 
   const query: DenormalizedQueryType = 'select .foo | remove .qux | read property innerHTML';
 
-  t.throws(() => {
+  t.throws((): void => {
     x(query, subject);
   }, SelectSubroutineUnexpectedResultCountError);
 });
@@ -121,7 +121,7 @@ test('throws error if more than one node is matched', (t): void => {
 
   const query: DenormalizedQueryType = 'select .foo | remove .bar | read property innerHTML';
 
-  t.throws(() => {
+  t.throws((): void => {
     x(query, subject);
   }, SelectSubroutineUnexpectedResultCountError);
 });

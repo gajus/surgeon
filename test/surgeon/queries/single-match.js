@@ -71,7 +71,7 @@ test('throws error if no nodes are matched', (t): void => {
     'select .foo'
   ];
 
-  t.throws(() => {
+  t.throws((): void => {
     x(query, subject);
   }, SelectSubroutineUnexpectedResultCountError);
 });
@@ -88,7 +88,7 @@ test('throws error if more than one node is matched', (t): void => {
     'select .foo'
   ];
 
-  t.throws(() => {
+  t.throws((): void => {
     x(query, subject);
   }, SelectSubroutineUnexpectedResultCountError);
 });

@@ -7,11 +7,8 @@ import {
 import {
   InvalidValueSentinel
 } from '../sentinels';
-import type {
-  SubroutineType
-} from '../types';
 
-const testSubroutine: SubroutineType = (subject, [userRule]) => {
+const testSubroutine = (subject: string, [userRule]: $ReadOnlyArray<string>) => {
   const rule: RegExp = parseRegex(userRule);
 
   if (typeof subject !== 'string') {

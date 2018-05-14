@@ -2,18 +2,16 @@
   "env": {
     "test": {
       "plugins": [
-
         "istanbul"
       ]
     }
   },
   "plugins": [
-    "transform-flow-strip-types",
-    "transform-object-rest-spread"
+    "@babel/transform-flow-strip-types"
   ],
   "presets": [
     [
-      "env",
+      "@babel/env",
       {
         "targets": {
           "node": 5

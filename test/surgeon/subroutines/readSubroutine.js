@@ -11,7 +11,7 @@ test('uses evalutor.isElement to validate the subject', (t): void => {
     isElement
   };
 
-  const error = t.throws(() => {
+  const error = t.throws((): void => {
     readSubroutine(null, [], {evaluator});
   });
 
@@ -53,7 +53,7 @@ test('using unknown target throws an error', (t): void => {
     isElement
   };
 
-  const result = t.throws(() => {
+  const result = t.throws((): void => {
     readSubroutine(null, ['foo'], {evaluator});
   });
 
