@@ -47,4 +47,5 @@ type QueryChildrenType = {
 
 export type DenormalizedQueryType =
   string |
-  $ReadOnlyArray<string | QueryChildrenType>;
+  $ReadOnlyArray<string | QueryChildrenType> |
+  QueryChildrenType;
