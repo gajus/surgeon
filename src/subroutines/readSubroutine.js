@@ -1,16 +1,16 @@
 // @flow
 
 import {
-  createDebug
-} from '../utilities';
-import {
   SurgeonError
 } from '../errors';
 import type {
   SubroutineType
 } from '../types';
+import Logger from '../Logger';
 
-const debug = createDebug('subroutine:read');
+const log = Logger.child({
+  namespace: 'subroutine:read'
+});
 
 const readSubroutine: SubroutineType = (subject, [target, name], {evaluator}) => {
   if (!evaluator.isElement(subject)) {
@@ -20,18 +20,20 @@ const readSubroutine: SubroutineType = (subject, [target, name], {evaluator}) =>
   let value;
 
   if (target === 'attribute') {
-    debug('reading attribute "%s"', name);
+    log.debug('reading attribute "%s"', name);
 
     value = evaluator.getAttributeValue(subject, name);
   } else if (target === 'property') {
-    debug('reading property "%s"', name);
+    log.debug('reading property "%s"', name);
 
     value = evaluator.getPropertyValue(subject, name);
   } else {
     throw new SurgeonError('Unexpected read target.');
   }
 
-  debug('read value', value);
+  log.debug({
+    value
+  }, 'read value');
 
   return value;
 };

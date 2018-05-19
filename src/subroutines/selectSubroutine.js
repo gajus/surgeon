@@ -7,20 +7,20 @@ import {
   createQuantifier
 } from '../factories';
 import {
-  createDebug
-} from '../utilities';
-import {
   SelectSubroutineUnexpectedResultCountError,
   SurgeonError
 } from '../errors';
 import type {
   SubroutineType
 } from '../types';
+import Logger from '../Logger';
 
-const debug = createDebug('subroutine:select');
+const log = Logger.child({
+  namespace: 'subroutine:select'
+});
 
 const selectSubroutine: SubroutineType = (subject, [cssSelector, quantifierExpression], {evaluator}) => {
-  debug('selecting "%s"', cssSelector);
+  log.debug('selecting "%s"', cssSelector);
 
   if (!evaluator.isElement(subject)) {
     throw new SurgeonError('Unexpected value. Value must be an element.');
@@ -30,10 +30,10 @@ const selectSubroutine: SubroutineType = (subject, [cssSelector, quantifierExpre
 
   const quantifier = createQuantifier(quantifierExpression);
 
-  debug('selector "%s" matched %d node(s)', cssSelector, matches.length);
+  log.debug('selector "%s" matched %d node(s)', cssSelector, matches.length);
 
   if (matches.length < quantifier.min || matches.length > quantifier.max) {
-    debug('expected to match between %d and %s matches', quantifier.min, quantifier.max === Infinity ? 'infinity' : quantifier.max);
+    log.debug('expected to match between %d and %s matches', quantifier.min, quantifier.max === Infinity ? 'infinity' : quantifier.max);
 
     throw new SelectSubroutineUnexpectedResultCountError(matches.length, quantifier);
   }

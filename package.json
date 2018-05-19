@@ -11,10 +11,10 @@
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
-    "debug": "^3.1.0",
     "es6-error": "^4.1.1",
     "pianola": "^1.2.0",
-    "regex-parser": "^2.2.9"
+    "regex-parser": "^2.2.9",
+    "roarr": "^2.3.0"
   },
   "description": "Declarative DOM extraction expression evaluator.",
   "devDependencies": {

@@ -674,6 +674,6 @@ Return `InvalidValueSentinel` from a subroutine to force Surgeon throw `InvalidD
 
 ## Debugging
 
-Surgeon is using [`debug`](https://www.npmjs.com/package/debug) to log debugging information.
+Surgeon is using [`roarr`](https://www.npmjs.com/package/roarr) to log debugging information.
 
-Export `DEBUG=surgeon:*` environment variable to enable Surgeon debug log.
+Export `ROARR_LOG=TRUE` environment variable to enable Surgeon debug log.

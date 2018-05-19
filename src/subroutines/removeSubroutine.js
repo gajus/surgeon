@@ -3,21 +3,21 @@
 import {
   FinalResultSentinel
 } from 'pianola';
-import {
-  createDebug
-} from '../utilities';
 import type {
   SubroutineType
 } from '../types';
 import {
   SurgeonError
 } from '../errors';
+import Logger from '../Logger';
 import selectSubroutine from './selectSubroutine';
 
-const debug = createDebug('subroutine:remove');
+const log = Logger.child({
+  namespace: 'subroutine:remove'
+});
 
 const removeSubroutine: SubroutineType = (subject, [cssSelector, quantifierExpression], {evaluator}) => {
-  debug('selecting "%s" for removal', cssSelector);
+  log.debug('selecting "%s" for removal', cssSelector);
 
   if (!evaluator.isElement(subject)) {
     throw new SurgeonError('Unexpected value. Value must be an element.');
