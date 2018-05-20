@@ -2,7 +2,8 @@
 
 import test from 'ava';
 import surgeon, {
-  subroutineAliasPreset
+  subroutineAliasPreset,
+  SelectSubroutineUnexpectedResultCountError
 } from '../../src';
 
 test('rdtc: reads direct textNode textContent property', (t): void => {
@@ -59,6 +60,22 @@ test('s: selects a single element', (t): void => {
   const query = 's .foo | read property textContent';
 
   t.true(x(query, subject) === 'bar');
+});
+
+test('s: selects a single element (not found)', (t): void => {
+  const x = surgeon({
+    subroutines: subroutineAliasPreset
+  });
+
+  const subject = `
+    <div class="bar">bar</div>
+  `;
+
+  const query = 'select .foo {1} | read property textContent';
+
+  t.throws((): void => {
+    x(query, subject);
+  }, SelectSubroutineUnexpectedResultCountError);
 });
 
 test('sm: selects multiple elements', (t): void => {

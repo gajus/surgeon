@@ -13,18 +13,14 @@ export default (quantifierExpression?: string): SelectSubroutineQuantifierType =
   if (quantifierExpression) {
     const quantifierTokens = parseQuantifierExpression(quantifierExpression);
 
-    if (quantifierTokens.max === 1) {
-      quantifier = {
-        index: 0,
-        max: 1,
-        min: 0
-      };
-    } else {
-      quantifier = {
-        index: quantifierTokens.index,
-        max: typeof quantifierTokens.max === 'undefined' ? Infinity : quantifierTokens.max,
-        min: typeof quantifierTokens.min === 'undefined' ? 0 : quantifierTokens.min
-      };
+    quantifier = {
+      index: quantifierTokens.index,
+      max: typeof quantifierTokens.max === 'undefined' ? Infinity : quantifierTokens.max,
+      min: typeof quantifierTokens.min === 'undefined' ? 0 : quantifierTokens.min
+    };
+
+    if (quantifier.index === null && quantifier.max === 1) {
+      quantifier.index = 0;
     }
   } else {
     quantifier = {
