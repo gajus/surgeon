@@ -43,11 +43,11 @@ test('does not mutate the parent node', (t) => {
   // The order of properties is important.
   // `s time | rdtc` removes the descending nodes, including <attributes>.
   const query: DenormalizedQueryType = [
-    's a',
+    'so a',
     /* eslint-disable sort-keys */
     {
-      time: 's time | rdtc',
-      attributes: 's attributes | rdtc'
+      time: 'so time | rdtc',
+      attributes: 'so attributes | rdtc'
     }
 
     /* eslint-enable */

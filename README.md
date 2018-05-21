@@ -348,8 +348,9 @@ Surgeon exports an alias preset is used to reduce verbosity of the queries.
 |`roh ...`|Reads `outerHTML` property of an element. Equivalent to `read property ... outerHTML`|
 |`rp ...`|Reads Element property value. Equivalent to `read property ...`|
 |`rtc ...`|Reads `textContent` property of an element. Equivalent to `read property ... textContent`|
-|`s ...`|Selects a single element. Equivalent to `select "..." {1}`.|
-|`sm ...`|Selects multiple elements. Equivalent to `select "..." {0,}`|
+|`sa ...`|Select any. Selects multiple elements. Equivalent to `select "..." {0,}`|
+|`sm ...`|Select many. Selects multiple elements. Equivalent to `select "..." {1,}`|
+|`so ...`|Select one. Selects a single element. Equivalent to `select "..." {1}`.|
 |`t {name}`|Tests value. Equivalent to `test ...`|
 
 > Note regarding `s ...` alias. The CSS selector value is quoted. Therefore, you can write a CSS selector that includes spaces without putting the value in the quotes, e.g. `s .foo .bar` is equivalent to `select ".foo .bar" {1}`.

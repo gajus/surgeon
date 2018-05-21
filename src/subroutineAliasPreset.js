@@ -28,11 +28,14 @@ export default {
   rtc: (subject, values, bindle) => {
     return readSubroutine(subject, ['property', 'textContent'], bindle);
   },
-  s: (subject, values, bindle) => {
-    return selectSubroutine(subject, [values.join(' '), '{1}'], bindle);
+  sa: (subject, values, bindle) => {
+    return selectSubroutine(subject, [values.join(' '), '{0,}'], bindle);
   },
   sm: (subject, values, bindle) => {
-    return selectSubroutine(subject, [values.join(' '), '{0,}'], bindle);
+    return selectSubroutine(subject, [values.join(' '), '{1,}'], bindle);
+  },
+  so: (subject, values, bindle) => {
+    return selectSubroutine(subject, [values.join(' '), '{1}'], bindle);
   },
   t: testSubroutine
 };
