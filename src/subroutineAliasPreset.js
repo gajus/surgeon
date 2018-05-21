@@ -31,8 +31,14 @@ export default {
   sa: (subject, values, bindle) => {
     return selectSubroutine(subject, [values.join(' '), '{0,}'], bindle);
   },
+  saf: (subject, values, bindle) => {
+    return selectSubroutine(subject, [values.join(' '), '{0,}[0]'], bindle);
+  },
   sm: (subject, values, bindle) => {
     return selectSubroutine(subject, [values.join(' '), '{1,}'], bindle);
+  },
+  smo: (subject, values, bindle) => {
+    return selectSubroutine(subject, [values.join(' '), '{0,1}'], bindle);
   },
   so: (subject, values, bindle) => {
     return selectSubroutine(subject, [values.join(' '), '{1}'], bindle);

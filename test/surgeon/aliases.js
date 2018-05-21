@@ -40,7 +40,7 @@ test('ra: reads element attribute', (t): void => {
   });
 
   const subject = `
-    <div class="foo">bar</div>
+    <div class="foo"></div>
   `;
 
   const query = 'select .foo | ra class';
@@ -48,27 +48,28 @@ test('ra: reads element attribute', (t): void => {
   t.true(x(query, subject) === 'foo');
 });
 
-test('so: selects a single element', (t): void => {
+test('so: selects one element', (t): void => {
   const x = surgeon({
     subroutines: subroutineAliasPreset
   });
 
   const subject = `
-    <div class="foo">bar</div>
+    <div class="foo">foo 0</div>
   `;
 
   const query = 'so .foo | read property textContent';
 
-  t.true(x(query, subject) === 'bar');
+  t.true(x(query, subject) === 'foo 0');
 });
 
-test('so: selects a single element (not found)', (t): void => {
+test('so: selects one element (multiple matches)', (t): void => {
   const x = surgeon({
     subroutines: subroutineAliasPreset
   });
 
   const subject = `
-    <div class="bar">bar</div>
+    <div class="foo">foo 0</div>
+    <div class="foo">foo 1</div>
   `;
 
   const query = 'so .foo | read property textContent';
@@ -78,30 +79,41 @@ test('so: selects a single element (not found)', (t): void => {
   }, SelectSubroutineUnexpectedResultCountError);
 });
 
-test('sm: selects multiple elements', (t): void => {
+test('so: select one element (no matches)', (t): void => {
+  const x = surgeon({
+    subroutines: subroutineAliasPreset
+  });
+
+  const subject = '';
+
+  const query = 'so .foo | read property textContent';
+
+  t.throws((): void => {
+    x(query, subject);
+  }, SelectSubroutineUnexpectedResultCountError);
+});
+
+test('sm: selects many elements', (t): void => {
   const x = surgeon({
     subroutines: subroutineAliasPreset
   });
 
   const subject = `
-    <div class="foo">bar</div>
-    <div class="foo">bar</div>
+    <div class="foo">foo 0</div>
+    <div class="foo">foo 1</div>
   `;
 
   const query = 'sm .foo | read property textContent';
 
-  t.deepEqual(x(query, subject), ['bar', 'bar']);
+  t.deepEqual(x(query, subject), ['foo 0', 'foo 1']);
 });
 
-test('sm: selects multiple elements (not found)', (t): void => {
+test('sm: selects many elements (no matches)', (t): void => {
   const x = surgeon({
     subroutines: subroutineAliasPreset
   });
 
-  const subject = `
-    <div class="bar">bar</div>
-    <div class="bar">bar</div>
-  `;
+  const subject = '';
 
   const query = 'sm .foo | read property textContent';
 
@@ -110,32 +122,56 @@ test('sm: selects multiple elements (not found)', (t): void => {
   }, SelectSubroutineUnexpectedResultCountError);
 });
 
-test('sa: selects multiple elements', (t): void => {
+test('sa: selects any elements', (t): void => {
   const x = surgeon({
     subroutines: subroutineAliasPreset
   });
 
   const subject = `
-    <div class="foo">bar</div>
-    <div class="foo">bar</div>
+    <div class="foo">foo 0</div>
+    <div class="foo">foo 1</div>
   `;
 
   const query = 'sa .foo | read property textContent';
 
-  t.deepEqual(x(query, subject), ['bar', 'bar']);
+  t.deepEqual(x(query, subject), ['foo 0', 'foo 1']);
 });
 
-test('sa: selects multiple elements (no matches, no error)', (t): void => {
+test('sa: selects any elements (no matches)', (t): void => {
   const x = surgeon({
     subroutines: subroutineAliasPreset
   });
 
-  const subject = `
-    <div class="bar">bar</div>
-    <div class="bar">bar</div>
-  `;
+  const subject = '';
 
   const query = 'sa .foo | read property textContent';
 
   t.deepEqual(x(query, subject), []);
+});
+
+test('saf: selects first out of any matches (multiple matches)', (t): void => {
+  const x = surgeon({
+    subroutines: subroutineAliasPreset
+  });
+
+  const subject = `
+  <div class="foo">foo 0</div>
+  <div class="foo">foo 1</div>
+  `;
+
+  const query = 'saf .foo | read property textContent';
+
+  t.true(x(query, subject) === 'foo 0');
+});
+
+test('saf: selects first out of any matches (no matches)', (t): void => {
+  const x = surgeon({
+    subroutines: subroutineAliasPreset
+  });
+
+  const subject = '';
+
+  const query = 'saf .foo | read property textContent';
+
+  t.true(x(query, subject) === null);
 });
