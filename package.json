@@ -12,7 +12,7 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
     "es6-error": "^4.1.1",
-    "pianola": "^1.2.1",
+    "pianola": "^1.2.3",
     "regex-parser": "^2.2.9",
     "roarr": "^2.3.0"
   },
