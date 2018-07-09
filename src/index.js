@@ -31,6 +31,15 @@ import type {
   UserConfigurationType
 } from './types';
 
+const builtInSubroutines = {
+  match: matchSubroutine,
+  nextUntil: nextUntilSubroutine,
+  read: readSubroutine,
+  remove: removeSubroutine,
+  select: selectSubroutine,
+  test: testSubroutine
+};
+
 export type {
   SubroutineType
 } from './types';
@@ -47,15 +56,6 @@ export {
   subroutineAliasPreset,
   SurgeonError,
   testSubroutine
-};
-
-const builtInSubroutines = {
-  match: matchSubroutine,
-  nextUntil: nextUntilSubroutine,
-  read: readSubroutine,
-  remove: removeSubroutine,
-  select: selectSubroutine,
-  test: testSubroutine
 };
 
 export default (userConfiguration?: UserConfigurationType) => {
