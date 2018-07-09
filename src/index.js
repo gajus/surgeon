@@ -30,6 +30,10 @@ import type {
   UserConfigurationType
 } from './types';
 
+export type {
+  SubroutineType
+} from './types';
+
 export {
   browserEvaluator,
   cheerioEvaluator,
