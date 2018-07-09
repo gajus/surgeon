@@ -19,7 +19,10 @@ test('throws an error if regex does not define capturing groups', (t) => {
 });
 
 test('returns InvalidValueSentinel when input cannot be matched', (t) => {
-  t.true(matchSubroutine('baz', ['(foo)']) instanceof InvalidValueSentinel);
+  const error = matchSubroutine('baz', ['(foo)']);
+
+  t.true(error instanceof InvalidValueSentinel);
+  t.true(error.message === 'Input does not match "/(foo)/" regular expression.');
 });
 
 test('matches a single capturing group', (t) => {

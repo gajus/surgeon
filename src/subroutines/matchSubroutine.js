@@ -21,7 +21,7 @@ const matchSubroutine = (subject: string, [userRule, sprintfFormat]: $ReadOnlyAr
   const matches = subject.match(rule);
 
   if (!matches) {
-    return new InvalidValueSentinel('input does not match "' + rule.toString() + '" regular expression');
+    return new InvalidValueSentinel('Input does not match "' + rule.toString() + '" regular expression.');
   }
 
   if (matches.length === 1) {
