@@ -18,6 +18,7 @@ import {
   InvalidValueSentinel
 } from './sentinels';
 import {
+  matchSubroutine,
   nextUntilSubroutine,
   readSubroutine,
   removeSubroutine,
@@ -49,6 +50,7 @@ export {
 };
 
 const builtInSubroutines = {
+  match: matchSubroutine,
   nextUntil: nextUntilSubroutine,
   read: readSubroutine,
   remove: removeSubroutine,

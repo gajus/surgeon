@@ -63,6 +63,7 @@ Have you got suggestions for improvement? [I am all ears](https://github.com/gaj
     * [`remove` subroutine](#remove-subroutine)
     * [`read` subroutine](#read-subroutine)
     * [`test` subroutine](#test-subroutine)
+    * [`match` subroutine](#match-subroutine)
   * [User-defined subroutines](#user-defined-subroutines)
   * [Built-in subroutine aliases](#built-in-subroutine-aliases)
 * [Expression reference](#expression-reference)
@@ -290,9 +291,32 @@ Examples:
 // Validates that .foo element textContent property value matches /bar/ regular expression.
 // Throws `InvalidDataError` if the value does not pass the test.
 x('select .foo | read property textContent | test /bar/');
+
 ```
 
 See [error handling](#error-handling) for more information and usage examples of the `test` subroutine.
+
+#### `match` subroutine
+
+`match` is used to extract matching [capturing groups](https://www.regular-expressions.info/refcapture.html) from the subject input.
+
+|Parameter name|Description|Default|
+|---|---|---|
+|Regular expression|Regular expression used to match capturing groups in the string.|N/A|
+|Sprintf format|[sprintf format](https://www.npmjs.com/package/sprintf-js) used to construct a string using the matching capturing groups.|`%s`|
+
+Examples:
+
+```js
+// Extracts 1 matching capturing group from the input string.
+// Throws `InvalidDataError` if the value does not pass the test.
+x('select .foo | read property textContent | match "/input: (\d+)/"');
+
+// Extracts 2 matching capturing groups from the input string and formats the output using sprintf.
+// Throws `InvalidDataError` if the value does not pass the test.
+x('select .foo | read property textContent | match "/input: (\d+)-(\d+)/" %2$s-%1$s');
+
+```
 
 ### User-defined subroutines
 
