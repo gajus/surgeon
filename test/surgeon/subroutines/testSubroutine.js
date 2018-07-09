@@ -14,5 +14,15 @@ test('throws an error if invoked with invalid RegExp', (t): void => {
 
 test('validates the input agaisnt the regex', (t): void => {
   t.true(testSubroutine('foo', ['foo']) === 'foo');
-  t.true(testSubroutine('foo', ['bar']) instanceof InvalidValueSentinel);
+});
+
+test('returns InvalidValueSentinel when input cannot be matched', (t) => {
+  const error = testSubroutine('foo', ['bar']);
+
+  if (!(error instanceof InvalidValueSentinel)) {
+    throw new TypeError('Unexpected state.');
+  }
+
+  t.true(error instanceof InvalidValueSentinel);
+  t.true(error.message === 'Input does not match "/bar/" regular expression.');
 });

@@ -16,7 +16,7 @@ const testSubroutine = (subject: string, [userRule]: $ReadOnlyArray<string>) => 
   }
 
   if (!rule.test(subject)) {
-    return new InvalidValueSentinel('input does not match "' + rule.toString() + '" regular expression');
+    return new InvalidValueSentinel('Input does not match "' + rule.toString() + '" regular expression.');
   }
 
   return subject;
