@@ -52,7 +52,7 @@ export default (): EvaluatorType => {
   const parseDocument = (subject) => {
     return cheerio
       .load(subject, {
-        xmlMode: true
+        xmlMode: false
       })
       .root();
   };
