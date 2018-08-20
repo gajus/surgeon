@@ -58,6 +58,7 @@ Have you got suggestions for improvement? [I am all ears](https://github.com/gaj
 * [Subroutines](#subroutines)
   * [Built-in subroutines](#built-in-subroutines)
     * [`nextUntil` subroutine](#nextuntil-subroutine)
+    * [`previous` subroutine](#previous-subroutine)
     * [`select` subroutine](#select-subroutine)
       * [Quantifier expression](#quantifier-expression)
     * [`remove` subroutine](#remove-subroutine)
@@ -180,6 +181,25 @@ The following subroutines are available out of the box.
 |---|---|---|
 |selector expression|A string containing a selector expression to indicate where to stop matching following sibling elements.|N/A|
 |filter expression|A string containing a selector expression to match elements against.|
+
+#### `previous` subroutine
+
+`previous` subroutine selects the preceding sibling.
+
+Example:
+
+```html
+<ul>
+  <li>foo</li>
+  <li class='bar'></li>
+<ul>
+```
+
+```js
+x('select .bar | previous | read property textContent');
+// 'foo'
+
+```
 
 #### `select` subroutine
 

@@ -57,6 +57,10 @@ export default (): EvaluatorType => {
       .root();
   };
 
+  const previous = (node) => {
+    return node.prev();
+  };
+
   const querySelectorAll = (node, selector) => {
     return node
       .find(selector)
@@ -90,6 +94,7 @@ export default (): EvaluatorType => {
     isElement,
     nextUntil,
     parseDocument,
+    previous,
     querySelectorAll,
     remove
   };

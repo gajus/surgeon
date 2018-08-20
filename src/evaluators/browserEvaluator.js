@@ -38,22 +38,23 @@ export default (): EvaluatorType => {
     return aux;
   };
 
+  const previous = () => {
+    throw new Error('Unimplemented.');
+  };
+
   const querySelectorAll = (node, selector) => {
     return [].slice.apply(node.querySelectorAll(selector));
   };
 
-  // eslint-disable-next-line no-unused-vars
-  const nextUntil = (node, selector, filter) => {
+  const nextUntil = () => {
     throw new Error('Unimplemented.');
   };
 
-  // eslint-disable-next-line no-unused-vars
-  const remove = (node) => {
+  const remove = () => {
     throw new Error('Unimplemented.');
   };
 
-  // eslint-disable-next-line no-unused-vars
-  const clone = (node) => {
+  const clone = () => {
     throw new Error('Unimplemented.');
   };
 
@@ -64,6 +65,7 @@ export default (): EvaluatorType => {
     isElement,
     nextUntil,
     parseDocument,
+    previous,
     querySelectorAll,
     remove
   };

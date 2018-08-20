@@ -15,6 +15,7 @@ export type EvaluatorType = {|
   +isElement: (maybeElement: mixed) => boolean,
   +nextUntil: (element: ElementType, selector: string, filter?: string) => $ReadOnlyArray<ElementType>,
   +parseDocument: (subject: string) => ElementType,
+  +previous: (element: ElementType) => ElementType,
   +querySelectorAll: (element: ElementType, selector: string) => $ReadOnlyArray<ElementType>,
   +remove: (element: ElementType) => void
 |};
