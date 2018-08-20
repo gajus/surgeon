@@ -118,3 +118,19 @@ test('extracts a single value (expression string [foo*="bar"])', (t): void => {
 
   t.true(x(query, subject) === 'bar');
 });
+
+// @see https://github.com/fb55/css-select/issues/111
+// eslint-disable-next-line ava/no-skip-test
+test.skip('extracts a single value (expression string `.foo:has(+.bar)`)', (t): void => {
+  const x = surgeon();
+
+  const subject = `
+    <div class="foo">a</div>
+    <div class="bar">b</div>
+  `;
+
+  // eslint-disable-next-line quotes
+  const query: DenormalizedQueryType = `select '.foo:has(+.bar)' | read property textContent`;
+
+  t.true(x(query, subject) === 'foo');
+});
