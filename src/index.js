@@ -20,6 +20,7 @@ import {
 import {
   matchSubroutine,
   nextUntilSubroutine,
+  previousSubroutine,
   readSubroutine,
   removeSubroutine,
   selectSubroutine,
@@ -34,6 +35,7 @@ import type {
 const builtInSubroutines = {
   match: matchSubroutine,
   nextUntil: nextUntilSubroutine,
+  previous: previousSubroutine,
   read: readSubroutine,
   remove: removeSubroutine,
   select: selectSubroutine,
