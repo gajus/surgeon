@@ -53,6 +53,7 @@ export {
   InvalidValueSentinel,
   readSubroutine,
   ReadSubroutineNotFoundError,
+  removeSubroutine,
   selectSubroutine,
   SelectSubroutineUnexpectedResultCountError,
   subroutineAliasPreset,
