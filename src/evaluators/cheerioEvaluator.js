@@ -5,7 +5,8 @@ import type {
   EvaluatorType
 } from '../types';
 import {
-  ReadSubroutineNotFoundError
+  ReadSubroutineNotFoundError,
+  SurgeonError
 } from '../errors';
 
 export default (): EvaluatorType => {
@@ -83,6 +84,26 @@ export default (): EvaluatorType => {
     node.remove();
   };
 
+  const setAttributeValue = (node, name, value) => {
+    const modifiedNode = node.attr(name, value);
+
+    if (!modifiedNode) {
+      throw new SurgeonError('Something went wrong when trying to set attribute with name:' + name + ' to value:' + JSON.stringify(value, null, 4));
+    }
+
+    return modifiedNode;
+  };
+
+  const setPropertyValue = (node, name, value) => {
+    const modifiedNode = node.prop(name, value);
+
+    if (!modifiedNode) {
+      throw new SurgeonError('Something went wrong when trying to set property with name:' + name + ' to value:' + JSON.stringify(value, null, 4));
+    }
+
+    return modifiedNode;
+  };
+
   const clone = (node) => {
     return node.clone();
   };
@@ -96,6 +117,8 @@ export default (): EvaluatorType => {
     parseDocument,
     previous,
     querySelectorAll,
-    remove
+    remove,
+    setAttributeValue,
+    setPropertyValue
   };
 };

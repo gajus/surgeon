@@ -19,6 +19,7 @@ import {
 } from './sentinels';
 import {
   matchSubroutine,
+  modifySubroutine,
   nextUntilSubroutine,
   previousSubroutine,
   readSubroutine,
@@ -34,6 +35,7 @@ import type {
 
 const builtInSubroutines = {
   match: matchSubroutine,
+  modify: modifySubroutine,
   nextUntil: nextUntilSubroutine,
   previous: previousSubroutine,
   read: readSubroutine,
@@ -51,6 +53,7 @@ export {
   cheerioEvaluator,
   InvalidDataError,
   InvalidValueSentinel,
+  modifySubroutine,
   readSubroutine,
   ReadSubroutineNotFoundError,
   removeSubroutine,

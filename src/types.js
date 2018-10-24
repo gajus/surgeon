@@ -17,10 +17,13 @@ export type EvaluatorType = {|
   +parseDocument: (subject: string) => ElementType,
   +previous: (element: ElementType) => ElementType,
   +querySelectorAll: (element: ElementType, selector: string) => $ReadOnlyArray<ElementType>,
-  +remove: (element: ElementType) => void
+  +remove: (element: ElementType) => void,
+  +setAttributeValue: (element: ElementType, name: string, value: string) => ElementType,
+  +setPropertyValue: (element: ElementType, name: string, value: mixed) => ElementType
 |};
 
 export type SubroutineType = (subject: mixed, parameters: $ReadOnlyArray<string>, bindle: BindleType) => mixed;
+export type ModifySubroutineType = (subject: mixed, parameters: $ReadOnlyArray<mixed>, bindle: BindleType) => mixed;
 
 export type SelectSubroutineQuantifierType = {|
   +index: number | null,

@@ -54,6 +54,18 @@ export default (): EvaluatorType => {
     throw new Error('Unimplemented.');
   };
 
+  const setAttributeValue = (node, name, value) => {
+    node.setAttribute(name, value);
+
+    return node;
+  };
+
+  const setPropertyValue = (node, name, value) => {
+    node[name] = value;
+
+    return node;
+  };
+
   const clone = () => {
     throw new Error('Unimplemented.');
   };
@@ -67,6 +79,8 @@ export default (): EvaluatorType => {
     parseDocument,
     previous,
     querySelectorAll,
-    remove
+    remove,
+    setAttributeValue,
+    setPropertyValue
   };
 };
