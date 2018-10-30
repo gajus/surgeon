@@ -1,5 +1,3 @@
-
-
 # Surgeon
 
 [![Travis build status](http://img.shields.io/travis/gajus/surgeon/master.svg?style=flat-square)](https://travis-ci.org/gajus/surgeon)
@@ -65,6 +63,7 @@ Have you got suggestions for improvement? [I am all ears](https://github.com/gaj
     * [`read` subroutine](#read-subroutine)
     * [`test` subroutine](#test-subroutine)
     * [`match` subroutine](#match-subroutine)
+    * [`format` subroutine](#format-subroutine)
   * [User-defined subroutines](#user-defined-subroutines)
   * [Built-in subroutine aliases](#built-in-subroutine-aliases)
 * [Expression reference](#expression-reference)
@@ -335,6 +334,23 @@ x('select .foo | read property textContent | match "/input: (\d+)/"');
 // Extracts 2 matching capturing groups from the input string and formats the output using sprintf.
 // Throws `InvalidDataError` if the value does not pass the test.
 x('select .foo | read property textContent | match "/input: (\d+)-(\d+)/" %2$s-%1$s');
+
+```
+
+#### `format` subroutine
+
+`format` is used to format input using [printf](https://en.wikipedia.org/wiki/Printf_format_string).
+
+|Parameter name|Description|Default|
+|---|---|---|
+|format|[sprintf format](https://www.npmjs.com/package/sprintf-js) used to format the input string. The subroutine input is the first argument, i.e. `%1$s`.|`%1$s`|
+
+Examples:
+
+```js
+// Extracts 1 matching capturing group from the input string.
+// Prefixes the match with 'http://foo.com'.
+x(`select a | read attribute href | format 'http://foo.com%1$s'`);
 
 ```
 

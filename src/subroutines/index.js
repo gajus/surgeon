@@ -1,5 +1,6 @@
 // @flow
 
+export {default as formatSubroutine} from './formatSubroutine';
 export {default as matchSubroutine} from './matchSubroutine';
 export {default as nextUntilSubroutine} from './nextUntilSubroutine';
 export {default as previousSubroutine} from './previousSubroutine';

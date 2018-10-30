@@ -18,6 +18,7 @@ import {
   InvalidValueSentinel
 } from './sentinels';
 import {
+  formatSubroutine,
   matchSubroutine,
   nextUntilSubroutine,
   previousSubroutine,
@@ -33,6 +34,7 @@ import type {
 } from './types';
 
 const builtInSubroutines = {
+  format: formatSubroutine,
   match: matchSubroutine,
   nextUntil: nextUntilSubroutine,
   previous: previousSubroutine,
@@ -49,6 +51,7 @@ export type {
 export {
   browserEvaluator,
   cheerioEvaluator,
+  formatSubroutine,
   InvalidDataError,
   InvalidValueSentinel,
   readSubroutine,
