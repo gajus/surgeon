@@ -20,6 +20,12 @@ export default (): EvaluatorType => {
   };
 
   const getPropertyValue = (node, name) => {
+    if (name === 'href') {
+      // URLs might include spaces, which a brower would encode when
+      // the attribute value is retrieved through a DOM property.
+      return encodeURI(node.attr('href'));
+    }
+
     if (name === 'textContent') {
       return node.text();
     }
