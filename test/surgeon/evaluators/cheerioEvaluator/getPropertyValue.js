@@ -3,7 +3,7 @@
 import test from 'ava';
 import cheerioEvaluator from '../../../../src/evaluators/cheerioEvaluator';
 
-test('URI encodes href property', (t) => {
+test('URI encodes "href" property', (t) => {
   const {
     getPropertyValue,
     parseDocument,
@@ -14,6 +14,19 @@ test('URI encodes href property', (t) => {
   const node = querySelectorAll(document, 'a')[0];
 
   t.true(getPropertyValue(node, 'href') === 'http://foo.tdl/foo%20bar');
+});
+
+test('URI encodes "src" property', (t) => {
+  const {
+    getPropertyValue,
+    parseDocument,
+    querySelectorAll
+  } = cheerioEvaluator();
+
+  const document = parseDocument('<img src="http://foo.tdl/foo bar" />');
+  const node = querySelectorAll(document, 'img')[0];
+
+  t.true(getPropertyValue(node, 'src') === 'http://foo.tdl/foo%20bar');
 });
 
 test('returns textContent property value', (t) => {
