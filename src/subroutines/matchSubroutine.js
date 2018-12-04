@@ -10,6 +10,11 @@ import {
 import {
   InvalidValueSentinel
 } from '../sentinels';
+import Logger from '../Logger';
+
+const log = Logger.child({
+  namespace: 'subroutine:match'
+});
 
 const matchSubroutine = (subject: string, [userRule, sprintfFormat]: $ReadOnlyArray<string>) => {
   const rule: RegExp = parseRegex(userRule);
@@ -21,6 +26,10 @@ const matchSubroutine = (subject: string, [userRule, sprintfFormat]: $ReadOnlyAr
   const matches = subject.match(rule);
 
   if (!matches) {
+    log.debug({
+      input: subject
+    }, 'input');
+
     return new InvalidValueSentinel('Input does not match "' + rule.toString() + '" regular expression.');
   }
 
