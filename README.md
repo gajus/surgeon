@@ -55,6 +55,7 @@ Have you got suggestions for improvement? [I am all ears](https://github.com/gaj
   * [`cheerio` evaluator](#cheerio-evaluator)
 * [Subroutines](#subroutines)
   * [Built-in subroutines](#built-in-subroutines)
+    * [`closest` subroutine](#closest-subroutine)
     * [`nextUntil` subroutine](#nextuntil-subroutine)
     * [`previous` subroutine](#previous-subroutine)
     * [`select` subroutine](#select-subroutine)
@@ -171,6 +172,16 @@ There are two types of subroutines:
 ### Built-in subroutines
 
 The following subroutines are available out of the box.
+
+#### `closest` subroutine
+
+`closest` subroutine iterates through all the preceding nodes (including parent nodes) searching for either a preceding node matching the selector expression or a descendant of the preceding node matching the selector.
+
+Note: This is different from the jQuery [`.closest()`](https://api.jquery.com/closest/) in that the latter method does not search for parent descendants matching the selector.
+
+|Parameter name|Description|Default|
+|---|---|---|
+|CSS selector|CSS selector used to select an element.|N/A|
 
 #### `nextUntil` subroutine
 

@@ -18,6 +18,7 @@ import {
   InvalidValueSentinel
 } from './sentinels';
 import {
+  closestSubroutine,
   formatSubroutine,
   matchSubroutine,
   nextUntilSubroutine,
@@ -34,6 +35,7 @@ import type {
 } from './types';
 
 const builtInSubroutines = {
+  closest: closestSubroutine,
   format: formatSubroutine,
   match: matchSubroutine,
   nextUntil: nextUntilSubroutine,
