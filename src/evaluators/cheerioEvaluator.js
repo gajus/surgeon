@@ -69,8 +69,8 @@ export default (): EvaluatorType => {
       .root();
   };
 
-  const previous = (node) => {
-    return node.prev();
+  const previous = (node, selector) => {
+    return node.prev(selector);
   };
 
   const querySelectorAll = (node, selector) => {

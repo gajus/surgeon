@@ -185,6 +185,10 @@ The following subroutines are available out of the box.
 
 `previous` subroutine selects the preceding sibling.
 
+|Parameter name|Description|Default|
+|---|---|---|
+|CSS selector|CSS selector used to select an element.|N/A|
+
 Example:
 
 ```html
