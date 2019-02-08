@@ -14,7 +14,7 @@ export default {
     return readSubroutine(subject, ['attribute'].concat(values), bindle);
   },
   rdtc: (subject, values, bindle) => {
-    return readSubroutine(removeSubroutine(subject, ['*', '{0,}'], bindle), ['property', 'textContent'], bindle);
+    return readSubroutine(removeSubroutine(subject, ['*', '{0,}'], bindle), ['property', 'textContent'], bindle).trim();
   },
   rih: (subject, values, bindle) => {
     return readSubroutine(subject, ['property', 'innerHTML'], bindle);
