@@ -1,5 +1,7 @@
 // @flow
 
+/* eslint-disable fp/no-class */
+
 import ExtendableError from 'es6-error';
 import {
   InvalidValueSentinel
