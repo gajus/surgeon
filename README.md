@@ -1,5 +1,6 @@
 # Surgeon
 
+[![GitSpo Mentions](https://gitspo.com/badges/mentions/gajus/surgeon?style=flat-square)](https://gitspo.com/mentions/gajus/surgeon)
 [![Travis build status](http://img.shields.io/travis/gajus/surgeon/master.svg?style=flat-square)](https://travis-ci.org/gajus/surgeon)
 [![Coveralls](https://img.shields.io/coveralls/gajus/surgeon.svg?style=flat-square)](https://coveralls.io/github/gajus/surgeon)
 [![NPM version](http://img.shields.io/npm/v/surgeon.svg?style=flat-square)](https://www.npmjs.org/package/surgeon)
