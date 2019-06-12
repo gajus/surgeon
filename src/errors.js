@@ -1,6 +1,6 @@
 // @flow
 
-/* eslint-disable fp/no-class */
+/* eslint-disable fp/no-class, flowtype/no-mixed */
 
 import ExtendableError from 'es6-error';
 import {

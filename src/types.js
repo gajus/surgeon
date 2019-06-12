@@ -1,6 +1,6 @@
 // @flow
 
-/* eslint-disable import/exports-last */
+/* eslint-disable import/exports-last, flowtype/no-mixed */
 
 // eslint-disable-next-line flowtype/no-weak-types
 type ElementType = Object;
