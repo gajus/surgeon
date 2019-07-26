@@ -3,7 +3,7 @@
 import test from 'ava';
 import sinon from 'sinon';
 import {
-  FinalResultSentinel
+  FinalResultSentinel,
 } from 'pianola';
 import selectSubroutine from '../../../src/subroutines/selectSubroutine';
 
@@ -13,7 +13,7 @@ test('returns array when expecting multiple results', (t): void => {
 
   const evaluator = {
     isElement,
-    querySelectorAll
+    querySelectorAll,
   };
 
   const results = selectSubroutine(null, ['.foo', '{0,}'], {evaluator});
@@ -27,7 +27,7 @@ test('returns a single result when expecting at most 1 result', (t): void => {
 
   const evaluator = {
     isElement,
-    querySelectorAll
+    querySelectorAll,
   };
 
   const result = selectSubroutine(null, ['.foo', '{0,1}[0]'], {evaluator});
@@ -41,7 +41,7 @@ test('returns an empty array when expecting multiple results', (t): void => {
 
   const evaluator = {
     isElement,
-    querySelectorAll
+    querySelectorAll,
   };
 
   const results = selectSubroutine(null, ['.foo', '{0,}'], {evaluator});
@@ -55,7 +55,7 @@ test('returns FinalResultSentinel(null) when expecting at most 1 result', (t): v
 
   const evaluator = {
     isElement,
-    querySelectorAll
+    querySelectorAll,
   };
 
   const result = selectSubroutine(null, ['.foo', '{0,1}[0]'], {evaluator});

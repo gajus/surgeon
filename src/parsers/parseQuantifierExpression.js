@@ -1,10 +1,10 @@
 // @flow
 
 import {
-  SurgeonError
+  SurgeonError,
 } from '../errors';
 import {
-  quantifierExpression
+  quantifierExpression,
 } from '../expressions';
 
 type ParsedQuantifierExpressionType = {|
@@ -24,13 +24,13 @@ export default (selector: string): ParsedQuantifierExpressionType => {
     return {
       index: quantifier[4] ? Number(quantifier[4]) : null,
       max: quantifier[3] ? Number(quantifier[3]) : Infinity,
-      min: Number(quantifier[1])
+      min: Number(quantifier[1]),
     };
   } else {
     return {
       index: quantifier[2] ? Number(quantifier[2]) : null,
       max: Number(quantifier[1]),
-      min: Number(quantifier[1])
+      min: Number(quantifier[1]),
     };
   }
 };

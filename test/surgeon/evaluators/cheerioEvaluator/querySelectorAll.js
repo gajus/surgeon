@@ -7,7 +7,7 @@ test('selects element by tag name', (t) => {
   const {
     getPropertyValue,
     parseDocument,
-    querySelectorAll
+    querySelectorAll,
   } = cheerioEvaluator();
 
   const document = parseDocument('<div>foo</div>');
@@ -20,7 +20,7 @@ test('selects element by class name', (t) => {
   const {
     getPropertyValue,
     parseDocument,
-    querySelectorAll
+    querySelectorAll,
   } = cheerioEvaluator();
 
   const document = parseDocument('<div class="foo">foo</div>');
@@ -33,7 +33,7 @@ test('selects by attribute value [foo="bar"]', (t) => {
   const {
     getPropertyValue,
     parseDocument,
-    querySelectorAll
+    querySelectorAll,
   } = cheerioEvaluator();
 
   const document = parseDocument('<div foo="bar">foo</div>');
@@ -46,7 +46,7 @@ test('selects by attribute value [foo*="bar"]', (t) => {
   const {
     getPropertyValue,
     parseDocument,
-    querySelectorAll
+    querySelectorAll,
   } = cheerioEvaluator();
 
   const document = parseDocument('<div foo="barbaz">foo</div>');

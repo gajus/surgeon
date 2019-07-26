@@ -1,15 +1,15 @@
 // @flow
 
 import {
-  SurgeonError
+  SurgeonError,
 } from '../errors';
 import type {
-  SubroutineType
+  SubroutineType,
 } from '../types';
 import Logger from '../Logger';
 
 const log = Logger.child({
-  namespace: 'subroutine:read'
+  namespace: 'subroutine:read',
 });
 
 const readSubroutine: SubroutineType = (subject, [target, name], {evaluator}) => {
@@ -32,7 +32,7 @@ const readSubroutine: SubroutineType = (subject, [target, name], {evaluator}) =>
   }
 
   log.debug({
-    value
+    value,
   }, 'read value');
 
   return value;

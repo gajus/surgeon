@@ -8,7 +8,7 @@ test('identifies next nodes using a selector', (t) => {
   const {
     nextUntil,
     parseDocument,
-    querySelectorAll
+    querySelectorAll,
   } = cheerioEvaluator();
 
   const body = `
@@ -35,7 +35,7 @@ test('identifies next nodes using a selector and a filter', (t) => {
   const {
     nextUntil,
     parseDocument,
-    querySelectorAll
+    querySelectorAll,
   } = cheerioEvaluator();
 
   const body = `
@@ -72,7 +72,7 @@ test.skip('filters out matching nodes', (t) => {
 
   const nodes = cheerio
     .load(body, {
-      xmlMode: true
+      xmlMode: true,
     })
     .root()
     .find('li')

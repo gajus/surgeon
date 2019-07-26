@@ -2,10 +2,10 @@
 
 import cheerio from 'cheerio';
 import type {
-  EvaluatorType
+  EvaluatorType,
 } from '../types';
 import {
-  ReadSubroutineNotFoundError
+  ReadSubroutineNotFoundError,
 } from '../errors';
 
 export default (): EvaluatorType => {
@@ -64,7 +64,7 @@ export default (): EvaluatorType => {
   const parseDocument = (subject) => {
     return cheerio
       .load(subject, {
-        xmlMode: false
+        xmlMode: false,
       })
       .root();
   };
@@ -108,6 +108,6 @@ export default (): EvaluatorType => {
     parseDocument,
     previous,
     querySelectorAll,
-    remove
+    remove,
   };
 };

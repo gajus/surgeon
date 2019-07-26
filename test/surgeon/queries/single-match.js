@@ -2,10 +2,10 @@
 
 import test from 'ava';
 import surgeon, {
-  SelectSubroutineUnexpectedResultCountError
+  SelectSubroutineUnexpectedResultCountError,
 } from '../../../src';
 import type {
-  DenormalizedQueryType
+  DenormalizedQueryType,
 } from '../../../src/types';
 
 test('extracts a single value (expression string)', (t): void => {
@@ -41,7 +41,7 @@ test('extracts a single value (array of expressions)', (t): void => {
 
   const query: DenormalizedQueryType = [
     'select .foo',
-    'read property textContent'
+    'read property textContent',
   ];
 
   t.true(x(query, subject) === 'bar');
@@ -56,7 +56,7 @@ test('extracts a single value (quantifier max 1)', (t): void => {
 
   const query: DenormalizedQueryType = [
     'select .foo {1}',
-    'read property textContent'
+    'read property textContent',
   ];
 
   t.true(x(query, subject) === 'bar');
@@ -68,7 +68,7 @@ test('throws error if no nodes are matched', (t): void => {
   const subject = '';
 
   const query: DenormalizedQueryType = [
-    'select .foo'
+    'select .foo',
   ];
 
   t.throws((): void => {
@@ -85,7 +85,7 @@ test('throws error if more than one node is matched', (t): void => {
   `;
 
   const query: DenormalizedQueryType = [
-    'select .foo'
+    'select .foo',
   ];
 
   t.throws((): void => {

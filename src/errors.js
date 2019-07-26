@@ -4,10 +4,10 @@
 
 import ExtendableError from 'es6-error';
 import {
-  InvalidValueSentinel
+  InvalidValueSentinel,
 } from './sentinels';
 import type {
-  SelectSubroutineQuantifierType
+  SelectSubroutineQuantifierType,
 } from './types';
 
 export class SurgeonError extends ExtendableError {}

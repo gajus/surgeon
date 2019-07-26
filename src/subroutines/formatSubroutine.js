@@ -1,10 +1,10 @@
 // @flow
 
 import {
-  vsprintf
+  vsprintf,
 } from 'sprintf-js';
 import {
-  SurgeonError
+  SurgeonError,
 } from '../errors';
 
 const formatSubroutine = (subject: string, [sprintfFormat]: $ReadOnlyArray<string> = []) => {
@@ -13,7 +13,7 @@ const formatSubroutine = (subject: string, [sprintfFormat]: $ReadOnlyArray<strin
   }
 
   return vsprintf(sprintfFormat || '%1$s', [
-    subject
+    subject,
   ]);
 };
 

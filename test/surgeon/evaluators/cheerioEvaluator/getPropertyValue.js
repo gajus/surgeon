@@ -7,7 +7,7 @@ test('URI encodes "href" property', (t) => {
   const {
     getPropertyValue,
     parseDocument,
-    querySelectorAll
+    querySelectorAll,
   } = cheerioEvaluator();
 
   const document = parseDocument('<a href="http://foo.tdl/foo bar" />');
@@ -20,7 +20,7 @@ test('URI encodes "src" property', (t) => {
   const {
     getPropertyValue,
     parseDocument,
-    querySelectorAll
+    querySelectorAll,
   } = cheerioEvaluator();
 
   const document = parseDocument('<img src="http://foo.tdl/foo bar" />');
@@ -33,7 +33,7 @@ test('returns textContent property value', (t) => {
   const {
     getPropertyValue,
     parseDocument,
-    querySelectorAll
+    querySelectorAll,
   } = cheerioEvaluator();
 
   const document = parseDocument('<div>foo</div>');
@@ -46,7 +46,7 @@ test('returns outerHTML property value', (t) => {
   const {
     getPropertyValue,
     parseDocument,
-    querySelectorAll
+    querySelectorAll,
   } = cheerioEvaluator();
 
   const document = parseDocument('<div>foo</div>');
@@ -63,7 +63,7 @@ test.skip('returns outerHTML property value (table)', (t) => {
   const {
     getPropertyValue,
     parseDocument,
-    querySelectorAll
+    querySelectorAll,
   } = cheerioEvaluator();
 
   // This test ensures that the DOM is loaded with {xmlMode: true}.
@@ -81,7 +81,7 @@ test('returns outerHTML property value (tag within a tag)', (t) => {
   const {
     getPropertyValue,
     parseDocument,
-    querySelectorAll
+    querySelectorAll,
   } = cheerioEvaluator();
 
   const document = parseDocument('<script>"<br>"</script>');

@@ -7,7 +7,7 @@ test('returns the previous node', (t) => {
   const {
     previous,
     parseDocument,
-    querySelectorAll
+    querySelectorAll,
   } = cheerioEvaluator();
 
   const body = `
@@ -31,7 +31,7 @@ test('returns previous node matching the selector', (t) => {
   const {
     previous,
     parseDocument,
-    querySelectorAll
+    querySelectorAll,
   } = cheerioEvaluator();
 
   const body = `

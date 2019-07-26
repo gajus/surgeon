@@ -2,11 +2,11 @@
 
 import test from 'ava';
 import {
-  sprintf
+  sprintf,
 } from 'sprintf-js';
 import surgeon from '../../../src';
 import type {
-  DenormalizedQueryType
+  DenormalizedQueryType,
 } from '../../../src/types';
 
 test('extracts a single value (expression string)', (t): void => {
@@ -35,8 +35,8 @@ test('extracts a single value (expression string)', (t): void => {
       },
       sprintf: (value, [format]) => {
         return sprintf(format, value);
-      }
-    }
+      },
+    },
   });
 
   const subject = `
@@ -69,10 +69,10 @@ test('extracts a single value (expression string)', (t): void => {
         'select li:not(:first-child) {0,}',
         {
           date: 'index | sprintf ".right ul li:nth-child(%d)" | rootSelect | read property textContent',
-          title: 'select a | read property textContent'
-        }
-      ]
-    }
+          title: 'select a | read property textContent',
+        },
+      ],
+    },
   ];
 
   const result = x(query, subject);
@@ -81,17 +81,17 @@ test('extracts a single value (expression string)', (t): void => {
     articles: [
       {
         date: '14 minutes ago',
-        title: 'News article one'
+        title: 'News article one',
       },
       {
         date: '17 minutes ago',
-        title: 'News article two'
+        title: 'News article two',
       },
       {
         date: '31 minutes ago',
-        title: 'News article three'
-      }
-    ]
+        title: 'News article three',
+      },
+    ],
   };
 
   t.deepEqual(result, expectedResult);

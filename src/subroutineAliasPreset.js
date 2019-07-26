@@ -3,7 +3,7 @@ import {
   readSubroutine,
   removeSubroutine,
   selectSubroutine,
-  testSubroutine
+  testSubroutine,
 } from './subroutines';
 
 export default {
@@ -43,5 +43,5 @@ export default {
   so: (subject, values, bindle) => {
     return selectSubroutine(subject, [values.join(' '), '{1}'], bindle);
   },
-  t: testSubroutine
+  t: testSubroutine,
 };

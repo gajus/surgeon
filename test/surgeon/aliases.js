@@ -3,12 +3,12 @@
 import test from 'ava';
 import surgeon, {
   subroutineAliasPreset,
-  SelectSubroutineUnexpectedResultCountError
+  SelectSubroutineUnexpectedResultCountError,
 } from '../../src';
 
 test('rdtc: reads direct textNode textContent property', (t): void => {
   const x = surgeon({
-    subroutines: subroutineAliasPreset
+    subroutines: subroutineAliasPreset,
   });
 
   const subject = `
@@ -22,7 +22,7 @@ test('rdtc: reads direct textNode textContent property', (t): void => {
 
 test('rdtc: trims value', (t): void => {
   const x = surgeon({
-    subroutines: subroutineAliasPreset
+    subroutines: subroutineAliasPreset,
   });
 
   const subject = `
@@ -39,7 +39,7 @@ test('rdtc: trims value', (t): void => {
 
 test('rtc: reads textContent property', (t): void => {
   const x = surgeon({
-    subroutines: subroutineAliasPreset
+    subroutines: subroutineAliasPreset,
   });
 
   const subject = `
@@ -53,7 +53,7 @@ test('rtc: reads textContent property', (t): void => {
 
 test('ra: reads element attribute', (t): void => {
   const x = surgeon({
-    subroutines: subroutineAliasPreset
+    subroutines: subroutineAliasPreset,
   });
 
   const subject = `
@@ -67,7 +67,7 @@ test('ra: reads element attribute', (t): void => {
 
 test('so: selects one element', (t): void => {
   const x = surgeon({
-    subroutines: subroutineAliasPreset
+    subroutines: subroutineAliasPreset,
   });
 
   const subject = `
@@ -81,7 +81,7 @@ test('so: selects one element', (t): void => {
 
 test('so: selects one element (multiple matches)', (t): void => {
   const x = surgeon({
-    subroutines: subroutineAliasPreset
+    subroutines: subroutineAliasPreset,
   });
 
   const subject = `
@@ -98,7 +98,7 @@ test('so: selects one element (multiple matches)', (t): void => {
 
 test('so: select one element (no matches)', (t): void => {
   const x = surgeon({
-    subroutines: subroutineAliasPreset
+    subroutines: subroutineAliasPreset,
   });
 
   const subject = '';
@@ -112,7 +112,7 @@ test('so: select one element (no matches)', (t): void => {
 
 test('sm: selects many elements', (t): void => {
   const x = surgeon({
-    subroutines: subroutineAliasPreset
+    subroutines: subroutineAliasPreset,
   });
 
   const subject = `
@@ -127,7 +127,7 @@ test('sm: selects many elements', (t): void => {
 
 test('sm: selects many elements (no matches)', (t): void => {
   const x = surgeon({
-    subroutines: subroutineAliasPreset
+    subroutines: subroutineAliasPreset,
   });
 
   const subject = '';
@@ -141,7 +141,7 @@ test('sm: selects many elements (no matches)', (t): void => {
 
 test('sa: selects any elements', (t): void => {
   const x = surgeon({
-    subroutines: subroutineAliasPreset
+    subroutines: subroutineAliasPreset,
   });
 
   const subject = `
@@ -156,7 +156,7 @@ test('sa: selects any elements', (t): void => {
 
 test('sa: selects any elements (no matches)', (t): void => {
   const x = surgeon({
-    subroutines: subroutineAliasPreset
+    subroutines: subroutineAliasPreset,
   });
 
   const subject = '';
@@ -168,7 +168,7 @@ test('sa: selects any elements (no matches)', (t): void => {
 
 test('saf: selects first out of any matches (multiple matches)', (t): void => {
   const x = surgeon({
-    subroutines: subroutineAliasPreset
+    subroutines: subroutineAliasPreset,
   });
 
   const subject = `
@@ -183,7 +183,7 @@ test('saf: selects first out of any matches (multiple matches)', (t): void => {
 
 test('saf: selects first out of any matches (no matches)', (t): void => {
   const x = surgeon({
-    subroutines: subroutineAliasPreset
+    subroutines: subroutineAliasPreset,
   });
 
   const subject = '';

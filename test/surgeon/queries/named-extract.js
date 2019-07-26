@@ -3,7 +3,7 @@
 import test from 'ava';
 import surgeon from '../../../src';
 import type {
-  DenormalizedQueryType
+  DenormalizedQueryType,
 } from '../../../src/types';
 
 test('extracts a single value', (t): void => {
@@ -18,12 +18,12 @@ test('extracts a single value', (t): void => {
   const query: DenormalizedQueryType = [
     'select .foo {1}',
     {
-      name: 'select .bar {1} | read property textContent'
-    }
+      name: 'select .bar {1} | read property textContent',
+    },
   ];
 
   t.deepEqual(x(query, subject), {
-    name: 'baz'
+    name: 'baz',
   });
 });
 
@@ -38,17 +38,17 @@ test('extracts multiple values', (t): void => {
   const query: DenormalizedQueryType = [
     'select .foo {0,}',
     {
-      name: 'read property textContent'
-    }
+      name: 'read property textContent',
+    },
   ];
 
   const expectedResult = [
     {
-      name: 'bar0'
+      name: 'bar0',
     },
     {
-      name: 'bar1'
-    }
+      name: 'bar1',
+    },
   ];
 
   t.deepEqual(x(query, subject), expectedResult);

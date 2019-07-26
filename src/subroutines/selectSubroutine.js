@@ -1,22 +1,22 @@
 // @flow
 
 import {
-  FinalResultSentinel
+  FinalResultSentinel,
 } from 'pianola';
 import {
-  createQuantifier
+  createQuantifier,
 } from '../factories';
 import {
   SelectSubroutineUnexpectedResultCountError,
-  SurgeonError
+  SurgeonError,
 } from '../errors';
 import type {
-  SubroutineType
+  SubroutineType,
 } from '../types';
 import Logger from '../Logger';
 
 const log = Logger.child({
-  namespace: 'subroutine:select'
+  namespace: 'subroutine:select',
 });
 
 const selectSubroutine: SubroutineType = (subject, [cssSelector, quantifierExpression], {evaluator}) => {

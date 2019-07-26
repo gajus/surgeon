@@ -2,20 +2,20 @@
 
 import pianola from 'pianola';
 import {
-  createConfiguration
+  createConfiguration,
 } from './factories';
 import {
   InvalidDataError,
   ReadSubroutineNotFoundError,
   SelectSubroutineUnexpectedResultCountError,
-  SurgeonError
+  SurgeonError,
 } from './errors';
 import {
   browserEvaluator,
-  cheerioEvaluator
+  cheerioEvaluator,
 } from './evaluators';
 import {
-  InvalidValueSentinel
+  InvalidValueSentinel,
 } from './sentinels';
 import {
   closestSubroutine,
@@ -26,12 +26,12 @@ import {
   readSubroutine,
   removeSubroutine,
   selectSubroutine,
-  testSubroutine
+  testSubroutine,
 } from './subroutines';
 import subroutineAliasPreset from './subroutineAliasPreset';
 import type {
   DenormalizedQueryType,
-  UserConfigurationType
+  UserConfigurationType,
 } from './types';
 
 const builtInSubroutines = {
@@ -43,11 +43,11 @@ const builtInSubroutines = {
   read: readSubroutine,
   remove: removeSubroutine,
   select: selectSubroutine,
-  test: testSubroutine
+  test: testSubroutine,
 };
 
 export type {
-  SubroutineType
+  SubroutineType,
 } from './types';
 
 export {
@@ -63,7 +63,7 @@ export {
   SelectSubroutineUnexpectedResultCountError,
   subroutineAliasPreset,
   SurgeonError,
-  testSubroutine
+  testSubroutine,
 };
 
 export default (userConfiguration?: UserConfigurationType) => {
@@ -71,7 +71,7 @@ export default (userConfiguration?: UserConfigurationType) => {
 
   const subroutines = {
     ...configuration.subroutines,
-    ...builtInSubroutines
+    ...builtInSubroutines,
   };
 
   const handleResult = (resultValue, inputValue) => {
@@ -82,10 +82,10 @@ export default (userConfiguration?: UserConfigurationType) => {
 
   const x = pianola({
     bindle: {
-      evaluator: configuration.evaluator
+      evaluator: configuration.evaluator,
     },
     handleResult,
-    subroutines
+    subroutines,
   });
 
   // eslint-disable-next-line flowtype/no-weak-types

@@ -2,18 +2,18 @@
 
 import {
   browserEvaluator,
-  cheerioEvaluator
+  cheerioEvaluator,
 } from '../evaluators';
 import {
-  isEnvironmentBrowser
+  isEnvironmentBrowser,
 } from '../utilities';
 import {
-  SurgeonError
+  SurgeonError,
 } from '../errors';
 import type {
   ConfigurationType,
   EvaluatorType,
-  UserConfigurationType
+  UserConfigurationType,
 } from '../types';
 
 const configureEvaluator = (): EvaluatorType => {
@@ -38,6 +38,6 @@ export default (userConfiguration: UserConfigurationType = {}): ConfigurationTyp
 
   return {
     evaluator,
-    subroutines
+    subroutines,
   };
 };

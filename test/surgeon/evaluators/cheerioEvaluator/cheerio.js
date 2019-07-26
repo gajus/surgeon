@@ -7,7 +7,7 @@ import cheerio from 'cheerio';
 // eslint-disable-next-line ava/no-skip-test
 test.skip('returns innerHTML property value', (t) => {
   const $ = cheerio.load('<script>"<br>"</script>', {
-    xmlMode: true
+    xmlMode: true,
   });
 
   t.true($.html() === '<script>"<br>"</script>');

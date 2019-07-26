@@ -1,10 +1,10 @@
 // @flow
 
 import {
-  SurgeonError
+  SurgeonError,
 } from '../errors';
 import type {
-  SubroutineType
+  SubroutineType,
 } from '../types';
 
 const previousSubroutine: SubroutineType = (subject, parameters, {evaluator}) => {

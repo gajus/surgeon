@@ -1,9 +1,6 @@
 // @flow
 
 import test from 'ava';
-import {
-  InvalidValueSentinel
-} from '../../../src';
 import formatSubroutine from '../../../src/subroutines/formatSubroutine';
 
 test('throws an error if subject is not a string', (t): void => {

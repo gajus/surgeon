@@ -3,7 +3,7 @@
 import test from 'ava';
 import surgeon from '../../../src';
 import type {
-  DenormalizedQueryType
+  DenormalizedQueryType,
 } from '../../../src/types';
 
 test('returns the first matching preceeding node', (t): void => {

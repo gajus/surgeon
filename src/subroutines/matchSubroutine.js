@@ -2,18 +2,18 @@
 
 import parseRegex from 'regex-parser';
 import {
-  vsprintf
+  vsprintf,
 } from 'sprintf-js';
 import {
-  SurgeonError
+  SurgeonError,
 } from '../errors';
 import {
-  InvalidValueSentinel
+  InvalidValueSentinel,
 } from '../sentinels';
 import Logger from '../Logger';
 
 const log = Logger.child({
-  namespace: 'subroutine:match'
+  namespace: 'subroutine:match',
 });
 
 const matchSubroutine = (subject: string, [userRule, sprintfFormat]: $ReadOnlyArray<string>) => {
@@ -27,7 +27,7 @@ const matchSubroutine = (subject: string, [userRule, sprintfFormat]: $ReadOnlyAr
 
   if (!matches) {
     log.debug({
-      input: subject
+      input: subject,
     }, 'input');
 
     return new InvalidValueSentinel('Input does not match "' + rule.toString() + '" regular expression.');

@@ -2,15 +2,15 @@
 
 import cheerio from 'cheerio';
 import {
-  SurgeonError
+  SurgeonError,
 } from '../errors';
 import type {
-  SubroutineType
+  SubroutineType,
 } from '../types';
 import Logger from '../Logger';
 
 const log = Logger.child({
-  namespace: 'subroutine:closest'
+  namespace: 'subroutine:closest',
 });
 
 // eslint-disable-next-line flowtype/no-weak-types

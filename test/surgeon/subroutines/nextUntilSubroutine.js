@@ -10,7 +10,7 @@ test('returns array when expecting multiple results', (t): void => {
 
   const evaluator = {
     isElement,
-    nextUntil
+    nextUntil,
   };
 
   const results = nextUntilSubroutine(null, ['.foo', '.bar'], {evaluator});

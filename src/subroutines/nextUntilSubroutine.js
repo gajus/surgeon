@@ -1,15 +1,15 @@
 // @flow
 
 import {
-  SurgeonError
+  SurgeonError,
 } from '../errors';
 import type {
-  SubroutineType
+  SubroutineType,
 } from '../types';
 import Logger from '../Logger';
 
 const log = Logger.child({
-  namespace: 'subroutine:nextUntil'
+  namespace: 'subroutine:nextUntil',
 });
 
 const nextUntilSubroutine: SubroutineType = (subject, [selectorExpression, filterExpression], {evaluator}) => {

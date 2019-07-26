@@ -2,7 +2,7 @@
 
 import test from 'ava';
 import {
-  InvalidValueSentinel
+  InvalidValueSentinel,
 } from '../../../src';
 import testSubroutine from '../../../src/subroutines/testSubroutine';
 

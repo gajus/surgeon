@@ -1,19 +1,19 @@
 // @flow
 
 import {
-  FinalResultSentinel
+  FinalResultSentinel,
 } from 'pianola';
 import type {
-  SubroutineType
+  SubroutineType,
 } from '../types';
 import {
-  SurgeonError
+  SurgeonError,
 } from '../errors';
 import Logger from '../Logger';
 import selectSubroutine from './selectSubroutine';
 
 const log = Logger.child({
-  namespace: 'subroutine:remove'
+  namespace: 'subroutine:remove',
 });
 
 const removeSubroutine: SubroutineType = (subject, [cssSelector, quantifierExpression], {evaluator}) => {

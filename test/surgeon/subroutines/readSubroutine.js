@@ -8,7 +8,7 @@ test('uses evalutor.isElement to validate the subject', (t): void => {
   const isElement = sinon.stub().returns(false);
 
   const evaluator = {
-    isElement
+    isElement,
   };
 
   const error = t.throws((): void => {
@@ -24,7 +24,7 @@ test('reading a property uses evaluator.getPropertyValue method', (t): void => {
 
   const evaluator = {
     getPropertyValue,
-    isElement
+    isElement,
   };
 
   const result = readSubroutine(null, ['property'], {evaluator});
@@ -38,7 +38,7 @@ test('reading an attribute uses evaluator.getAttributeValue method', (t): void =
 
   const evaluator = {
     getAttributeValue,
-    isElement
+    isElement,
   };
 
   const result = readSubroutine(null, ['attribute'], {evaluator});
@@ -50,7 +50,7 @@ test('using unknown target throws an error', (t): void => {
   const isElement = sinon.stub().returns(true);
 
   const evaluator = {
-    isElement
+    isElement,
   };
 
   const result = t.throws((): void => {

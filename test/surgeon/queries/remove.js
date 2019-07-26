@@ -2,14 +2,14 @@
 
 import test from 'ava';
 import {
-  trim
+  trim,
 } from 'lodash';
 import surgeon, {
   subroutineAliasPreset,
-  SelectSubroutineUnexpectedResultCountError
+  SelectSubroutineUnexpectedResultCountError,
 } from '../../../src';
 import type {
-  DenormalizedQueryType
+  DenormalizedQueryType,
 } from '../../../src/types';
 
 test('removes a single element', (t): void => {
@@ -30,8 +30,8 @@ test('removes a single element', (t): void => {
 test('does not mutate the parent node', (t) => {
   const x = surgeon({
     subroutines: {
-      ...subroutineAliasPreset
-    }
+      ...subroutineAliasPreset,
+    },
   });
 
   const subject = `
@@ -47,8 +47,8 @@ test('does not mutate the parent node', (t) => {
     /* eslint-disable sort-keys */
     {
       time: 'so time | rdtc',
-      attributes: 'so attributes | rdtc'
-    }
+      attributes: 'so attributes | rdtc',
+    },
 
     /* eslint-enable */
   ];
@@ -57,7 +57,7 @@ test('does not mutate the parent node', (t) => {
 
   t.deepEqual(result, {
     attributes: 'ATTRIBUTES',
-    time: 'TIME'
+    time: 'TIME',
   });
 });
 

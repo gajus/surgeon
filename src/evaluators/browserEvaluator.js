@@ -1,10 +1,10 @@
 // @flow
 
 import type {
-  EvaluatorType
+  EvaluatorType,
 } from '../types';
 import {
-  ReadSubroutineNotFoundError
+  ReadSubroutineNotFoundError,
 } from '../errors';
 
 export default (): EvaluatorType => {
@@ -67,6 +67,6 @@ export default (): EvaluatorType => {
     parseDocument,
     previous,
     querySelectorAll,
-    remove
+    remove,
   };
 };

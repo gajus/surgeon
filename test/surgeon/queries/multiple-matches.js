@@ -2,10 +2,10 @@
 
 import test from 'ava';
 import surgeon, {
-  SelectSubroutineUnexpectedResultCountError
+  SelectSubroutineUnexpectedResultCountError,
 } from '../../../src';
 import type {
-  DenormalizedQueryType
+  DenormalizedQueryType,
 } from '../../../src/types';
 
 test('extracts multiple values', (t): void => {
@@ -18,12 +18,12 @@ test('extracts multiple values', (t): void => {
 
   const query: DenormalizedQueryType = [
     'select .foo {0,}',
-    'read property textContent'
+    'read property textContent',
   ];
 
   t.deepEqual(x(query, subject), [
     'bar0',
-    'bar1'
+    'bar1',
   ]);
 });
 
@@ -42,13 +42,13 @@ test('extracts multiple nodes nextUntil', (t): void => {
   const query: DenormalizedQueryType = [
     'select .foo {0,}[0]',
     'nextUntil .foo',
-    'read property textContent'
+    'read property textContent',
   ];
 
   t.deepEqual(x(query, subject), [
     'bar0',
     'bar1',
-    'bar2'
+    'bar2',
   ]);
 });
 
@@ -70,12 +70,12 @@ test.skip('extracts multiple nodes nextUntil (with filter)', (t): void => {
   const query: DenormalizedQueryType = [
     'select .foo {0,}[0]',
     'nextUntil ".foo" ":not(:nth-child(4))"',
-    'read property textContent'
+    'read property textContent',
   ];
 
   t.deepEqual(x(query, subject), [
     'bar0',
-    'bar1'
+    'bar1',
   ]);
 });
 
@@ -88,7 +88,7 @@ test('throws error if too few nodes are matched', (t): void => {
   `;
 
   const query: DenormalizedQueryType = [
-    'select .foo {3,}'
+    'select .foo {3,}',
   ];
 
   t.throws((): void => {
@@ -106,7 +106,7 @@ test('throws error if too many nodes are matched', (t): void => {
   `;
 
   const query: DenormalizedQueryType = [
-    'select .foo {0,2}'
+    'select .foo {0,2}',
   ];
 
   t.throws((): void => {

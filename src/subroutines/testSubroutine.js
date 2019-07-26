@@ -2,10 +2,10 @@
 
 import parseRegex from 'regex-parser';
 import {
-  SurgeonError
+  SurgeonError,
 } from '../errors';
 import {
-  InvalidValueSentinel
+  InvalidValueSentinel,
 } from '../sentinels';
 
 const testSubroutine = (subject: string, [userRule]: $ReadOnlyArray<string>) => {

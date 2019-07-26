@@ -1,10 +1,10 @@
 // @flow
 
 import {
-  parseQuantifierExpression
+  parseQuantifierExpression,
 } from '../parsers';
 import type {
-  SelectSubroutineQuantifierType
+  SelectSubroutineQuantifierType,
 } from '../types';
 
 export default (quantifierExpression?: string): SelectSubroutineQuantifierType => {
@@ -16,7 +16,7 @@ export default (quantifierExpression?: string): SelectSubroutineQuantifierType =
     quantifier = {
       index: quantifierTokens.index,
       max: typeof quantifierTokens.max === 'undefined' ? Infinity : quantifierTokens.max,
-      min: typeof quantifierTokens.min === 'undefined' ? 0 : quantifierTokens.min
+      min: typeof quantifierTokens.min === 'undefined' ? 0 : quantifierTokens.min,
     };
 
     if (quantifier.index === null && quantifier.max === 1) {
@@ -26,7 +26,7 @@ export default (quantifierExpression?: string): SelectSubroutineQuantifierType =
     quantifier = {
       index: 0,
       max: 1,
-      min: 1
+      min: 1,
     };
   }
 
