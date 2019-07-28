@@ -4,7 +4,7 @@ import Roarr from 'roarr';
 
 const Logger = Roarr
   .child({
-    package: 'roarr',
+    package: 'surgeon',
   });
 
 export default Logger;
