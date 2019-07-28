@@ -58,6 +58,7 @@ Have you got suggestions for improvement? [I am all ears](https://github.com/gaj
   * [Built-in subroutines](#built-in-subroutines)
     * [`append` subroutine](#append-subroutine)
     * [`closest` subroutine](#closest-subroutine)
+    * [`constant` subroutine](#constant-subroutine)
     * [`format` subroutine](#format-subroutine)
     * [`match` subroutine](#match-subroutine)
     * [`nextUntil` subroutine](#nextuntil-subroutine)
@@ -202,6 +203,14 @@ Note: This is different from the jQuery [`.closest()`](https://api.jquery.com/cl
 |Parameter name|Description|Default|
 |---|---|---|
 |CSS selector|CSS selector used to select an element.|N/A|
+
+#### `constant` subroutine
+
+`constant` returns the parameter value regardless of the input.
+
+|Parameter name|Description|Default|
+|---|---|---|
+|`constant`|Constant value that will be returned as the result.|N/A|
 
 #### `format` subroutine
 

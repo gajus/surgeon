@@ -2,6 +2,7 @@
 
 export {default as appendSubroutine} from './appendSubroutine';
 export {default as closestSubroutine} from './closestSubroutine';
+export {default as constantSubroutine} from './constantSubroutine';
 export {default as formatSubroutine} from './formatSubroutine';
 export {default as matchSubroutine} from './matchSubroutine';
 export {default as nextUntilSubroutine} from './nextUntilSubroutine';
