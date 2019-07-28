@@ -4,12 +4,12 @@ import {
   SurgeonError,
 } from '../errors';
 
-const appendSubroutine = (subject: string, [head]: $ReadOnlyArray<string> = []) => {
+const appendSubroutine = (subject: string, [tail]: $ReadOnlyArray<string> = []) => {
   if (typeof subject !== 'string') {
     throw new SurgeonError('Input is not a string.');
   }
 
-  return head + subject;
+  return subject + tail;
 };
 
 export default appendSubroutine;

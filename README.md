@@ -183,7 +183,7 @@ The following subroutines are available out of the box.
 
 |Parameter name|Description|Default|
 |---|---|---|
-|head|Appends a string to the end of the input string.|N/A|
+|tail|Appends a string to the end of the input string.|N/A|
 
 Examples:
 
@@ -266,7 +266,7 @@ x('select .foo | read property textContent | match "/input: (\d+)-(\d+)/" %2$s-%
 
 |Parameter name|Description|Default|
 |---|---|---|
-|tail|Prepends a string to the start of the input string.|N/A|
+|head|Prepends a string to the start of the input string.|N/A|
 
 Examples:
 
