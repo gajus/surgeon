@@ -10,7 +10,7 @@ import {
 type ParsedQuantifierExpressionType = {|
   +index: number | null,
   +max: number,
-  +min: number
+  +min: number,
 |};
 
 export default (selector: string): ParsedQuantifierExpressionType => {

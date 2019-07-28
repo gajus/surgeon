@@ -17,7 +17,7 @@ export type EvaluatorType = {|
   +parseDocument: (subject: string) => ElementType,
   +previous: (element: ElementType, selector?: string) => ElementType,
   +querySelectorAll: (element: ElementType, selector: string) => $ReadOnlyArray<ElementType>,
-  +remove: (element: ElementType) => void
+  +remove: (element: ElementType) => void,
 |};
 
 export type SubroutineType = (subject: mixed, parameters: $ReadOnlyArray<string>, bindle: BindleType) => mixed;
@@ -25,27 +25,27 @@ export type SubroutineType = (subject: mixed, parameters: $ReadOnlyArray<string>
 export type SelectSubroutineQuantifierType = {|
   +index: number | null,
   +max: number,
-  +min: number
+  +min: number,
 |};
 
 export type UserConfigurationType = {
   +evaluator?: EvaluatorType,
   +subroutines?: {
-    [key: string]: SubroutineType
-  }
+    [key: string]: SubroutineType,
+  },
 };
 
 export type ConfigurationType = {|
   +evaluator: EvaluatorType,
   +subroutines: {
-    [key: string]: SubroutineType
-  }
+    [key: string]: SubroutineType,
+  },
 |};
 
 type QueryChildrenType = {
 
   // eslint-disable-next-line no-use-before-define
-  [key: string]: DenormalizedQueryType
+  [key: string]: DenormalizedQueryType,
 };
 
 export type DenormalizedQueryType =
