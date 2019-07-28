@@ -18,10 +18,12 @@ import {
   InvalidValueSentinel,
 } from './sentinels';
 import {
+  appendSubroutine,
   closestSubroutine,
   formatSubroutine,
   matchSubroutine,
   nextUntilSubroutine,
+  prependSubroutine,
   previousSubroutine,
   readSubroutine,
   removeSubroutine,
@@ -35,10 +37,12 @@ import type {
 } from './types';
 
 const builtInSubroutines = {
+  append: appendSubroutine,
   closest: closestSubroutine,
   format: formatSubroutine,
   match: matchSubroutine,
   nextUntil: nextUntilSubroutine,
+  prepend: prependSubroutine,
   previous: previousSubroutine,
   read: readSubroutine,
   remove: removeSubroutine,
@@ -51,11 +55,13 @@ export type {
 } from './types';
 
 export {
+  appendSubroutine,
   browserEvaluator,
   cheerioEvaluator,
   formatSubroutine,
   InvalidDataError,
   InvalidValueSentinel,
+  prependSubroutine,
   readSubroutine,
   ReadSubroutineNotFoundError,
   removeSubroutine,

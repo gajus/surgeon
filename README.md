@@ -56,16 +56,18 @@ Have you got suggestions for improvement? [I am all ears](https://github.com/gaj
   * [`cheerio` evaluator](#cheerio-evaluator)
 * [Subroutines](#subroutines)
   * [Built-in subroutines](#built-in-subroutines)
+    * [`append` subroutine](#append-subroutine)
     * [`closest` subroutine](#closest-subroutine)
+    * [`format` subroutine](#format-subroutine)
+    * [`match` subroutine](#match-subroutine)
     * [`nextUntil` subroutine](#nextuntil-subroutine)
+    * [`prepend` subroutine](#prepend-subroutine)
     * [`previous` subroutine](#previous-subroutine)
+    * [`read` subroutine](#read-subroutine)
+    * [`remove` subroutine](#remove-subroutine)
     * [`select` subroutine](#select-subroutine)
       * [Quantifier expression](#quantifier-expression)
-    * [`remove` subroutine](#remove-subroutine)
-    * [`read` subroutine](#read-subroutine)
     * [`test` subroutine](#test-subroutine)
-    * [`match` subroutine](#match-subroutine)
-    * [`format` subroutine](#format-subroutine)
   * [User-defined subroutines](#user-defined-subroutines)
   * [Built-in subroutine aliases](#built-in-subroutine-aliases)
 * [Expression reference](#expression-reference)
@@ -174,6 +176,23 @@ There are two types of subroutines:
 
 The following subroutines are available out of the box.
 
+#### `append` subroutine
+
+`append` appends a string to the input string.
+
+|Parameter name|Description|Default|
+|---|---|---|
+|head|Appends a string to the end of the input string.|N/A|
+
+Examples:
+
+```js
+// Assuming an element <a href='http://foo' />,
+// then the result is 'http://foo/bar'.
+x(`select a | read attribute href | append '/bar'`);
+
+```
+
 #### `closest` subroutine
 
 `closest` subroutine iterates through all the preceding nodes (including parent nodes) searching for either a preceding node matching the selector expression or a descendant of the preceding node matching the selector.
@@ -184,6 +203,45 @@ Note: This is different from the jQuery [`.closest()`](https://api.jquery.com/cl
 |---|---|---|
 |CSS selector|CSS selector used to select an element.|N/A|
 
+#### `format` subroutine
+
+`format` is used to format input using [printf](https://en.wikipedia.org/wiki/Printf_format_string).
+
+|Parameter name|Description|Default|
+|---|---|---|
+|format|[sprintf format](https://www.npmjs.com/package/sprintf-js) used to format the input string. The subroutine input is the first argument, i.e. `%1$s`.|`%1$s`|
+
+Examples:
+
+```js
+// Extracts 1 matching capturing group from the input string.
+// Prefixes the match with 'http://foo.com'.
+x(`select a | read attribute href | format 'http://foo.com%1$s'`);
+
+```
+
+#### `match` subroutine
+
+`match` is used to extract matching [capturing groups](https://www.regular-expressions.info/refcapture.html) from the subject input.
+
+|Parameter name|Description|Default|
+|---|---|---|
+|Regular expression|Regular expression used to match capturing groups in the string.|N/A|
+|Sprintf format|[sprintf format](https://www.npmjs.com/package/sprintf-js) used to construct a string using the matching capturing groups.|`%s`|
+
+Examples:
+
+```js
+// Extracts 1 matching capturing group from the input string.
+// Throws `InvalidDataError` if the value does not pass the test.
+x('select .foo | read property textContent | match "/input: (\d+)/"');
+
+// Extracts 2 matching capturing groups from the input string and formats the output using sprintf.
+// Throws `InvalidDataError` if the value does not pass the test.
+x('select .foo | read property textContent | match "/input: (\d+)-(\d+)/" %2$s-%1$s');
+
+```
+
 #### `nextUntil` subroutine
 
 `nextUntil` subroutine is used to select all following siblings of each element up to but not including the element matched by the selector.
@@ -192,6 +250,23 @@ Note: This is different from the jQuery [`.closest()`](https://api.jquery.com/cl
 |---|---|---|
 |selector expression|A string containing a selector expression to indicate where to stop matching following sibling elements.|N/A|
 |filter expression|A string containing a selector expression to match elements against.|
+
+#### `prepend` subroutine
+
+`prepend` prepends a string to the input string.
+
+|Parameter name|Description|Default|
+|---|---|---|
+|tail|Prepends a string to the start of the input string.|N/A|
+
+Examples:
+
+```js
+// Assuming an element <a href='//foo' />,
+// then the result is 'http://foo/bar'.
+x(`select a | read attribute href | prepend 'http:'`);
+
+```
 
 #### `previous` subroutine
 
@@ -213,6 +288,53 @@ Example:
 ```js
 x('select .bar | previous | read property textContent');
 // 'foo'
+
+```
+
+#### `read` subroutine
+
+`read` is used to extract value from the matching element using an [evaluator](#evaluators).
+
+|Parameter name|Description|Default|
+|---|---|---|
+|Target type|Possible values: "attribute" or "property"|N/A|
+|Target name|Depending on the target type, name of an attribute or a property.|N/A|
+
+Examples:
+
+```js
+// Returns .foo element "href" attribute value.
+// Throws error if attribute does not exist.
+x('select .foo | read attribute href');
+
+// Returns an array of "href" attribute values of the matching elements.
+// Throws error if attribute does not exist on either of the matching elements.
+x('select .foo {0,} | read attribute href');
+
+// Returns .foo element "textContent" property value.
+// Throws error if property does not exist.
+x('select .foo | read property textContent');
+
+```
+
+#### `remove` subroutine
+
+`remove` subroutine is used to remove elements from the document using an [evaluator](#evaluators).
+
+`remove` subroutine accepts the same parameters as the `select` subroutine.
+
+The result of `remove` subroutine is the input of the subroutine, i.e. previous `select` subroutine result.
+
+|Parameter name|Description|Default|
+|---|---|---|
+|CSS selector|CSS selector used to select an element.|N/A|
+|Quantifier expression|A [quantifier expression](#quantifier-expression) is used to control the expected result length.|See [quantifier expression](#quantifier-expression).|
+
+Examples:
+
+```js
+// Returns 'bar'.
+x('select .foo | remove span | read property textContent', `<div class='foo'>bar<span>baz</span></div>`);
 
 ```
 
@@ -265,53 +387,6 @@ x('select .foo {0,}[0]');
 
 ```
 
-#### `remove` subroutine
-
-`remove` subroutine is used to remove elements from the document using an [evaluator](#evaluators).
-
-`remove` subroutine accepts the same parameters as the `select` subroutine.
-
-The result of `remove` subroutine is the input of the subroutine, i.e. previous `select` subroutine result.
-
-|Parameter name|Description|Default|
-|---|---|---|
-|CSS selector|CSS selector used to select an element.|N/A|
-|Quantifier expression|A [quantifier expression](#quantifier-expression) is used to control the expected result length.|See [quantifier expression](#quantifier-expression).|
-
-Examples:
-
-```js
-// Returns 'bar'.
-x('select .foo | remove span | read property textContent', `<div class='foo'>bar<span>baz</span></div>`);
-
-```
-
-#### `read` subroutine
-
-`read` is used to extract value from the matching element using an [evaluator](#evaluators).
-
-|Parameter name|Description|Default|
-|---|---|---|
-|Target type|Possible values: "attribute" or "property"|N/A|
-|Target name|Depending on the target type, name of an attribute or a property.|N/A|
-
-Examples:
-
-```js
-// Returns .foo element "href" attribute value.
-// Throws error if attribute does not exist.
-x('select .foo | read attribute href');
-
-// Returns an array of "href" attribute values of the matching elements.
-// Throws error if attribute does not exist on either of the matching elements.
-x('select .foo {0,} | read attribute href');
-
-// Returns .foo element "textContent" property value.
-// Throws error if property does not exist.
-x('select .foo | read property textContent');
-
-```
-
 #### `test` subroutine
 
 `test` is used to validate the current value using a regular expression.
@@ -330,45 +405,6 @@ x('select .foo | read property textContent | test /bar/');
 ```
 
 See [error handling](#error-handling) for more information and usage examples of the `test` subroutine.
-
-#### `match` subroutine
-
-`match` is used to extract matching [capturing groups](https://www.regular-expressions.info/refcapture.html) from the subject input.
-
-|Parameter name|Description|Default|
-|---|---|---|
-|Regular expression|Regular expression used to match capturing groups in the string.|N/A|
-|Sprintf format|[sprintf format](https://www.npmjs.com/package/sprintf-js) used to construct a string using the matching capturing groups.|`%s`|
-
-Examples:
-
-```js
-// Extracts 1 matching capturing group from the input string.
-// Throws `InvalidDataError` if the value does not pass the test.
-x('select .foo | read property textContent | match "/input: (\d+)/"');
-
-// Extracts 2 matching capturing groups from the input string and formats the output using sprintf.
-// Throws `InvalidDataError` if the value does not pass the test.
-x('select .foo | read property textContent | match "/input: (\d+)-(\d+)/" %2$s-%1$s');
-
-```
-
-#### `format` subroutine
-
-`format` is used to format input using [printf](https://en.wikipedia.org/wiki/Printf_format_string).
-
-|Parameter name|Description|Default|
-|---|---|---|
-|format|[sprintf format](https://www.npmjs.com/package/sprintf-js) used to format the input string. The subroutine input is the first argument, i.e. `%1$s`.|`%1$s`|
-
-Examples:
-
-```js
-// Extracts 1 matching capturing group from the input string.
-// Prefixes the match with 'http://foo.com'.
-x(`select a | read attribute href | format 'http://foo.com%1$s'`);
-
-```
 
 ### User-defined subroutines
 
