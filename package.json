@@ -23,7 +23,7 @@
     "es6-error": "^4.1.1",
     "pianola": "^2.1.0",
     "regex-parser": "^2.2.10",
-    "roarr": "^2.13.3"
+    "roarr": "^2.14.1"
   },
   "description": "Declarative DOM extraction expression evaluator.",
   "devDependencies": {
@@ -36,16 +36,16 @@
     "ava": "^2.2.0",
     "babel-plugin-istanbul": "^5.2.0",
     "babel-plugin-transform-export-default-name": "^2.0.4",
-    "coveralls": "^3.0.5",
+    "coveralls": "^3.0.6",
     "eslint": "^6.1.0",
-    "eslint-config-canonical": "^17.3.2",
-    "flow-bin": "^0.104.0",
+    "eslint-config-canonical": "^17.3.4",
+    "flow-bin": "^0.105.2",
     "flow-copy-source": "^2.0.7",
-    "husky": "^3.0.1",
+    "husky": "^3.0.3",
     "lodash": "^4.17.15",
     "nyc": "^14.1.1",
-    "semantic-release": "^15.13.18",
-    "sinon": "^7.3.2",
+    "semantic-release": "^15.13.21",
+    "sinon": "^7.4.1",
     "sprintf-js": "^1.1.2"
   },
   "engines": {
