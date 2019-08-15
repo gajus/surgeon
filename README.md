@@ -432,7 +432,7 @@ Example:
 ```js
 const x = surgeon({
   subroutines: {
-    mySubourtine: (currentValue, [firstParameterValue, secondParameterValue]) => {
+    mySubroutine: (currentValue, [firstParameterValue, secondParameterValue]) => {
       console.log(currentValue, firstParameterValue, secondParameterValue);
 
       return parseInt(currentValue, 10) + 1;
@@ -440,7 +440,7 @@ const x = surgeon({
   }
 });
 
-x('mySubourtine foo bar | mySubourtine baz qux', 0);
+x('mySubroutine foo bar | mySubroutine baz qux', 0);
 
 ```
 
