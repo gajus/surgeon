@@ -5,6 +5,7 @@
   ],
   "root": true,
   "rules": {
-    "id-length": 0
+    "id-length": 0,
+    "no-unused-vars": 0
   }
 }

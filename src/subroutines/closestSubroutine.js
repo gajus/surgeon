@@ -24,6 +24,10 @@ const closestSubroutine: SubroutineType = (subject: any, [cssSelector], {evaluat
   let parentElement = subject;
 
   while (true) {
+    if (parentElement.filter(cssSelector).length) {
+      return parentElement;
+    }
+
     const previousNodes = parentElement
       .prevAll()
       .toArray()
