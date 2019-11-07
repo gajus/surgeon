@@ -17,7 +17,7 @@ test('rdtc: reads direct textNode textContent property', (t): void => {
 
   const query = 'so .foo | rdtc';
 
-  t.deepEqual(x(query, subject), 'bar');
+  t.is(x(query, subject), 'bar');
 });
 
 test('rdtc: trims value', (t): void => {
@@ -34,7 +34,7 @@ test('rdtc: trims value', (t): void => {
 
   const query = 'so .foo | rdtc';
 
-  t.deepEqual(x(query, subject), 'bar');
+  t.is(x(query, subject), 'bar');
 });
 
 test('rtc: reads textContent property', (t): void => {
@@ -48,7 +48,7 @@ test('rtc: reads textContent property', (t): void => {
 
   const query = 'so .foo | rtc';
 
-  t.deepEqual(x(query, subject), 'barbaz');
+  t.is(x(query, subject), 'barbaz');
 });
 
 test('ra: reads element attribute', (t): void => {
