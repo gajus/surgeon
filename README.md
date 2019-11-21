@@ -70,6 +70,7 @@ Have you got suggestions for improvement? [I am all ears](https://github.com/gaj
       * [Quantifier expression](#quantifier-expression)
     * [`test` subroutine](#test-subroutine)
   * [User-defined subroutines](#user-defined-subroutines)
+  * [Inline subroutines](#inline-subroutines)
   * [Built-in subroutine aliases](#built-in-subroutine-aliases)
 * [Expression reference](#expression-reference)
   * [The pipe operator (`|`)](#the-pipe-operator-)
@@ -456,6 +457,26 @@ For more examples of defining subroutines, refer to:
 
 * [Validate the results using a user-defined test function](#validate-the-results-using-a-user-defined-test-function).
 * [Source code](./src/subroutines) of the the built-in subroutines.
+
+## Inline subroutines
+
+Custom subroutines can be inlined into [pianola](https://github.com/gajus/pianola) instructions, e.g.
+
+```js
+x(
+  [
+    'foo',
+    (subject) => {
+      // `subject` is the return value of `foo` subroutine.
+
+      return 'bar';
+    },
+    'baz',
+  ],
+  'qux'
+);
+
+```
 
 ## Built-in subroutine aliases
 

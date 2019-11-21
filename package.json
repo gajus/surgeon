@@ -21,9 +21,9 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
     "es6-error": "^4.1.1",
-    "pianola": "^2.1.1",
+    "pianola": "^2.2.0",
     "regex-parser": "^2.2.10",
-    "roarr": "^2.14.5"
+    "roarr": "^2.14.6"
   },
   "description": "Declarative DOM extraction expression evaluator.",
   "devDependencies": {
@@ -36,15 +36,15 @@
     "ava": "^2.4.0",
     "babel-plugin-istanbul": "^5.2.0",
     "babel-plugin-transform-export-default-name": "^2.0.4",
-    "coveralls": "^3.0.7",
+    "coveralls": "^3.0.8",
     "eslint": "^6.6.0",
     "eslint-config-canonical": "^18.1.0",
     "flow-bin": "^0.112.0",
-    "flow-copy-source": "^2.0.8",
-    "husky": "^3.0.9",
+    "flow-copy-source": "^2.0.9",
+    "husky": "^3.1.0",
     "lodash": "^4.17.15",
     "nyc": "^14.1.1",
-    "semantic-release": "^15.13.30",
+    "semantic-release": "^15.13.31",
     "sinon": "^7.5.0",
     "sprintf-js": "^1.1.2"
   },

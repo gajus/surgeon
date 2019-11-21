@@ -134,3 +134,24 @@ test.skip('extracts a single value (expression string `.foo:has(+.bar)`)', (t): 
 
   t.true(x(query, subject) === 'foo');
 });
+
+test('extracts a single value (using inline subroutine)', (t): void => {
+  const x = surgeon();
+
+  const subject = `
+    <div class="foo">FOO</div>
+    <div class="bar">BAR</div>
+  `;
+
+  const query: DenormalizedQueryType = [
+    'select .foo',
+    (input) => {
+      t.is(input.text(), 'FOO');
+
+      return input.next();
+    },
+    'read property textContent',
+  ];
+
+  t.is(x(query, subject), 'BAR');
+});
