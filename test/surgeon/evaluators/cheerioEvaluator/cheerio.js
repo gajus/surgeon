@@ -10,5 +10,5 @@ test.skip('returns innerHTML property value', (t) => {
     xmlMode: true,
   });
 
-  t.true($.html() === '<script>"<br>"</script>');
+  t.is($.html(), '<script>"<br>"</script>');
 });

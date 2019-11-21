@@ -4,7 +4,7 @@ import test from 'ava';
 import sinon from 'sinon';
 import nextUntilSubroutine from '../../../src/subroutines/nextUntilSubroutine';
 
-test('returns array when expecting multiple results', (t): void => {
+test('returns array when expecting multiple results', (t) => {
   const isElement = sinon.stub().returns(true);
   const nextUntil = sinon.stub().returns(['foo', 'bar']);
 

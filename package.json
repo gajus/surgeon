@@ -21,7 +21,7 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
     "es6-error": "^4.1.1",
-    "pianola": "^2.2.0",
+    "pianola": "^3.0.0",
     "regex-parser": "^2.2.10",
     "roarr": "^2.14.6"
   },

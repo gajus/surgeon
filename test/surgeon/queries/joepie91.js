@@ -9,7 +9,7 @@ import type {
   DenormalizedQueryType,
 } from '../../../src/types';
 
-test('extracts a single value (expression string)', (t): void => {
+test('extracts a single value (expression string)', async (t) => {
   let lastSelector;
 
   const x = surgeon({
@@ -75,7 +75,7 @@ test('extracts a single value (expression string)', (t): void => {
     },
   ];
 
-  const result = x(query, subject);
+  const result = await x(query, subject);
 
   const expectedResult = {
     articles: [

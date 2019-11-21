@@ -6,7 +6,7 @@ import type {
   DenormalizedQueryType,
 } from '../../../src/types';
 
-test('extracts a single value', (t): void => {
+test('extracts a single value', async (t) => {
   const x = surgeon();
 
   const subject = `
@@ -22,12 +22,12 @@ test('extracts a single value', (t): void => {
     },
   ];
 
-  t.deepEqual(x(query, subject), {
+  t.deepEqual(await x(query, subject), {
     name: 'baz',
   });
 });
 
-test('extracts multiple values', (t): void => {
+test('extracts multiple values', async (t) => {
   const x = surgeon();
 
   const subject = `
@@ -51,5 +51,5 @@ test('extracts multiple values', (t): void => {
     },
   ];
 
-  t.deepEqual(x(query, subject), expectedResult);
+  t.deepEqual(await x(query, subject), expectedResult);
 });

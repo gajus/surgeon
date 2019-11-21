@@ -24,11 +24,11 @@ test('identifies next nodes using a selector', (t) => {
   const document = parseDocument(body);
   const nodes = querySelectorAll(document, 'li');
 
-  t.true(nodes.length === 5);
+  t.is(nodes.length, 5);
 
   const nextNodes = nextUntil(nodes[0], '.baz');
 
-  t.true(nextNodes.length === 2);
+  t.is(nextNodes.length, 2);
 });
 
 test('identifies next nodes using a selector and a filter', (t) => {
@@ -50,11 +50,11 @@ test('identifies next nodes using a selector and a filter', (t) => {
   const document = parseDocument(body);
   const nodes = querySelectorAll(document, 'li');
 
-  t.true(nodes.length === 6);
+  t.is(nodes.length, 6);
 
   const nextNodes = nextUntil(nodes[0], '.baz', ':not(.qux)');
 
-  t.true(nextNodes.length === 3);
+  t.is(nextNodes.length, 3);
 });
 
 // @see https://github.com/cheeriojs/cheerio/issues/1194
@@ -79,5 +79,5 @@ test.skip('filters out matching nodes', (t) => {
     .eq(0)
     .nextUntil('.baz', ':not(:nth-child(4))');
 
-  t.true(nodes.length === 3);
+  t.is(nodes.length, 3);
 });

@@ -8,7 +8,7 @@ import type {
   DenormalizedQueryType,
 } from '../../../src/types';
 
-test('extracts multiple values', (t): void => {
+test('extracts multiple values', async (t) => {
   const x = surgeon();
 
   const subject = `
@@ -21,13 +21,13 @@ test('extracts multiple values', (t): void => {
     'read property textContent',
   ];
 
-  t.deepEqual(x(query, subject), [
+  t.deepEqual(await x(query, subject), [
     'bar0',
     'bar1',
   ]);
 });
 
-test('extracts multiple nodes nextUntil', (t): void => {
+test('extracts multiple nodes nextUntil', async (t) => {
   const x = surgeon();
 
   const subject = `
@@ -45,7 +45,7 @@ test('extracts multiple nodes nextUntil', (t): void => {
     'read property textContent',
   ];
 
-  t.deepEqual(x(query, subject), [
+  t.deepEqual(await x(query, subject), [
     'bar0',
     'bar1',
     'bar2',
@@ -55,7 +55,7 @@ test('extracts multiple nodes nextUntil', (t): void => {
 // @see https://github.com/cheeriojs/cheerio/issues/1194
 
 // eslint-disable-next-line ava/no-skip-test
-test.skip('extracts multiple nodes nextUntil (with filter)', (t): void => {
+test.skip('extracts multiple nodes nextUntil (with filter)', async (t) => {
   const x = surgeon();
 
   const subject = `
@@ -73,13 +73,13 @@ test.skip('extracts multiple nodes nextUntil (with filter)', (t): void => {
     'read property textContent',
   ];
 
-  t.deepEqual(x(query, subject), [
+  t.deepEqual(await x(query, subject), [
     'bar0',
     'bar1',
   ]);
 });
 
-test('throws error if too few nodes are matched', (t): void => {
+test('throws error if too few nodes are matched', async (t) => {
   const x = surgeon();
 
   const subject = `
@@ -91,12 +91,12 @@ test('throws error if too few nodes are matched', (t): void => {
     'select .foo {3,}',
   ];
 
-  t.throws((): void => {
-    x(query, subject);
-  }, SelectSubroutineUnexpectedResultCountError);
+  const error = await t.throwsAsync(x(query, subject));
+
+  t.true(error instanceof SelectSubroutineUnexpectedResultCountError);
 });
 
-test('throws error if too many nodes are matched', (t): void => {
+test('throws error if too many nodes are matched', async (t) => {
   const x = surgeon();
 
   const subject = `
@@ -109,7 +109,7 @@ test('throws error if too many nodes are matched', (t): void => {
     'select .foo {0,2}',
   ];
 
-  t.throws((): void => {
-    x(query, subject);
-  }, SelectSubroutineUnexpectedResultCountError);
+  const error = await t.throwsAsync(x(query, subject));
+
+  t.true(error instanceof SelectSubroutineUnexpectedResultCountError);
 });

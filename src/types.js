@@ -2,6 +2,8 @@
 
 /* eslint-disable import/exports-last, flowtype/no-mixed */
 
+type MaybePromiseType<T> = T | Promise<T>;
+
 // eslint-disable-next-line flowtype/no-weak-types
 type ElementType = Object;
 
@@ -20,7 +22,8 @@ export type EvaluatorType = {|
   +remove: (element: ElementType) => void,
 |};
 
-export type SubroutineType = (subject: mixed, parameters: $ReadOnlyArray<string>, bindle: BindleType) => mixed;
+// eslint-disable-next-line flowtype/no-weak-types
+export type SubroutineType = (subject: mixed, parameters: $ReadOnlyArray<string>, bindle: BindleType) => MaybePromiseType<any>;
 
 export type SelectSubroutineQuantifierType = {|
   +index: number | null,

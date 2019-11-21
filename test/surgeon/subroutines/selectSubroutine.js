@@ -7,7 +7,7 @@ import {
 } from 'pianola';
 import selectSubroutine from '../../../src/subroutines/selectSubroutine';
 
-test('returns array when expecting multiple results', (t): void => {
+test('returns array when expecting multiple results', (t) => {
   const isElement = sinon.stub().returns(true);
   const querySelectorAll = sinon.stub().returns(['foo', 'bar']);
 
@@ -21,7 +21,7 @@ test('returns array when expecting multiple results', (t): void => {
   t.deepEqual(results, ['foo', 'bar']);
 });
 
-test('returns a single result when expecting at most 1 result', (t): void => {
+test('returns a single result when expecting at most 1 result', (t) => {
   const isElement = sinon.stub().returns(true);
   const querySelectorAll = sinon.stub().returns(['foo']);
 
@@ -32,10 +32,10 @@ test('returns a single result when expecting at most 1 result', (t): void => {
 
   const result = selectSubroutine(null, ['.foo', '{0,1}[0]'], {evaluator});
 
-  t.true(result === 'foo');
+  t.is(result, 'foo');
 });
 
-test('returns an empty array when expecting multiple results', (t): void => {
+test('returns an empty array when expecting multiple results', (t) => {
   const isElement = sinon.stub().returns(true);
   const querySelectorAll = sinon.stub().returns([]);
 
@@ -49,7 +49,7 @@ test('returns an empty array when expecting multiple results', (t): void => {
   t.deepEqual(results, []);
 });
 
-test('returns FinalResultSentinel(null) when expecting at most 1 result', (t): void => {
+test('returns FinalResultSentinel(null) when expecting at most 1 result', (t) => {
   const isElement = sinon.stub().returns(true);
   const querySelectorAll = sinon.stub().returns([]);
 
@@ -63,5 +63,5 @@ test('returns FinalResultSentinel(null) when expecting at most 1 result', (t): v
   t.true(result instanceof FinalResultSentinel);
 
   // $FlowFixMe
-  t.true(result.value === null);
+  t.is(result.value, null);
 });

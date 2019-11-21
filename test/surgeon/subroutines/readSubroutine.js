@@ -4,21 +4,21 @@ import test from 'ava';
 import sinon from 'sinon';
 import readSubroutine from '../../../src/subroutines/readSubroutine';
 
-test('uses evalutor.isElement to validate the subject', (t): void => {
+test('uses evalutor.isElement to validate the subject', (t) => {
   const isElement = sinon.stub().returns(false);
 
   const evaluator = {
     isElement,
   };
 
-  const error = t.throws((): void => {
+  const error = t.throws(() => {
     readSubroutine(null, [], {evaluator});
   });
 
   t.true(error.message === 'Unexpected value. Value must be an element.');
 });
 
-test('reading a property uses evaluator.getPropertyValue method', (t): void => {
+test('reading a property uses evaluator.getPropertyValue method', (t) => {
   const isElement = sinon.stub().returns(true);
   const getPropertyValue = sinon.stub().returns('foo');
 
@@ -32,7 +32,7 @@ test('reading a property uses evaluator.getPropertyValue method', (t): void => {
   t.true(result === 'foo');
 });
 
-test('reading an attribute uses evaluator.getAttributeValue method', (t): void => {
+test('reading an attribute uses evaluator.getAttributeValue method', (t) => {
   const isElement = sinon.stub().returns(true);
   const getAttributeValue = sinon.stub().returns('bar');
 
@@ -46,14 +46,14 @@ test('reading an attribute uses evaluator.getAttributeValue method', (t): void =
   t.true(result === 'bar');
 });
 
-test('using unknown target throws an error', (t): void => {
+test('using unknown target throws an error', (t) => {
   const isElement = sinon.stub().returns(true);
 
   const evaluator = {
     isElement,
   };
 
-  const result = t.throws((): void => {
+  const result = t.throws(() => {
     readSubroutine(null, ['foo'], {evaluator});
   });
 

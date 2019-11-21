@@ -6,13 +6,13 @@ import {
 } from '../../../src';
 import testSubroutine from '../../../src/subroutines/testSubroutine';
 
-test('throws an error if invoked with invalid RegExp', (t): void => {
-  t.throws((): void => {
+test('throws an error if invoked with invalid RegExp', (t) => {
+  t.throws(() => {
     testSubroutine('foo', ['/foo/x']);
   });
 });
 
-test('validates the input agaisnt the regex', (t): void => {
+test('validates the input against the regex', (t) => {
   t.true(testSubroutine('foo', ['foo']) === 'foo');
 });
 
@@ -24,5 +24,6 @@ test('returns InvalidValueSentinel when input cannot be matched', (t) => {
   }
 
   t.true(error instanceof InvalidValueSentinel);
-  t.true(error.message === 'Input does not match "/bar/" regular expression.');
+
+  t.is(error.message, 'Input does not match "/bar/" regular expression.');
 });

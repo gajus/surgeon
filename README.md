@@ -145,7 +145,7 @@ surgeon({
 A subroutine is a function used to advance the DOM extraction expression evaluator, e.g.
 
 ```js
-x('foo | bar baz', 'qux');
+await x('foo | bar baz', 'qux');
 
 ```
 
@@ -158,7 +158,7 @@ Subroutines are executed in the order in which they are defined – the result o
 Multiple subroutines can be written as an array. The following example is equivalent to the earlier example.
 
 ```js
-x([
+await x([
   'foo',
   'bar baz'
 ], 'qux');
@@ -191,7 +191,7 @@ Examples:
 ```js
 // Assuming an element <a href='http://foo' />,
 // then the result is 'http://foo/bar'.
-x(`select a | read attribute href | append '/bar'`);
+await x(`select a | read attribute href | append '/bar'`);
 
 ```
 
@@ -226,7 +226,7 @@ Examples:
 ```js
 // Extracts 1 matching capturing group from the input string.
 // Prefixes the match with 'http://foo.com'.
-x(`select a | read attribute href | format 'http://foo.com%1$s'`);
+await x(`select a | read attribute href | format 'http://foo.com%1$s'`);
 
 ```
 
@@ -244,11 +244,11 @@ Examples:
 ```js
 // Extracts 1 matching capturing group from the input string.
 // Throws `InvalidDataError` if the value does not pass the test.
-x('select .foo | read property textContent | match "/input: (\d+)/"');
+await x('select .foo | read property textContent | match "/input: (\d+)/"');
 
 // Extracts 2 matching capturing groups from the input string and formats the output using sprintf.
 // Throws `InvalidDataError` if the value does not pass the test.
-x('select .foo | read property textContent | match "/input: (\d+)-(\d+)/" %2$s-%1$s');
+await x('select .foo | read property textContent | match "/input: (\d+)-(\d+)/" %2$s-%1$s');
 
 ```
 
@@ -274,7 +274,7 @@ Examples:
 ```js
 // Assuming an element <a href='//foo' />,
 // then the result is 'http://foo/bar'.
-x(`select a | read attribute href | prepend 'http:'`);
+await x(`select a | read attribute href | prepend 'http:'`);
 
 ```
 
@@ -296,7 +296,7 @@ Example:
 ```
 
 ```js
-x('select .bar | previous | read property textContent');
+await x('select .bar | previous | read property textContent');
 // 'foo'
 
 ```
@@ -315,15 +315,15 @@ Examples:
 ```js
 // Returns .foo element "href" attribute value.
 // Throws error if attribute does not exist.
-x('select .foo | read attribute href');
+await x('select .foo | read attribute href');
 
 // Returns an array of "href" attribute values of the matching elements.
 // Throws error if attribute does not exist on either of the matching elements.
-x('select .foo {0,} | read attribute href');
+await x('select .foo {0,} | read attribute href');
 
 // Returns .foo element "textContent" property value.
 // Throws error if property does not exist.
-x('select .foo | read property textContent');
+await x('select .foo | read property textContent');
 
 ```
 
@@ -344,7 +344,7 @@ Examples:
 
 ```js
 // Returns 'bar'.
-x('select .foo | remove span | read property textContent', `<div class='foo'>bar<span>baz</span></div>`);
+await x('select .foo | remove span | read property textContent', `<div class='foo'>bar<span>baz</span></div>`);
 
 ```
 
@@ -379,21 +379,21 @@ Examples:
 ```js
 // Selects 0 or more nodes.
 // Result is an array.
-x('select .foo {0,}');
+await x('select .foo {0,}');
 
 // Selects 1 or more nodes.
 // Throws an error if 0 matches found.
 // Result is an array.
-x('select .foo {1,}');
+await x('select .foo {1,}');
 
 // Selects between 0 and 5 nodes.
 // Throws an error if more than 5 matches found.
 // Result is an array.
-x('select .foo {0,5}');
+await x('select .foo {0,5}');
 
 // Selects 1 node.
 // Result is the first match in the result set (or `null`).
-x('select .foo {0,}[0]');
+await x('select .foo {0,}[0]');
 
 ```
 
@@ -410,7 +410,7 @@ Examples:
 ```js
 // Validates that .foo element textContent property value matches /bar/ regular expression.
 // Throws `InvalidDataError` if the value does not pass the test.
-x('select .foo | read property textContent | test /bar/');
+await x('select .foo | read property textContent | test /bar/');
 
 ```
 
@@ -441,7 +441,7 @@ const x = surgeon({
   }
 });
 
-x('mySubroutine foo bar | mySubroutine baz qux', 0);
+await x('mySubroutine foo bar | mySubroutine baz qux', 0);
 
 ```
 
@@ -463,7 +463,7 @@ For more examples of defining subroutines, refer to:
 Custom subroutines can be inlined into [pianola](https://github.com/gajus/pianola) instructions, e.g.
 
 ```js
-x(
+await x(
   [
     'foo',
     (subject) => {
@@ -514,7 +514,7 @@ const x = surgeon({
   }
 });
 
-x('s .foo .bar | t "/foo bar/"');
+await x('s .foo .bar | t "/foo bar/"');
 
 ```
 
@@ -547,7 +547,7 @@ parameters ->
 Example:
 
 ```js
-x('foo bar baz', 'qux');
+await x('foo bar baz', 'qux');
 
 ```
 
@@ -556,7 +556,7 @@ In this example, Surgeon query executor (`x`) is invoked with `foo bar baz` expr
 Multiple subroutines can be combined using an array:
 
 ```js
-x([
+await x([
   'foo bar baz',
   'corge grault garply'
 ], 'qux');
@@ -576,16 +576,16 @@ Multiple subroutines can be combined using the pipe operator.
 The following examples are equivalent:
 
 ```js
-x([
+await x([
   'foo bar baz',
   'qux quux quuz'
 ]);
 
-x([
+await x([
   'foo bar baz | foo bar baz'
 ]);
 
-x('foo bar baz | foo bar baz');
+await x('foo bar baz | foo bar baz');
 
 ```
 
@@ -612,7 +612,7 @@ const subject = `
   <div class="title">foo</div>
 `;
 
-x('select .title | read property textContent', subject);
+await x('select .title | read property textContent', subject);
 
 // 'foo'
 
@@ -629,7 +629,7 @@ const subject = `
   <div class="foo">qux</div>
 `;
 
-x('select .title {0,} | read property textContent', subject);
+await x('select .title {0,} | read property textContent', subject);
 
 // [
 //   'bar',
@@ -655,7 +655,7 @@ const subject = `
   </article>
 `;
 
-x([
+await x([
   'select article',
   {
     body: 'select .body | read property textContent'
@@ -687,7 +687,7 @@ const subject = `
   <div class="foo">qux</div>
 `;
 
-x('select .foo {0,} | test /^[a-z]{3}$/');
+await x('select .foo {0,} | test /^[a-z]{3}$/');
 
 ```
 
@@ -804,7 +804,7 @@ const subject = `
 `;
 
 try {
-  x('select .foo | test /bar/', subject);
+  await x('select .foo | test /bar/', subject);
 } catch (error) {
   if (error instanceof InvalidDataError) {
     // Handle data validation error.

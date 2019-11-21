@@ -6,7 +6,7 @@ import type {
   DenormalizedQueryType,
 } from '../../../src/types';
 
-test('returns the first matching preceeding node', (t): void => {
+test('returns the first matching preceding node', async (t) => {
   const x = surgeon();
 
   const subject = `
@@ -20,10 +20,10 @@ test('returns the first matching preceeding node', (t): void => {
 
   const query: DenormalizedQueryType = 'select .baz | closest .foo | read property textContent';
 
-  t.is(x(query, subject), 'foo');
+  t.is(await x(query, subject), 'foo');
 });
 
-test('returns the first matching node contained in a preceeding node', (t): void => {
+test('returns the first matching node contained in a preceding node', async (t) => {
   const x = surgeon();
 
   const subject = `
@@ -38,10 +38,10 @@ test('returns the first matching node contained in a preceeding node', (t): void
 
   const query: DenormalizedQueryType = 'select .baz | closest .foo | read property textContent';
 
-  t.is(x(query, subject), 'foo');
+  t.is(await x(query, subject), 'foo');
 });
 
-test('prioritizes preceeding node over a deep match', (t): void => {
+test('prioritizes preceeding node over a deep match', async (t) => {
   const x = surgeon();
 
   const subject = `
@@ -57,10 +57,10 @@ test('prioritizes preceeding node over a deep match', (t): void => {
 
   const query: DenormalizedQueryType = 'select .baz | closest .foo | read property textContent';
 
-  t.is(x(query, subject), 'foo');
+  t.is(await x(query, subject), 'foo');
 });
 
-test('ascends the DOM tree', (t): void => {
+test('ascends the DOM tree', async (t) => {
   const x = surgeon();
 
   const subject = `
@@ -75,10 +75,10 @@ test('ascends the DOM tree', (t): void => {
 
   const query: DenormalizedQueryType = 'select .baz | closest .foo | read property textContent';
 
-  t.is(x(query, subject), 'foo');
+  t.is(await x(query, subject), 'foo');
 });
 
-test('returns first matching parent node', (t): void => {
+test('returns first matching parent node', async (t) => {
   const x = surgeon();
 
   const subject = `
@@ -93,10 +93,10 @@ test('returns first matching parent node', (t): void => {
 
   const query: DenormalizedQueryType = 'select .baz | closest .foo | read property textContent';
 
-  t.is(x(query, subject).replace(/\s+/g, ''), 'foobaz');
+  t.is((await x(query, subject)).replace(/\s+/g, ''), 'foobaz');
 });
 
-test('throws an error if node cannot be found', (t): void => {
+test('throws an error if node cannot be found', async (t) => {
   const x = surgeon();
 
   const subject = `
@@ -105,7 +105,7 @@ test('throws an error if node cannot be found', (t): void => {
 
   const query: DenormalizedQueryType = 'select .baz | closest .foo | read property textContent';
 
-  t.throws(() => {
-    x(query, subject);
-  }, 'Cannot find a preceding node matching the provided CSS selector.');
+  const error = await t.throwsAsync(x(query, subject));
+
+  t.is(error.message, 'Cannot find a preceding node matching the provided CSS selector.');
 });

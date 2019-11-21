@@ -6,7 +6,7 @@ import surgeon, {
   SelectSubroutineUnexpectedResultCountError,
 } from '../../src';
 
-test('rdtc: reads direct textNode textContent property', (t): void => {
+test('rdtc: reads direct textNode textContent property', async (t) => {
   const x = surgeon({
     subroutines: subroutineAliasPreset,
   });
@@ -17,10 +17,10 @@ test('rdtc: reads direct textNode textContent property', (t): void => {
 
   const query = 'so .foo | rdtc';
 
-  t.is(x(query, subject), 'bar');
+  t.is(await x(query, subject), 'bar');
 });
 
-test('rdtc: trims value', (t): void => {
+test('rdtc: trims value', async (t) => {
   const x = surgeon({
     subroutines: subroutineAliasPreset,
   });
@@ -34,10 +34,10 @@ test('rdtc: trims value', (t): void => {
 
   const query = 'so .foo | rdtc';
 
-  t.is(x(query, subject), 'bar');
+  t.is(await x(query, subject), 'bar');
 });
 
-test('rtc: reads textContent property', (t): void => {
+test('rtc: reads textContent property', async (t) => {
   const x = surgeon({
     subroutines: subroutineAliasPreset,
   });
@@ -48,10 +48,10 @@ test('rtc: reads textContent property', (t): void => {
 
   const query = 'so .foo | rtc';
 
-  t.is(x(query, subject), 'barbaz');
+  t.is(await x(query, subject), 'barbaz');
 });
 
-test('ra: reads element attribute', (t): void => {
+test('ra: reads element attribute', async (t) => {
   const x = surgeon({
     subroutines: subroutineAliasPreset,
   });
@@ -62,10 +62,10 @@ test('ra: reads element attribute', (t): void => {
 
   const query = 'select .foo | ra class';
 
-  t.true(x(query, subject) === 'foo');
+  t.is(await x(query, subject), 'foo');
 });
 
-test('so: selects one element', (t): void => {
+test('so: selects one element', async (t) => {
   const x = surgeon({
     subroutines: subroutineAliasPreset,
   });
@@ -76,10 +76,10 @@ test('so: selects one element', (t): void => {
 
   const query = 'so .foo | read property textContent';
 
-  t.true(x(query, subject) === 'foo 0');
+  t.is(await x(query, subject), 'foo 0');
 });
 
-test('so: selects one element (multiple matches)', (t): void => {
+test('so: selects one element (multiple matches)', async (t) => {
   const x = surgeon({
     subroutines: subroutineAliasPreset,
   });
@@ -91,12 +91,12 @@ test('so: selects one element (multiple matches)', (t): void => {
 
   const query = 'so .foo | read property textContent';
 
-  t.throws((): void => {
-    x(query, subject);
-  }, SelectSubroutineUnexpectedResultCountError);
+  const error = await t.throwsAsync(x(query, subject));
+
+  t.true(error instanceof SelectSubroutineUnexpectedResultCountError);
 });
 
-test('so: select one element (no matches)', (t): void => {
+test('so: select one element (no matches)', async (t) => {
   const x = surgeon({
     subroutines: subroutineAliasPreset,
   });
@@ -105,12 +105,12 @@ test('so: select one element (no matches)', (t): void => {
 
   const query = 'so .foo | read property textContent';
 
-  t.throws((): void => {
-    x(query, subject);
-  }, SelectSubroutineUnexpectedResultCountError);
+  const error = await t.throwsAsync(x(query, subject));
+
+  t.true(error instanceof SelectSubroutineUnexpectedResultCountError);
 });
 
-test('sm: selects many elements', (t): void => {
+test('sm: selects many elements', async (t) => {
   const x = surgeon({
     subroutines: subroutineAliasPreset,
   });
@@ -122,10 +122,10 @@ test('sm: selects many elements', (t): void => {
 
   const query = 'sm .foo | read property textContent';
 
-  t.deepEqual(x(query, subject), ['foo 0', 'foo 1']);
+  t.deepEqual(await x(query, subject), ['foo 0', 'foo 1']);
 });
 
-test('sm: selects many elements (no matches)', (t): void => {
+test('sm: selects many elements (no matches)', async (t) => {
   const x = surgeon({
     subroutines: subroutineAliasPreset,
   });
@@ -134,12 +134,12 @@ test('sm: selects many elements (no matches)', (t): void => {
 
   const query = 'sm .foo | read property textContent';
 
-  t.throws((): void => {
-    x(query, subject);
-  }, SelectSubroutineUnexpectedResultCountError);
+  const error = await t.throwsAsync(x(query, subject));
+
+  t.true(error instanceof SelectSubroutineUnexpectedResultCountError);
 });
 
-test('sa: selects any elements', (t): void => {
+test('sa: selects any elements', async (t) => {
   const x = surgeon({
     subroutines: subroutineAliasPreset,
   });
@@ -151,10 +151,10 @@ test('sa: selects any elements', (t): void => {
 
   const query = 'sa .foo | read property textContent';
 
-  t.deepEqual(x(query, subject), ['foo 0', 'foo 1']);
+  t.deepEqual(await x(query, subject), ['foo 0', 'foo 1']);
 });
 
-test('sa: selects any elements (no matches)', (t): void => {
+test('sa: selects any elements (no matches)', async (t) => {
   const x = surgeon({
     subroutines: subroutineAliasPreset,
   });
@@ -163,10 +163,10 @@ test('sa: selects any elements (no matches)', (t): void => {
 
   const query = 'sa .foo | read property textContent';
 
-  t.deepEqual(x(query, subject), []);
+  t.deepEqual(await x(query, subject), []);
 });
 
-test('saf: selects first out of any matches (multiple matches)', (t): void => {
+test('saf: selects first out of any matches (multiple matches)', async (t) => {
   const x = surgeon({
     subroutines: subroutineAliasPreset,
   });
@@ -178,10 +178,10 @@ test('saf: selects first out of any matches (multiple matches)', (t): void => {
 
   const query = 'saf .foo | read property textContent';
 
-  t.true(x(query, subject) === 'foo 0');
+  t.is(await x(query, subject), 'foo 0');
 });
 
-test('saf: selects first out of any matches (no matches)', (t): void => {
+test('saf: selects first out of any matches (no matches)', async (t) => {
   const x = surgeon({
     subroutines: subroutineAliasPreset,
   });
@@ -190,5 +190,5 @@ test('saf: selects first out of any matches (no matches)', (t): void => {
 
   const query = 'saf .foo | read property textContent';
 
-  t.true(x(query, subject) === null);
+  t.is(await x(query, subject), null);
 });

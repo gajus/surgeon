@@ -20,11 +20,11 @@ test('returns the previous node', (t) => {
   const document = parseDocument(body);
   const nodes = querySelectorAll(document, 'li');
 
-  t.true(nodes.length === 2);
+  t.is(nodes.length, 2);
 
   const previousNode = previous(nodes[1]);
 
-  t.true(previousNode.text() === '1');
+  t.is(previousNode.text(), '1');
 });
 
 test('returns previous node matching the selector', (t) => {
@@ -46,9 +46,9 @@ test('returns previous node matching the selector', (t) => {
   const document = parseDocument(body);
   const nodes = querySelectorAll(document, 'li');
 
-  t.true(nodes.length === 4);
+  t.is(nodes.length, 4);
 
   const previousNode = previous(nodes[2], '.foo');
 
-  t.true(previousNode.text() === '1');
+  t.is(previousNode.text(), '1');
 });
