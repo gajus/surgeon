@@ -5,17 +5,16 @@
     "url": "http://gajus.com"
   },
   "ava": {
+    "babel": {
+      "compileAsTests": [
+        "test/helpers/**/*"
+      ]
+    },
     "files": [
-      "test/**/*"
-    ],
-    "helpers": [
-      "test/helpers/**/*"
+      "test/surgeon/**/*"
     ],
     "require": [
       "@babel/register"
-    ],
-    "sources": [
-      "src/**/*"
     ]
   },
   "dependencies": {
@@ -27,25 +26,26 @@
   },
   "description": "Declarative DOM extraction expression evaluator.",
   "devDependencies": {
-    "@babel/cli": "^7.7.0",
-    "@babel/core": "^7.7.2",
-    "@babel/node": "^7.7.0",
-    "@babel/plugin-transform-flow-strip-types": "^7.6.3",
-    "@babel/preset-env": "^7.7.1",
-    "@babel/register": "^7.7.0",
-    "ava": "^2.4.0",
-    "babel-plugin-istanbul": "^5.2.0",
+    "@ava/babel": "^1.0.0",
+    "@babel/cli": "^7.8.3",
+    "@babel/core": "^7.8.3",
+    "@babel/node": "^7.8.3",
+    "@babel/plugin-transform-flow-strip-types": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "@babel/register": "^7.8.3",
+    "ava": "^3.0.0",
+    "babel-plugin-istanbul": "^6.0.0",
     "babel-plugin-transform-export-default-name": "^2.0.4",
-    "coveralls": "^3.0.8",
-    "eslint": "^6.6.0",
+    "coveralls": "^3.0.9",
+    "eslint": "^6.8.0",
     "eslint-config-canonical": "^18.1.0",
-    "flow-bin": "^0.112.0",
+    "flow-bin": "^0.116.1",
     "flow-copy-source": "^2.0.9",
-    "husky": "^3.1.0",
+    "husky": "^4.2.0",
     "lodash": "^4.17.15",
-    "nyc": "^14.1.1",
-    "semantic-release": "^15.13.31",
-    "sinon": "^7.5.0",
+    "nyc": "^15.0.0",
+    "semantic-release": "^16.0.3",
+    "sinon": "^8.1.1",
     "sprintf-js": "^1.1.2"
   },
   "engines": {

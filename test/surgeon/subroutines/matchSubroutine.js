@@ -13,9 +13,11 @@ test('throws an error if invoked with invalid RegExp', (t): void => {
 });
 
 test('throws an error if regex does not define capturing groups', (t) => {
-  t.throws((): void => {
+  const error = t.throws((): void => {
     matchSubroutine('foo', ['foo']);
-  }, 'Regular expression must define at least one capturing group.');
+  });
+
+  t.is(error.message, 'Regular expression must define at least one capturing group.');
 });
 
 test('returns InvalidValueSentinel when input cannot be matched', (t) => {
@@ -34,9 +36,11 @@ test('matches a single capturing group', (t) => {
 });
 
 test('throws an error when matching multiple capturing groups without sprintf template', (t) => {
-  t.throws((): void => {
+  const error = t.throws((): void => {
     matchSubroutine('foobar', ['(foo)(bar)']);
-  }, 'Must define sprintf template when matching multiple groups.');
+  });
+
+  t.is(error.message, 'Must define sprintf template when matching multiple groups.');
 });
 
 test('formats multiple capturing group matches using sprintf', (t) => {

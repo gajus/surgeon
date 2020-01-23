@@ -105,7 +105,9 @@ test('throws an error if node cannot be found', (t): void => {
 
   const query: DenormalizedQueryType = 'select .baz | closest .foo | read property textContent';
 
-  t.throws(() => {
+  const error = t.throws(() => {
     x(query, subject);
-  }, 'Cannot find a preceding node matching the provided CSS selector.');
+  });
+
+  t.is(error.message, 'Cannot find a preceding node matching the provided CSS selector.');
 });

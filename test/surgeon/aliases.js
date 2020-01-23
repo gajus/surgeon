@@ -62,7 +62,7 @@ test('ra: reads element attribute', (t): void => {
 
   const query = 'select .foo | ra class';
 
-  t.true(x(query, subject) === 'foo');
+  t.is(x(query, subject), 'foo');
 });
 
 test('so: selects one element', (t): void => {
@@ -76,7 +76,7 @@ test('so: selects one element', (t): void => {
 
   const query = 'so .foo | read property textContent';
 
-  t.true(x(query, subject) === 'foo 0');
+  t.is(x(query, subject), 'foo 0');
 });
 
 test('so: selects one element (multiple matches)', (t): void => {
@@ -91,9 +91,11 @@ test('so: selects one element (multiple matches)', (t): void => {
 
   const query = 'so .foo | read property textContent';
 
-  t.throws((): void => {
+  const error = t.throws((): void => {
     x(query, subject);
-  }, SelectSubroutineUnexpectedResultCountError);
+  });
+
+  t.true(error instanceof SelectSubroutineUnexpectedResultCountError);
 });
 
 test('so: select one element (no matches)', (t): void => {
@@ -105,9 +107,11 @@ test('so: select one element (no matches)', (t): void => {
 
   const query = 'so .foo | read property textContent';
 
-  t.throws((): void => {
+  const error = t.throws((): void => {
     x(query, subject);
-  }, SelectSubroutineUnexpectedResultCountError);
+  });
+
+  t.true(error instanceof SelectSubroutineUnexpectedResultCountError);
 });
 
 test('sm: selects many elements', (t): void => {
@@ -134,9 +138,11 @@ test('sm: selects many elements (no matches)', (t): void => {
 
   const query = 'sm .foo | read property textContent';
 
-  t.throws((): void => {
+  const error = t.throws((): void => {
     x(query, subject);
-  }, SelectSubroutineUnexpectedResultCountError);
+  });
+
+  t.true(error instanceof SelectSubroutineUnexpectedResultCountError);
 });
 
 test('sa: selects any elements', (t): void => {
@@ -178,7 +184,7 @@ test('saf: selects first out of any matches (multiple matches)', (t): void => {
 
   const query = 'saf .foo | read property textContent';
 
-  t.true(x(query, subject) === 'foo 0');
+  t.is(x(query, subject), 'foo 0');
 });
 
 test('saf: selects first out of any matches (no matches)', (t): void => {
@@ -190,5 +196,5 @@ test('saf: selects first out of any matches (no matches)', (t): void => {
 
   const query = 'saf .foo | read property textContent';
 
-  t.true(x(query, subject) === null);
+  t.is(x(query, subject), null);
 });

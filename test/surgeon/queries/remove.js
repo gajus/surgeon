@@ -44,7 +44,7 @@ test('does not mutate the parent node', (t) => {
   // `s time | rdtc` removes the descending nodes, including <attributes>.
   const query: DenormalizedQueryType = [
     'so a',
-    /* eslint-disable sort-keys */
+    /* eslint-disable sort-keys-fix/sort-keys-fix */
     {
       time: 'so time | rdtc',
       attributes: 'so attributes | rdtc',
@@ -72,7 +72,7 @@ test('removes nothing if no nodes are matched {0,1}', (t) => {
 
   const query: DenormalizedQueryType = 'select .foo | remove .bar {0,1} | read property innerHTML';
 
-  t.true(trim(x(query, subject)) === '<div class="baz"></div>');
+  t.is(trim(x(query, subject)), '<div class="baz"></div>');
 });
 
 test('removes multiple elements {0,}', (t) => {
@@ -89,7 +89,7 @@ test('removes multiple elements {0,}', (t) => {
 
   const query: DenormalizedQueryType = 'select .foo | remove .baz {0,} | read property innerHTML';
 
-  t.true(trim(x(query, subject)) === '<div class="bar"></div>');
+  t.is(trim(x(query, subject)), '<div class="bar"></div>');
 });
 
 test('throws error if no nodes are matched', (t): void => {
@@ -104,9 +104,11 @@ test('throws error if no nodes are matched', (t): void => {
 
   const query: DenormalizedQueryType = 'select .foo | remove .qux | read property innerHTML';
 
-  t.throws((): void => {
+  const error = t.throws((): void => {
     x(query, subject);
-  }, SelectSubroutineUnexpectedResultCountError);
+  });
+
+  t.true(error instanceof SelectSubroutineUnexpectedResultCountError);
 });
 
 test('throws error if more than one node is matched', (t): void => {
@@ -121,7 +123,9 @@ test('throws error if more than one node is matched', (t): void => {
 
   const query: DenormalizedQueryType = 'select .foo | remove .bar | read property innerHTML';
 
-  t.throws((): void => {
+  const error = t.throws((): void => {
     x(query, subject);
-  }, SelectSubroutineUnexpectedResultCountError);
+  });
+
+  t.true(error instanceof SelectSubroutineUnexpectedResultCountError);
 });
