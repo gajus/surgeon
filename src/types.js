@@ -32,16 +32,16 @@ export type UserConfigurationType = {
   +evaluator?: EvaluatorType,
   +subroutines?: {
     [key: string]: SubroutineType,
-    ...,
+    ...
   },
-  ...,
+  ...
 };
 
 export type ConfigurationType = {|
   +evaluator: EvaluatorType,
   +subroutines: {
     [key: string]: SubroutineType,
-    ...,
+    ...
   },
 |};
 
@@ -49,7 +49,7 @@ type QueryChildrenType = {
 
   // eslint-disable-next-line no-use-before-define
   [key: string]: DenormalizedQueryType,
-  ...,
+  ...
 };
 
 export type DenormalizedQueryType =
